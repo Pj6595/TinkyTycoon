@@ -1,5 +1,6 @@
 body{
     font-family: raleway;
+    background-color: grey;
 }
 
 h1{
@@ -7,11 +8,8 @@ h1{
     text-align: center;
 }
 
-h2{
-	text-align: center;
-}
-
 .footer{
     font-size: 12px;
+    text-align: right;
 }
 
