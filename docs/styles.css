@@ -4,6 +4,11 @@ body{
 
 h1{
     font-family: Carter One;
+    text-align: center;
+}
+
+h2{
+	text-align: center;
 }
 
 .footer{

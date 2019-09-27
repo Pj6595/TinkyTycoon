@@ -17,8 +17,45 @@
 <body>
     <h2>&Psi;&Phi; PsiPhi Games &Psi;&Phi;</h2>
     <h1>Tinky Tycoon &trade;</h1>
+
+    <canvas id="gameCanvas"></canvas>
+
     <p class = "footer">Created by Pablo Jurado & Esteban Restrepo</p>
     <p class = "footer">Licensed under GNU GPL v3.0</p>
     <p class = "footer">Proyect created for PVLI, Universidad Complutense de Madrid, 2019 </p>
+
+    <script type="text/javascript">
+    var config = {
+        type: Phaser.AUTO,
+        width: 800,
+        height: 600,
+        type: Phaser.WEBGL,
+        canvas: document.getElementById("gameCanvas"),
+        scale: {
+                mode: Phaser.Scale.FIT,
+                autoCenter: Phaser.Scale.CENTER_BOTH
+            },
+        scene: {
+            preload: preload,
+            create: create,
+            update: update
+        }
+    };
+
+    var game = new Phaser.Game(config);
+
+    function preload ()
+    {
+    }
+
+    function create ()
+    {
+    }
+
+    function update ()
+    {
+    }
+
+	</script>
 </body>
 </html>
