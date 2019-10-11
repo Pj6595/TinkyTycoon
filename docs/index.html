@@ -26,7 +26,9 @@
     <p class = "footer">Licensed under GNU GPL v3.0</p>
     <p class = "footer">Proyect created for PVLI, Universidad Complutense de Madrid, 2019 </p>
 
-    <script type="text/javascript">
+    <script type="module">
+    	import Boot from './scripts/Boot.js'
+    	import MainMenu from './scripts/MainMenu.js'
     var config = {
         width: 800,
         height: 600,
@@ -36,22 +38,12 @@
                 mode: Phaser.Scale.FIT,
                 autoCenter: Phaser.Scale.CENTER_BOTH
             },
-        scene: [Boot]
+        scene: [Boot,MainMenu]
     };
 
-    var game = new Phaser.Game(config);
+    let game = new Phaser.Game(config);
 
-    function preload ()
-    {
-    }
-
-    function create ()
-    {
-    }
-
-    function update ()
-    {
-    }
+    
 
 	</script>
 </body>

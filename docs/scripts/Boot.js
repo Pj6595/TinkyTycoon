@@ -1,8 +1,11 @@
-export default class Boot extends Phaser.scene{
+export default class Boot extends Phaser.Scene{
 	constructor(){
-		super({key:'boot'})
+		super({key:'Boot'})
 	}
 	preload(){
-		this.load.
+		this.load.image('player','../resources/tinky.png')
+	}
+	create(){
+		this.scene.start('MainMenu')
 	}
 }
