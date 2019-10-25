@@ -1,5 +1,3 @@
-import Player from './Player.js'
-
 export default class MainMenu extends Phaser.Scene{
 	constructor(){
 		super({key:'MainMenu'})
