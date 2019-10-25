@@ -26,7 +26,8 @@
 
     <script type="module">
     	import Boot from './scripts/Boot.js'
-    	import MainMenu from './scripts/MainMenu.js'
+        import MainMenu from './scripts/MainMenu.js'
+        import Planet from './scripts/Planet.js'
     var config = {
         width: 800,
         height: 600,
@@ -37,7 +38,7 @@
                 autoCenter: Phaser.Scale.CENTER_BOTH
             },
             physics: { default: 'arcade', arcade: { gravity: { y: 0 }, debug: false } },
-        scene: [Boot,MainMenu]
+        scene: [Boot,MainMenu,Planet]
     };
 
     let game = new Phaser.Game(config);
