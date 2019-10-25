@@ -6,7 +6,7 @@ export default class Planet extends Phaser.Scene{
         super({key: 'Planet'})
     }
     create(){
-        this.player = new Player(this, 200, 300);
+        this.player = new Player(this, 200, 300, 50, 50);
         this.crater1 = new Crater(this, 100, 100,6);
 	}
 }
