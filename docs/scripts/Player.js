@@ -7,8 +7,8 @@ export default class Player extends Phaser.GameObjects.Sprite{
 		this.body.setCollideWorldBounds();
 		//Character control
 		this.cursors = this.scene.input.keyboard.createCursorKeys();
-		this.speed = 700;
-		this.scale=0.1;
+		this.speed = 100;
+		this.scale = 0.1;
 	}
 
 	preUpdate(){
@@ -17,16 +17,21 @@ export default class Player extends Phaser.GameObjects.Sprite{
 		}
 		else if(this.cursors.up.isDown){
 			this.body.setVelocityY(-this.speed);
-		}else
+		}else{
 			this.body.setVelocityY(0);
+		}
+			
+
 		if(this.cursors.left.isDown){
 			this.body.setVelocityX(-this.speed);
 		}
 		else if(this.cursors.right.isDown){
 			this.body.setVelocityX(this.speed);
-		}else
+		}else{
 			this.body.setVelocityX(0);
+		}	
 
+		//console.log(this.getCenter());
 
 	}
 }
