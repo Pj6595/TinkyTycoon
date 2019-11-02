@@ -1,5 +1,6 @@
 import Player from './Player.js'
 import Crater from './Crater.js'
+import Inventory from './Inventory.js'
 
 export default class Planet extends Phaser.Scene{
     constructor(){
@@ -10,16 +11,23 @@ export default class Planet extends Phaser.Scene{
         this.load.image('starsBackground','resources/stars.png');
     }
     create(){
+
+        //Background creation
+
         let spaceBackground = this.add.sprite(1920/2, 1080/2, 'starsBackground');
         spaceBackground.scale = 1;
 
         let background = this.add.sprite(1920/2, 1080/2, 'background');
         background.scale = 0.5;
 
+
+        //Physics initialization and world bounds
+
         this.physics.world.setBounds(0, 0, 1920, 1080);
         this.player = new Player(this, 0, 0, 50, 50);
 
-        
+
+        //Craters set-up
 
         this.crateres = [12];
 
@@ -37,7 +45,47 @@ export default class Planet extends Phaser.Scene{
         this.crateres[11] = new Crater(this, 980, 600, 6);
 
 
+        //Inventory
+
+        this.inventory = new Inventory();
+
+        this.inventoryText = this.add.text(10, 10, this.inventory.getMoney() + " dineros");
+        this.inventoryText.setFontSize(50);
+        this.inventoryText.setScrollFactor(0);
+
+        this.cameras.main.ignore(this.inventoryText);
+
+        this.UICamera = this.cameras.add(0,0,800,600);
+        this.UICamera.ignore([spaceBackground, background, this.crateres, this.player]);
+
+
+        //Camera control
+
         this.cameras.main.startFollow(this.player);
-        this.cameras.main.setZoom(0.5);
+        this.cameraZoom = 1;
+
+        //Input set-up
+
+        this.ZoomInKey = this.input.keyboard.addKey('Z');
+
+        this.ZoomInKey.on('down', event => {
+            if(this.cameraZoom < 4){
+                this.cameraZoom = this.cameraZoom * 1.2;
+            }
+            
+            this.inventory.addMoney(10);
+            this.inventoryText.setText(this.inventory.getMoney() + " dineros")
+        });
+
+        this.ZoomOutKey = this.input.keyboard.addKey('X');
+
+        this.ZoomOutKey.on('down', event => {
+            if(this.cameraZoom > 0.7)
+                this.cameraZoom = this.cameraZoom * 0.8;
+        });
+    }
+    update(){
+        //console.log(this.player.getCenter());
+        this.cameras.main.setZoom(this.cameraZoom);
     }
 }
