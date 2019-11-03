@@ -1,5 +1,7 @@
+import Inventory from './Inventory.js'
+
 export default class Player extends Phaser.GameObjects.Sprite{
-	constructor(scene, x, y, w, h){
+	constructor(scene, x, y, w, h, tinkyValue, inventoryCapacity){
 		super(scene,x,y,'player');
 		this.scene.add.existing(this);
 		//Physics
@@ -9,6 +11,8 @@ export default class Player extends Phaser.GameObjects.Sprite{
 		this.cursors = this.scene.input.keyboard.createCursorKeys();
 		this.speed = 100;
 		this.scale = 0.1;
+
+		this.inventory = new Inventory(tinkyValue, inventoryCapacity);
 	}
 
 	preUpdate(){
@@ -33,5 +37,10 @@ export default class Player extends Phaser.GameObjects.Sprite{
 
 		//console.log(this.getCenter());
 
+	}
+
+	addMoney(money){
+		this.inventory.addMoney(money);
+		this.scene.updateInventoryText(this.inventory.getMoney());
 	}
 }

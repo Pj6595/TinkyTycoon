@@ -24,7 +24,7 @@ export default class Planet extends Phaser.Scene{
         //Physics initialization and world bounds
 
         this.physics.world.setBounds(0, 0, 1920, 1080);
-        this.player = new Player(this, 0, 0, 50, 50);
+        this.player = new Player(this, 0, 0, 50, 50, 1, 10);
 
 
         //Craters set-up
@@ -45,19 +45,19 @@ export default class Planet extends Phaser.Scene{
         this.crateres[11] = new Crater(this, 980, 600, 6);
 
 
-        //Inventory
+        //Inventory set-up
 
-        this.inventory = new Inventory();
-
-        this.inventoryText = this.add.text(10, 10, this.inventory.getMoney() + " dineros");
-        this.inventoryText.setFontSize(50);
-        this.inventoryText.setScrollFactor(0);
-
-        this.cameras.main.ignore(this.inventoryText);
+        this.tinkyValue = 1;
 
         this.UICamera = this.cameras.add(0,0,800,600);
         this.UICamera.ignore([spaceBackground, background, this.crateres, this.player]);
 
+        this.inventory = new Inventory(this, this.tinkyValue);
+
+        this.inventoryText = this.add.text(10, 10, 0 + " dineros");
+        this.inventoryText.setFontSize(50);
+        this.inventoryText.setScrollFactor(0);
+        this.cameras.main.ignore(this.inventoryText);
 
         //Camera control
 
@@ -73,8 +73,7 @@ export default class Planet extends Phaser.Scene{
                 this.cameraZoom = this.cameraZoom * 1.2;
             }
             
-            this.inventory.addMoney(10);
-            this.inventoryText.setText(this.inventory.getMoney() + " dineros")
+            this.player.addMoney(10);
         });
 
         this.ZoomOutKey = this.input.keyboard.addKey('X');
@@ -87,5 +86,8 @@ export default class Planet extends Phaser.Scene{
     update(){
         //console.log(this.player.getCenter());
         this.cameras.main.setZoom(this.cameraZoom);
+    }
+    updateInventoryText(money){
+        this.inventoryText.setText(money + " dineros");
     }
 }
