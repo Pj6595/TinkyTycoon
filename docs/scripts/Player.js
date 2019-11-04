@@ -51,4 +51,8 @@ export default class Player extends Phaser.GameObjects.Sprite{
 		this.inventory.addMoney(money);
 		this.scene.updateInventoryText(this.inventory.getMoney());
 	}
+
+	upgradeTool(levels){
+		this.toolTier += levels;
+	}
 }
