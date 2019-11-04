@@ -13,6 +13,8 @@ export default class Player extends Phaser.GameObjects.Sprite{
 		this.scale = 0.1;
 
 		this.inventory = new Inventory(tinkyValue, inventoryCapacity);
+
+		this.toolTier = 1;
 	}
 
 	preUpdate(){

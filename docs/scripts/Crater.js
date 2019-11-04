@@ -9,10 +9,12 @@ export default class Crater extends Phaser.GameObjects.Sprite{
 
 
 		this.setInteractive();
-		this.on('pointerdown',this.ClickedCrater)
+		this.on('pointerdown',this.ClickedCrater);
 	}
 
 	ClickedCrater(){
-		console.log("I have been clicked, and I have " + this.tinkyInside + " tinky")
+		console.log("I have been clicked, and I have " + this.tinkyInside + " tinky");
+		if(this.scene.player.toolTier === 1)
+			console.log("I've given you a tinky");
 	}
 }
