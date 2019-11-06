@@ -55,4 +55,8 @@ export default class Player extends Phaser.GameObjects.Sprite{
 	upgradeTool(levels){
 		this.toolTier += levels;
 	}
+
+	returnToolTier(){
+		return this.toolTier;
+	}
 }
