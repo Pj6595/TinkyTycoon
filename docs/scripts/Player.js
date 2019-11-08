@@ -1,12 +1,19 @@
 import Inventory from './Inventory.js'
 
 export default class Player extends Phaser.GameObjects.Sprite{
-	constructor(scene, x, y, w, h, tinkyValue, inventoryCapacity){
+	constructor(scene, x, y, w, h, inventoryCapacity){
 		super(scene,x,y,'player');
 		this.scene.add.existing(this);
 		//Physics
 		this.scene.physics.add.existing(this);
 		this.body.setCollideWorldBounds();
+
+		this.money = 0;
+
+		this.inventory = new Inventory(inventoryCapacity);
+
+		this.toolTier = 1;
+
 		//Character control
 		this.cursors = this.scene.input.keyboard.createCursorKeys();
 		this.speed = 100;
@@ -39,8 +46,22 @@ export default class Player extends Phaser.GameObjects.Sprite{
 
 	}
 
-	addMoney(money){
-		this.inventory.addMoney(money);
-		this.scene.updateInventoryText(this.inventory.getMoney());
+	addMoney(newMoney){
+		this.money += newMoney;
+		this.scene.updateInventoryText(this.money);
 	}
+
+	returnMoney(){
+        return this.money;
+    }
+
+	upgradeTool(levels){
+		this.toolTier += levels;
+	}
+
+	returnToolTier(){
+		return this.toolTier;
+	}
+    
+    
 }

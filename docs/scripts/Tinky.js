@@ -1,5 +1,5 @@
 export default class Tinky{
-    constructor(value, capacity){
+    constructor(tinkyType){
         this.tinkyStates = {
             normal : 0,
             clean : 1,
@@ -7,18 +7,13 @@ export default class Tinky{
             hormonated: 3,
         }
 
-        this.occupied = 0;
-        this.capacity = capacity;
+        this.tinkyType = tinkyType;
 
         //El estado de los tinkies comienza siendo 'normal'
         this.status = this.tinkyStates.normal;
 
-        //Inicializamos el inventario de tinkies de cada tipo
-        this.tinkyInventory = [7]; 
-        for(let i=0; i<7; i++){
-            this.tinkyInventory[i]=0;
-        }
-
+        this.valueIndex = 1; //Preguntar al planeta cual es su value index
+        
         //Determinamos el dinero que vale cada tipo de Tinky
         this.tinkyValue = [7];
             this.tinkyValue[0] = 1 * this.valueIndex;
@@ -27,49 +22,28 @@ export default class Tinky{
             this.tinkyValue[3] = 5 * this.valueIndex;
             this.tinkyValue[4] = 10 * this.valueIndex;
             this.tinkyValue[5] = 15 * this.valueIndex;
-            this.tinkyValue[6] = 20 * this.valueIndex;
-
-        /*Value es el índice del valor de cada Tinky
-        (crece al cambiar de planeta, comienza siendo 1)*/
-        this.valueIndex = value;
+            this.tinkyValue[6] = 20 * this.valueIndexx;
     }
 
-    //Devuelve el valor total de los tinkies
-    getTotalValue(){
-        let value = 0;
-        for(let i=0; i<7; i++){
-            switch(this.status){
-                case(this.tinkyStates.normal):
-                    value = value + this.tinkyInventory[i] * this.tinkyValue[i];
-                    break;
+    upgradeTinky(){
+        this.status = this.status+1;
+    }
+
+    returnTinkyValue(){
+        let value = this.value[tinkyType];
+        switch(this.status){
                 case(this.tinkyStates.clean):
-                    value = value + this.tinkyInventory[i] * this.tinkyValue[i] * 2;
+                    value = value * 2;
                     break;
                 case(this.tinkyStates.polished):
-                    value = value + this.tinkyInventory[i] * this.tinkyValue[i] * 10;
+                    value = value * 10;
                     break;
                 case(this.tinkyStates.hormonated):
-                    value = value + this.tinkyInventory[i] * this.tinkyValue[i] * 20;
+                    value = value * 20;
                     break;
             }
-        }
-
         return value;
     }
 
-    //Añade un tinky al inventario
-    addTinky(type){
-        if(occupied < capacity){
-            occupied++;
-            this.tinkyInventory[type]++;
-        }
-        this.status = this.tinkyStates.normal; 
-        /*Por razones de simplicidad del código, cada vez que conseguimos un Tinky todos los que tenemos
-        volverán a estar en estado normal, por lo que si queremos mejorarlos tendrá que ser justo antes de ir a venderlos*/
-    }
-
-    //Aumenta la capacidad del inventario de tinkies
-    addCapacity(MoreTinkies){
-        this.capacity = this.capacity + MoreTinkies;
-    }
+    
 }
