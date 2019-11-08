@@ -9,7 +9,7 @@ export default class Crater extends Phaser.GameObjects.Sprite{
 
 
 		this.setInteractive();
-		this.on('pointerdown',this.ClickedCrater)
+		this.on('pointerdown',this.ClickedCrater);
 	}
 
 	ClickedCrater(){
