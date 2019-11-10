@@ -47,8 +47,8 @@ export default class Planet extends Phaser.Scene{
 
 
         //This camera shows the inventory
-        this.UICamera = this.cameras.add(0,0,800,600);
-        this.UICamera.ignore([spaceBackground, background, this.crateres, this.player]);
+        //this.UICamera = this.cameras.add(0,0,800,600);
+        //this.UICamera.ignore([spaceBackground, background, this.crateres, this.player]);
         this.inventoryText = this.add.text(10, 10, 0 + " dineros");
         this.inventoryText.setFontSize(50);
         this.inventoryText.setScrollFactor(0);
