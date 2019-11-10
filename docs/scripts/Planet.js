@@ -29,9 +29,9 @@ export default class Planet extends Phaser.Scene{
 
         //Craters set-up
 
-        this.crateres = [12];
+      //  this.crateres = []; //[12];
 
-        this.crateres[0] =  new Crater(this, 430, 200, 6);
+        this.crateres.push(new Crater(this, 430, 200, 6));
         this.crateres[1] = new Crater(this, 400, 400, 6);
         this.crateres[2] = new Crater(this, 180, 520, 6);
         this.crateres[3] = new Crater(this, 240, 840, 6);
