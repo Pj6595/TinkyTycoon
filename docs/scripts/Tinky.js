@@ -15,14 +15,14 @@ export default class Tinky{
         this.valueIndex = 1; //Preguntar al planeta cual es su value index
         
         //Determinamos el dinero que vale cada tipo de Tinky
-        this.tinkyValue = [7];
-            this.tinkyValue[0] = 1 * this.valueIndex;
-            this.tinkyValue[1] = 2 * this.valueIndex;
-            this.tinkyValue[2] = 3 * this.valueIndex;
-            this.tinkyValue[3] = 5 * this.valueIndex;
-            this.tinkyValue[4] = 10 * this.valueIndex;
-            this.tinkyValue[5] = 15 * this.valueIndex;
-            this.tinkyValue[6] = 20 * this.valueIndexx;
+        this.tinkyValue = [];
+            this.tinkyValue.push(1 * this.valueIndex);
+            this.tinkyValue.push(2 * this.valueIndex);
+            this.tinkyValue.push(3 * this.valueIndex);
+            this.tinkyValue.push(5 * this.valueIndex);
+            this.tinkyValue.push(10 * this.valueIndex);
+            this.tinkyValue.push(15 * this.valueIndex);
+            this.tinkyValue.push(20 * this.valueIndex);
     }
 
     upgradeTinky(){

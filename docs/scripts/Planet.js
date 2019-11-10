@@ -29,25 +29,26 @@ export default class Planet extends Phaser.Scene{
 
         //Craters set-up
 
-      //  this.crateres = []; //[12];
+        this.crateres = this.add.group();
 
-        this.crateres.push(new Crater(this, 430, 200, 6));
-        this.crateres[1] = new Crater(this, 400, 400, 6);
-        this.crateres[2] = new Crater(this, 180, 520, 6);
-        this.crateres[3] = new Crater(this, 240, 840, 6);
-        this.crateres[4] = new Crater(this, 690, 990, 6);
-        this.crateres[5] = new Crater(this, 1040, 890, 6);
-        this.crateres[6] = new Crater(this, 1360, 800, 6);
-        this.crateres[7] = new Crater(this, 1320, 520, 6);
-        this.crateres[8] = new Crater(this, 755, 320, 6);
-        this.crateres[9] = new Crater(this, 1040, 270, 6);
-        this.crateres[10] = new Crater(this, 1330, 240, 6);
-        this.crateres[11] = new Crater(this, 980, 600, 6);
+
+        this.crateres.add(new Crater(this, 430, 200, 6));
+        this.crateres.add(new Crater(this, 400, 400, 6));
+        this.crateres.add(new Crater(this, 180, 520, 6));
+        this.crateres.add(new Crater(this, 240, 840, 6));
+        this.crateres.add(new Crater(this, 690, 990, 6));
+        this.crateres.add(new Crater(this, 1040, 890, 6));
+        this.crateres.add(new Crater(this, 1360, 800, 6));
+        this.crateres.add(new Crater(this, 1320, 520, 6));
+        this.crateres.add(new Crater(this, 755, 320, 6));
+        this.crateres.add(new Crater(this, 1040, 270, 6));
+        this.crateres.add(new Crater(this, 1330, 240, 6));
+        this.crateres.add(new Crater(this, 980, 600, 6));
 
 
         //This camera shows the inventory
-        this.UICamera = this.cameras.add(0,0,800,600);
-        this.UICamera.ignore([spaceBackground, background, this.crateres, this.player]);
+        //this.UICamera = this.cameras.add(0,0,800,600);
+        //this.UICamera.ignore([spaceBackground, background, this.crateres, this.player]);
         this.inventoryText = this.add.text(10, 10, 0 + " dineros");
         this.inventoryText.setFontSize(50);
         this.inventoryText.setScrollFactor(0);
