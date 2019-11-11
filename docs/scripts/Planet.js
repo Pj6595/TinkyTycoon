@@ -9,6 +9,7 @@ export default class Planet extends Phaser.Scene{
     preload(){
         this.load.image('background','resources/Mapa.png');
         this.load.image('starsBackground','resources/stars.png');
+        this.load.image('loadingStation', 'resources/estacionCarga.png');
     }
     create(){
 
@@ -45,10 +46,29 @@ export default class Planet extends Phaser.Scene{
         this.crateres.add(new Crater(this, 1330, 240, 6));
         this.crateres.add(new Crater(this, 980, 600, 6));
 
+        //Loading station set-up
+
+        this.estacion = this.add.sprite(1622, 527, 'loadingStation');
+        this.physics.add.existing(this.estacion);
+        this.estacion.body.setImmovable();
+
+        this.physics.add.collider(this.player, this.crateres);
+       
+        //Selling Tinkies
+
+        this.sellButton = this.add.text(75, 200, 'VENDE');
+        this.sellButton.setInteractive();
+        this.sellButton.setScrollFactor(0);
+        this.sellButton.setFontSize(200);
+
+        this.sellButton.on('pointerdown', ()=> {
+                this.player.sellTinkies(this.player.inventory);
+                console.log("vendido");
+        })
 
         //This camera shows the inventory
-        //this.UICamera = this.cameras.add(0,0,800,600);
-        //this.UICamera.ignore([spaceBackground, background, this.crateres, this.player]);
+        this.UICamera = this.cameras.add(0,0,800,600);
+        this.UICamera.ignore([spaceBackground, background, this.crateres, this.player, this.sellButton]);
         this.inventoryText = this.add.text(10, 10, 0 + " dineros");
         this.inventoryText.setFontSize(50);
         this.inventoryText.setScrollFactor(0);
@@ -74,15 +94,30 @@ export default class Planet extends Phaser.Scene{
         this.ZoomOutKey = this.input.keyboard.addKey('X');
 
         this.ZoomOutKey.on('down', event => {
-            if(this.cameraZoom > 0.7)
+            if(this.cameraZoom > 0.7){
                 this.cameraZoom = this.cameraZoom * 0.8;
+            }
+            
+            this.player.inventory.addTinky(3);
         });
+
+        this.debugKey = this.input.keyboard.addKey('P');
+
+        this.debugKey.on('down', event =>{
+            console.log(this.player.inventory.returnTotalValue());
+        })
     }
     update(){
         //console.log(this.player.getCenter());
         this.cameras.main.setZoom(this.cameraZoom);
+
+        this.updateInventoryText();
+
+        if (this.physics.overlap(this.player, this.estacion)){
+            this.sellButton.setVisible(true);
+        } else this.sellButton.setVisible(false);
     }
-    updateInventoryText(money){
-        this.inventoryText.setText(money + " dineros");
+    updateInventoryText(){
+        this.inventoryText.setText(this.player.money + " dineros");
     }
 }

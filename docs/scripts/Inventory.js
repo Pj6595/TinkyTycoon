@@ -5,14 +5,14 @@ export default class Inventory{
         this.capacity = capacity;
         this.numTinkies = 0;
 
-        this.tinkies = [this.capacity];
+        this.tinkies = [];
     }
 
     //Devuelve el valor total de los tinkies
     returnTotalValue(){
         let value = 0;
-        for(let i=0; i<this.capacity; i++){
-            value += tinkies[i].returnTinkyValue();
+        for(let i=0; i<this.numTinkies; i++){
+            value += this.tinkies[i].returnTinkyValue();
         }
 
         return value;
@@ -21,15 +21,25 @@ export default class Inventory{
     //Añade un tinky al inventario
     addTinky(type){
         if(this.numTinkies < this.capacity){
-            this.tinkies[this.numTinkies] = new Tinky(type);
+            this.tinkies.push(new Tinky(type));
             this.numTinkies++;
-        }else
+        }
+        else{
             console.log("No cabe we");
+        }
+        for(let i=0; i<this.numTinkies; i++){
+            console.log(this.tinkies[i]);
+        }
     }
 
     //Aumenta la capacidad del inventario de tinkies
     addCapacity(MoreTinkies){
         this.capacity = this.capacity + MoreTinkies;
+    }
+
+    empty(){
+        this.numTinkies = 0;
+        this.tinkies.length=0;
     }
 }
 

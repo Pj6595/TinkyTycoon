@@ -5,6 +5,7 @@ export default class Crater extends Phaser.GameObjects.Sprite{
 		//Physics
 		this.scene.physics.add.existing(this);
 		this.scale = 0.4;
+		this.body.setImmovable();
 		this.tinkyInside = tinky;
 
 
