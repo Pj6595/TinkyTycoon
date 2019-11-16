@@ -5,7 +5,7 @@ export default class Boot extends Phaser.Scene{
 	preload(){
 		this.load.image('player','resources/tinky.png');
 		this.load.image('crater','resources/crater.png');
-		
+		this.load.image('SellStation', 'resources/estacionCarga.png');
 	}
 	create(){
 		this.scene.start('MainMenu');
