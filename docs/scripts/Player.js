@@ -51,7 +51,6 @@ export default class Player extends Phaser.GameObjects.Sprite{
 
 	addMoney(newMoney){
 		this.money += newMoney;
-		this.scene.updateInventoryText(this.money);
 	}
 
 	returnMoney(){
@@ -64,5 +63,10 @@ export default class Player extends Phaser.GameObjects.Sprite{
 
 	returnToolTier(){
 		return this.toolTier;
+	}
+
+	sellTinkies(tinkyContainer){
+		this.money += tinkyContainer.returnTotalValue();
+		tinkyContainer.empty();
 	}
 }

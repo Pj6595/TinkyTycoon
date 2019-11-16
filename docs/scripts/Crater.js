@@ -1,23 +1,28 @@
 export default class Crater extends Phaser.GameObjects.Sprite{
-	constructor(scene, x, y, tinky){
+	constructor(scene, x, y, tinkyType){
 		super(scene,x,y,'crater');
 		this.scene.add.existing(this);
 		//Physics
 		this.scene.physics.add.existing(this);
 		this.scale = 0.4;
-		this.tinkyInside = tinky;
-
+		this.body.setImmovable();
+		this.tinkyInside = tinkyType;
 
 		this.setInteractive();
 		this.on('pointerdown',this.ClickedCrater);
 	}
 
 	ClickedCrater(){
-		console.log("I have been clicked, and I have " + this.tinkyInside + " tinky");
-		if(this.scene.player.returnToolTier() === 1)
+		
+		if(this.scene.player.returnToolTier() === 1 && this.tinkyInside > 0)
 			{
 				console.log("I've given you a tinky");
-				
+				if(this.scene.player.inventory.addTinky(this.tinkyInside)){
+					console.log("I've given you a tinky");
+				} else{
+					console.log("Your inventory is full");
+				}
 			}
+		console.log("I have tinkies of type " + this.tinkyInside);
 	}
 }

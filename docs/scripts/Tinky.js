@@ -30,7 +30,7 @@ export default class Tinky{
     }
 
     returnTinkyValue(){
-        let value = this.value[tinkyType];
+        let value = this.tinkyValue[this.tinkyType];
         switch(this.status){
                 case(this.tinkyStates.clean):
                     value = value * 2;

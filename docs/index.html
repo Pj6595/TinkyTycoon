@@ -30,6 +30,7 @@
         import Planet from './scripts/Planet.js'
         import Inventory from './scripts/Inventory.js'
         import Tinky from './scripts/Tinky.js'
+        import SellStation from './scripts/SellStation.js'
     var config = {
         width: 800,
         height: 600,
@@ -39,7 +40,7 @@
                 mode: Phaser.Scale.FIT,
                 autoCenter: Phaser.Scale.CENTER_BOTH
             },
-            physics: { default: 'arcade', arcade: { gravity: { y: 0 }, debug: true } },
+            physics: { default: 'arcade', arcade: { gravity: { y: 0 }, debug: false } },
         scene: [Boot,MainMenu,Planet]
     };
 
