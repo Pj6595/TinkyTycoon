@@ -33,18 +33,18 @@ export default class Planet extends Phaser.Scene{
         this.crateres = this.add.group();
 
 
-        this.crateres.add(new Crater(this, 430, 200, 6, Math.floor(Math.random()*7)));
-        this.crateres.add(new Crater(this, 400, 400, 6, Math.floor(Math.random()*7)));
-        this.crateres.add(new Crater(this, 180, 520, 6, Math.floor(Math.random()*7)));
-        this.crateres.add(new Crater(this, 240, 840, 6, Math.floor(Math.random()*7)));
-        this.crateres.add(new Crater(this, 690, 990, 6, Math.floor(Math.random()*7)));
-        this.crateres.add(new Crater(this, 1040, 890, 6, Math.floor(Math.random()*7)));
-        this.crateres.add(new Crater(this, 1360, 800, 6, Math.floor(Math.random()*7)));
-        this.crateres.add(new Crater(this, 1320, 520, 6, Math.floor(Math.random()*7)));
-        this.crateres.add(new Crater(this, 755, 320, 6, Math.floor(Math.random()*7)));
-        this.crateres.add(new Crater(this, 1040, 270, 6, Math.floor(Math.random()*7)));
-        this.crateres.add(new Crater(this, 1330, 240, 6, Math.floor(Math.random()*7)));
-        this.crateres.add(new Crater(this, 980, 600, 6, Math.floor(Math.random()*7)));
+        this.crateres.add(new Crater(this, 430, 200, Math.floor(Math.random()*7)));
+        this.crateres.add(new Crater(this, 400, 400, Math.floor(Math.random()*7)));
+        this.crateres.add(new Crater(this, 180, 520, Math.floor(Math.random()*7)));
+        this.crateres.add(new Crater(this, 240, 840, Math.floor(Math.random()*7)));
+        this.crateres.add(new Crater(this, 690, 990, Math.floor(Math.random()*7)));
+        this.crateres.add(new Crater(this, 1040, 890, Math.floor(Math.random()*7)));
+        this.crateres.add(new Crater(this, 1360, 800, Math.floor(Math.random()*7)));
+        this.crateres.add(new Crater(this, 1320, 520, Math.floor(Math.random()*7)));
+        this.crateres.add(new Crater(this, 755, 320, Math.floor(Math.random()*7)));
+        this.crateres.add(new Crater(this, 1040, 270, Math.floor(Math.random()*7)));
+        this.crateres.add(new Crater(this, 1330, 240, Math.floor(Math.random()*7)));
+        this.crateres.add(new Crater(this, 980, 600, Math.floor(Math.random()*7)));
 
         //Loading station set-up
 
