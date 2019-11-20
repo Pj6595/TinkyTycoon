@@ -1,29 +1,29 @@
 import Inventory from './Inventory.js'
 
-export default class Player extends Phaser.GameObjects.Sprite{
-	constructor(scene, x, y, w, h, inventoryCapacity){
-		super(scene,x,y,'player');
+export default class Car extends Phaser.GameObjects.Sprite{
+	constructor(scene, x, y, inventoryCapacity, player){
+		super(scene,x,y,'car');
 		this.scene.add.existing(this);
 		//Physics
 		this.scene.physics.add.existing(this);
 		this.body.setCollideWorldBounds();
 
-		this.money = 0;
+		this.player = player;
 
 		this.inventory = new Inventory(inventoryCapacity);
 
-		this.toolTier = 1;
-
-		//Character control
-		this.movementEnabled = true;
+		//Movement control
+		this.movementEnabled = false;
+		this.speed = 200;
+		this.scale = 1;
 		this.cursors = this.scene.input.keyboard.createCursorKeys();
-		this.speed = 100;
-		this.scale = 0.2;
 		this.w = scene.input.keyboard.addKey('W');
 		this.s = scene.input.keyboard.addKey('S');
 		this.a = scene.input.keyboard.addKey('A');
 		this.d = scene.input.keyboard.addKey('D');
-		
+
+		this.setInteractive();
+		this.on('pointerdown',this.boardVehicle);
 	}
 
 	preUpdate(){
@@ -45,29 +45,10 @@ export default class Player extends Phaser.GameObjects.Sprite{
 		}else{
 			this.body.setVelocityX(0);
 		}	
-
-		//console.log(this.getCenter());
-
 	}
 
-	addMoney(newMoney){
-		this.money += newMoney;
-	}
-
-	returnMoney(){
-        return this.money;
-    }
-
-	upgradeTool(levels){
-		this.toolTier += levels;
-	}
-
-	returnToolTier(){
-		return this.toolTier;
-	}
-
-	sellTinkies(tinkyContainer){
-		this.money += tinkyContainer.returnTotalValue();
-		tinkyContainer.empty();
+	boardVehicle(){
+		this.movementEnabled = !this.movementEnabled;
+		this.player.movementEnabled = !this.movementEnabled;
 	}
 }

@@ -1,15 +1,13 @@
 import Player from './Player.js'
 import Crater from './Crater.js'
 import Inventory from './Inventory.js'
+import Car from './Car.js'
 
 export default class Planet extends Phaser.Scene{
     constructor(){
         super({key: 'Planet'})
     }
     preload(){
-        this.load.image('background','resources/Mapa.png');
-        this.load.image('starsBackground','resources/stars.png');
-        this.load.image('loadingStation', 'resources/estacionCarga.png');
     }
     create(){
 
@@ -26,6 +24,10 @@ export default class Planet extends Phaser.Scene{
 
         this.physics.world.setBounds(0, 0, 1920, 1080);
         this.player = new Player(this, 0, 0, 50, 50, 10);
+        this.car = new Car(this, 800, 500, 50, this.player);
+        this.physics.add.collider(this.player, this.crateres);
+        this.physics.add.collider(this.player, this.car);
+        this.physics.add.collider(this.car, this.crateres);
 
 
         //Craters set-up
@@ -51,8 +53,6 @@ export default class Planet extends Phaser.Scene{
         this.estacion = this.add.sprite(1622, 527, 'loadingStation');
         this.physics.add.existing(this.estacion);
         this.estacion.body.setImmovable();
-
-        this.physics.add.collider(this.player, this.crateres);
        
         //Selling Tinkies
 
@@ -68,7 +68,7 @@ export default class Planet extends Phaser.Scene{
 
         //This camera shows the inventory
         this.UICamera = this.cameras.add(0,0,800,600);
-        this.UICamera.ignore([spaceBackground, background, this.crateres, this.player, this.sellButton]);
+        this.UICamera.ignore([spaceBackground, background, this.crateres, this.player, this.sellButton, this.car]);
         this.inventoryText = this.add.text(10, 10, 0 + " dineros");
         this.inventoryText.setFontSize(50);
         this.inventoryText.setScrollFactor(0);
