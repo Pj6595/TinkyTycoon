@@ -52,17 +52,20 @@ export default class Car extends Phaser.GameObjects.Sprite{
 		if(!this.movementEnabled){
 			let distance = this.player.getCenter().distance(this.getCenter());
 			console.log(distance);
+			//If distance acceptable, player rides vehicle
 			if(distance <= this.acceptableDistanceToPlayer){
 				this.movementEnabled = true;
 				this.player.movementEnabled = false;
 				this.scene.cameras.main.startFollow(this);
 				this.player.setVisible(false);
+				//Disable physics with invisible player
 			}
 		}else{
+			//Player gets off the vehicle
 			this.movementEnabled = false;
 			this.player.movementEnabled = true;
 			this.player.setX(this.x);
-			this.player.setY(this.getBottomCenter().y);
+			this.player.setY(this.getTopCenter().y);
 			this.scene.cameras.main.startFollow(this.player);
 			this.player.setVisible(true);
 		}
