@@ -13,6 +13,7 @@ export default class Car extends Phaser.GameObjects.Sprite{
 		this.inventory = new Inventory(inventoryCapacity);
 
 		//Movement control
+		this.body.setImmovable(true);
 		this.movementEnabled = false;
 		this.speed = 200;
 		this.scale = 1;
@@ -54,21 +55,29 @@ export default class Car extends Phaser.GameObjects.Sprite{
 			console.log(distance);
 			//If distance acceptable, player rides vehicle
 			if(distance <= this.acceptableDistanceToPlayer){
+				this.body.setImmovable(false);
 				this.movementEnabled = true;
 				this.player.movementEnabled = false;
 				this.scene.cameras.main.startFollow(this);
 				this.player.setVisible(false);
 				//Disable physics with invisible player
+				this.playerCarCollider.active = false;
 			}
 		}else{
 			//Player gets off the vehicle
+			this.body.setImmovable(true);
 			this.movementEnabled = false;
 			this.player.movementEnabled = true;
 			this.player.setX(this.x);
 			this.player.setY(this.getTopCenter().y);
 			this.scene.cameras.main.startFollow(this.player);
 			this.player.setVisible(true);
+			this.playerCarCollider.active = true;
 		}
 
+	}
+
+	setCollider(collider){
+		this.playerCarCollider = collider;
 	}
 }

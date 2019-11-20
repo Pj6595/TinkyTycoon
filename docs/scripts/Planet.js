@@ -26,7 +26,7 @@ export default class Planet extends Phaser.Scene{
         this.player = new Player(this, 0, 0, 50, 50, 10);
         this.car = new Car(this, 800, 500, 50, this.player);
 
-        let playerCarCollider = this.physics.add.collider(this.player, this.car);
+        this.car.setCollider(this.physics.add.collider(this.player, this.car));
         //Craters set-up
 
         this.crateres = this.add.group();
