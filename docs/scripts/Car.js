@@ -83,12 +83,17 @@ export default class Car extends Phaser.GameObjects.Sprite{
 			this.player.movementEnabled = !this.movementEnabled;
 			this.player.setVisible(!this.movementEnabled);
 			this.playerCarCollider.active = !this.movementEnabled;
-			if(!this.movementEnabled){
+			if(!this.movementEnabled){ //Player gets off the vehicle
 				this.player.setX(this.x);
 				this.player.setY(this.getTopCenter().y);
 				this.scene.cameras.main.startFollow(this.player);
-			}else
-			this.scene.cameras.main.startFollow(this);
+				console.log("car: ", this.inventory.tinkies);
+				console.log("player: ", this.player.inventory.tinkies);
+			}
+			else{ //Player gets in the vehicle
+				this.scene.cameras.main.startFollow(this);
+				this.inventory.transferInventory(this.player.inventory);
+			}
 		}
 
 	}
