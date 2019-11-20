@@ -23,13 +23,10 @@ export default class Planet extends Phaser.Scene{
         //Physics initialization and world bounds
 
         this.physics.world.setBounds(0, 0, 1920, 1080);
-        this.player = new Player(this, 0, 0, 50, 50, 10);
         this.car = new Car(this, 800, 500, 50, this.player);
-        this.physics.add.collider(this.player, this.crateres);
+        this.player = new Player(this, 0, 0, 50, 50, 10);
+
         this.physics.add.collider(this.player, this.car);
-        this.physics.add.collider(this.car, this.crateres);
-
-
         //Craters set-up
 
         this.crateres = this.add.group();
@@ -47,6 +44,9 @@ export default class Planet extends Phaser.Scene{
         this.crateres.add(new Crater(this, 1040, 270, 6, Math.floor(Math.random()*7)));
         this.crateres.add(new Crater(this, 1330, 240, 6, Math.floor(Math.random()*7)));
         this.crateres.add(new Crater(this, 980, 600, 6, Math.floor(Math.random()*7)));
+
+        this.physics.add.collider(this.player, this.crateres);
+        this.physics.add.collider(this.car, this.crateres);
 
         //Loading station set-up
 

@@ -22,6 +22,7 @@ export default class Car extends Phaser.GameObjects.Sprite{
 		this.a = scene.input.keyboard.addKey('A');
 		this.d = scene.input.keyboard.addKey('D');
 
+		this.acceptableDistanceToPlayer = 150;
 		this.setInteractive();
 		this.on('pointerdown',this.boardVehicle);
 	}
@@ -48,7 +49,23 @@ export default class Car extends Phaser.GameObjects.Sprite{
 	}
 
 	boardVehicle(){
-		this.movementEnabled = !this.movementEnabled;
-		this.player.movementEnabled = !this.movementEnabled;
+		if(!this.movementEnabled){
+			let distance = this.player.getCenter().distance(this.getCenter());
+			console.log(distance);
+			if(distance <= this.acceptableDistanceToPlayer){
+				this.movementEnabled = true;
+				this.player.movementEnabled = false;
+				this.scene.cameras.main.startFollow(this);
+				this.player.setVisible(false);
+			}
+		}else{
+			this.movementEnabled = false;
+			this.player.movementEnabled = true;
+			this.player.setX(this.x);
+			this.player.setY(this.getBottomCenter().y);
+			this.scene.cameras.main.startFollow(this.player);
+			this.player.setVisible(true);
+		}
+
 	}
 }
