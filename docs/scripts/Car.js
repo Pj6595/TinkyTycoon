@@ -50,6 +50,7 @@ export default class Car extends Phaser.GameObjects.Sprite{
 	}
 
 	boardVehicle(){
+		/*
 		if(!this.movementEnabled){
 			let distance = this.player.getCenter().distance(this.getCenter());
 			console.log(distance);
@@ -73,6 +74,21 @@ export default class Car extends Phaser.GameObjects.Sprite{
 			this.scene.cameras.main.startFollow(this.player);
 			this.player.setVisible(true);
 			this.playerCarCollider.active = true;
+		}
+		*/
+		let distance = this.player.getCenter().distance(this.getCenter());
+		if(this.movementEnabled || distance <= this.acceptableDistanceToPlayer){
+			this.movementEnabled = !this.movementEnabled;
+			this.body.setImmovable(!this.movementEnabled); //if car is moving immovable = false, not moving = true
+			this.player.movementEnabled = !this.movementEnabled;
+			this.player.setVisible(!this.movementEnabled);
+			this.playerCarCollider.active = !this.movementEnabled;
+			if(!this.movementEnabled){
+				this.player.setX(this.x);
+				this.player.setY(this.getTopCenter().y);
+				this.scene.cameras.main.startFollow(this.player);
+			}else
+			this.scene.cameras.main.startFollow(this);
 		}
 
 	}
