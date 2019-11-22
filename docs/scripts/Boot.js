@@ -4,6 +4,7 @@ export default class Boot extends Phaser.Scene{
 	}
 	preload(){
 		this.load.image('player','resources/tinky.png');
+		this.load.spritesheet('tinkies','resources/tinkies.png',{frameWidth:45,frameHeight:64});
 		this.load.image('crater','resources/crater.png');
 		this.load.image('SellStation', 'resources/estacionCarga.png');
 		this.load.image('background','resources/Mapa.png');

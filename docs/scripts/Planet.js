@@ -102,5 +102,10 @@ export default class Planet extends Phaser.Scene{
         this.inventoryText = this.add.text(10, 10, 0 + " dineros");
         this.inventoryText.setFontSize(50);
         this.inventoryText.setScrollFactor(0);
+
+        this.tinkyInventory = this.add.container(0,0);
+        this.tinkyInventory.setScrollFactor(0);
+        const i = this.add.image(750, 64, 'tinkies', 0);
+        this.tinkyInventory.add(i);
     }
 }
