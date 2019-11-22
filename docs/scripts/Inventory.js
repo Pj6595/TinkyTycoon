@@ -57,7 +57,7 @@ export default class Inventory{
         this.tinkies.length=0;
     }
 
-    empty(num){
+    emptyNum(num){
         this.numTinkies = this.numTinkies-num;
         for(let i = 0; i < num; i++){
             this.tinkies.pop();
@@ -76,6 +76,6 @@ export default class Inventory{
             this.tinkies.push(otherInventory.tinkies.pop());
             this.numTinkies++;
         }
-        otherInventory.empty(max);
+        otherInventory.emptyNum(max);
     }
 }
