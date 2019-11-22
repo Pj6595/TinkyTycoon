@@ -15,9 +15,10 @@ export default class Player extends Phaser.GameObjects.Sprite{
 		this.toolTier = 1;
 
 		//Character control
+		this.movementEnabled = true;
 		this.cursors = this.scene.input.keyboard.createCursorKeys();
 		this.speed = 100;
-		this.scale = 0.1;
+		this.scale = 0.2;
 		this.w = scene.input.keyboard.addKey('W');
 		this.s = scene.input.keyboard.addKey('S');
 		this.a = scene.input.keyboard.addKey('A');
@@ -26,20 +27,20 @@ export default class Player extends Phaser.GameObjects.Sprite{
 	}
 
 	preUpdate(){
-		if(this.cursors.down.isDown || this.s.isDown){
+		if((this.cursors.down.isDown || this.s.isDown) && this.movementEnabled){
 			this.body.setVelocityY(this.speed);
 		}
-		else if(this.cursors.up.isDown || this.w.isDown){
+		else if((this.cursors.up.isDown || this.w.isDown) && this.movementEnabled){
 			this.body.setVelocityY(-this.speed);
 		}else{
 			this.body.setVelocityY(0);
 		}
 			
 
-		if(this.cursors.left.isDown || this.a.isDown){
+		if((this.cursors.left.isDown || this.a.isDown) && this.movementEnabled){
 			this.body.setVelocityX(-this.speed);
 		}
-		else if(this.cursors.right.isDown || this.d.isDown){
+		else if((this.cursors.right.isDown || this.d.isDown) && this.movementEnabled){
 			this.body.setVelocityX(this.speed);
 		}else{
 			this.body.setVelocityX(0);

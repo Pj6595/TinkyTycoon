@@ -56,6 +56,26 @@ export default class Inventory{
         this.numTinkies = 0;
         this.tinkies.length=0;
     }
-}
 
-//inventario con array de tinkies, tiene una capacidad con metodos para cambiarla.
+    empty(num){
+        this.numTinkies = this.numTinkies-num;
+        for(let i = 0; i < num; i++){
+            this.tinkies.pop();
+        }
+    }
+
+    //Takes another inventory, pops all of the contents it can from it
+    transferInventory(otherInventory){
+        let max = 0;
+        if(otherInventory.numTinkies > (this.capacity - this.numTinkies))
+            max = (this.capacity - this.numTinkies);
+        else
+            max = otherInventory.numTinkies;
+
+        for(let i = 0; i < max; i++){
+            this.tinkies.push(otherInventory.tinkies.pop());
+            this.numTinkies++;
+        }
+        otherInventory.empty(max);
+    }
+}
