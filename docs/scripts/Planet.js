@@ -14,8 +14,6 @@ export default class Planet extends Phaser.Scene{
         this.createWorld();
         //Craters set-up
         this.createCraters();
-        //UI
-        this.createUI();
 
         //Loading station set-up
 
@@ -23,15 +21,24 @@ export default class Planet extends Phaser.Scene{
         this.physics.add.existing(this.estacion);
         this.estacion.body.setImmovable();
        
+        //UI
+        this.createUI();
 
-        //Camera control
 
-        this.cameras.main.startFollow(this.player);
-        
         this.debugKey = this.input.keyboard.addKey('P');
+        this.inventoryKey = this.input.keyboard.addKey('I');
 
         this.debugKey.on('down', event =>{
             console.log(this.player.inventory.returnTotalValue());
+        })
+
+        this.inventoryKey.on('down', event =>{
+            if(this.tinkyInventoryIsOpen)
+                this.inventoryCloseTween.play();
+            else
+                this.inventoryOpenTween.play();
+
+            this.tinkyInventoryIsOpen = !this.tinkyInventoryIsOpen;
         })
     }
     update(){
@@ -86,6 +93,8 @@ export default class Planet extends Phaser.Scene{
     }
 
     createUI(){
+
+        this.cameras.main.startFollow(this.player);
         //Selling Tinkies
 
         this.sellButton = this.add.text(75, 200, 'VENDE');
@@ -103,9 +112,28 @@ export default class Planet extends Phaser.Scene{
         this.inventoryText.setFontSize(50);
         this.inventoryText.setScrollFactor(0);
 
-        this.tinkyInventory = this.add.container(0,0);
+        this.tinkyInventory = this.add.image(875, 235, 'inventory');
         this.tinkyInventory.setScrollFactor(0);
-        const i = this.add.image(750, 64, 'tinkies', 0);
-        this.tinkyInventory.add(i);
+        this.tinkyInventoryIsOpen = false;
+
+        this.inventoryOpenTween = this.tweens.add({
+                targets: this.tinkyInventory,
+                x: { from: 875, to: 725 },
+                ease: 'Linear',       // 'Cubic', 'Elastic', 'Bounce', 'Back'
+                duration: 1000,
+                repeat: 0,            // -1: infinity
+                paused: true,
+                yoyo: false
+            });
+
+        this.inventoryCloseTween = this.tweens.add({
+                targets: this.tinkyInventory,
+                x: { from: 725, to: 875 },
+                ease: 'Linear',       // 'Cubic', 'Elastic', 'Bounce', 'Back'
+                duration: 1000,
+                repeat: 0,            // -1: infinity
+                paused: true,
+                yoyo: false
+            });
     }
 }
