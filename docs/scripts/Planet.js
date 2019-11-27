@@ -8,12 +8,15 @@ export default class Planet extends Phaser.Scene{
         super({key: 'Planet'})
     }
     preload(){
+        this.load.tilemapTiledJSON('planetTilemap', 'resources/Planet.json');
+        this.load.image('PlanetGrey', 'resources/PlanetGrey.png');
+        this.load.image('CliffGrey', 'resources/CliffGrey.png');
     }
     create(){
 
         this.createWorld();
         //Craters set-up
-        this.createCraters();
+        //this.createCraters();
         //UI
         this.createUI();
 
@@ -22,11 +25,11 @@ export default class Planet extends Phaser.Scene{
         this.estacion = this.add.sprite(1622, 527, 'loadingStation');
         this.physics.add.existing(this.estacion);
         this.estacion.body.setImmovable();
-       
 
         //Camera control
 
         this.cameras.main.startFollow(this.player);
+        this.cameras.main.roundPixels=true;
         
         this.debugKey = this.input.keyboard.addKey('P');
 
@@ -34,6 +37,7 @@ export default class Planet extends Phaser.Scene{
             console.log(this.player.inventory.returnTotalValue());
         })
     }
+
     update(){
         this.updateInventoryText();
 
@@ -41,6 +45,7 @@ export default class Planet extends Phaser.Scene{
             this.sellButton.setVisible(true);
         } else this.sellButton.setVisible(false);
     }
+
     updateInventoryText(){
         this.inventoryText.setText(this.player.money + " dineros");
     }
@@ -48,11 +53,21 @@ export default class Planet extends Phaser.Scene{
     createWorld(){
         //Background creation
 
-        this.spaceBackground = this.add.sprite(1920/2, 1080/2, 'starsBackground');
-        this.spaceBackground.scale = 1;
+        //this.spaceBackground = this.add.sprite(1920/2, 1080/2, 'starsBackground');
+        //this.spaceBackground.scale = 1;
 
-        this.background = this.add.sprite(1920/2, 1080/2, 'background');
-        this.background.scale = 0.5;
+        //this.background = this.add.sprite(1920/2, 1080/2, 'background');
+        //this.background.scale = 0.5;
+
+        this.map = this.make.tilemap({
+            key:'planetTilemap',
+            tileWidth: 32,
+            tileHeight:32
+        });
+    
+        this.tileset1 = this.map.addTilesetImage('PlanetGrey', 'PlanetGrey');
+        this.tileset2 = this.map.addTilesetImage('CliffGrey', 'CliffGrey');
+        this.map.createStaticLayer('PlanetSurface', [this.tileset1, this.tileset2]);
 
 
         //Physics initialization and world bounds
