@@ -18,12 +18,11 @@ export default class Planet extends Phaser.Scene{
         this.createUI();
 
         //Loading station set-up
-
-        this.estacion = this.add.sprite(1622, 527, 'loadingStation');
-        this.physics.add.existing(this.estacion);
-        this.estacion.body.setImmovable();
+        this.createSellStation();
+        
+        //Player Base set-up
+        this.createPlayerBase();
        
-
         //Camera control
 
         this.cameras.main.startFollow(this.player);
@@ -62,6 +61,18 @@ export default class Planet extends Phaser.Scene{
         this.car = new Car(this, 800, 500, 10, this.player);
 
         this.car.setCollider(this.physics.add.collider(this.player, this.car));
+    }
+
+    createSellStation(){
+        this.estacion = this.add.sprite(1622, 527, 'loadingStation');
+        this.physics.add.existing(this.estacion);
+        this.estacion.body.setImmovable();
+    }
+
+    createPlayerBase(){
+        this.playerBaseWindow = this.add.image('UIWindow');
+        this.playerBaseContainer = this.add.container(10, 10);
+        this.playerBaseContainer.add(this.playerBaseWindow);
     }
 
     createCraters(){
