@@ -15,7 +15,7 @@ export default class Car extends Phaser.GameObjects.Sprite{
 		//Movement control
 		this.body.setImmovable(true);
 		this.movementEnabled = false;
-		this.speed = 200;
+		this.speed = 600;
 		this.scale = 1;
 		this.cursors = this.scene.input.keyboard.createCursorKeys();
 		this.w = scene.input.keyboard.addKey('W');

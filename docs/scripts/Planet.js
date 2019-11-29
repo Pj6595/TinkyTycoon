@@ -53,7 +53,7 @@ export default class Planet extends Phaser.Scene{
     createWorld(){
         //Background creation
 
-        //this.spaceBackground = this.add.sprite(1920/2, 1080/2, 'starsBackground');
+        this.spaceBackground = this.add.sprite(1920/2, 1080/2, 'starsBackground');
         //this.spaceBackground.scale = 1;
 
         //this.background = this.add.sprite(1920/2, 1080/2, 'background');
@@ -72,9 +72,9 @@ export default class Planet extends Phaser.Scene{
 
         //Physics initialization and world bounds
 
-        this.physics.world.setBounds(0, 0, 1920, 1080);
-        this.player = new Player(this, 0, 0, 50, 50, 10);
-        this.car = new Car(this, 800, 500, 10, this.player);
+        this.physics.world.setBounds(180, 180, 5000, 5000);
+        this.player = new Player(this, 800, 500, 10);
+        this.car = new Car(this, 864, 564, 10, this.player);
 
         this.car.setCollider(this.physics.add.collider(this.player, this.car));
     }

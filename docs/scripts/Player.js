@@ -1,7 +1,7 @@
 import Inventory from './Inventory.js'
 
 export default class Player extends Phaser.GameObjects.Sprite{
-	constructor(scene, x, y, w, h, inventoryCapacity){
+	constructor(scene, x, y, inventoryCapacity){
 		super(scene,x,y,'player');
 		this.scene.add.existing(this);
 		//Physics
@@ -17,7 +17,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
 		//Character control
 		this.movementEnabled = true;
 		this.cursors = this.scene.input.keyboard.createCursorKeys();
-		this.speed = 100;
+		this.speed = 180; //Múltiplo de 60 pa que no se rompa el tilemap????????
 		this.scale = 0.2;
 		this.w = scene.input.keyboard.addKey('W');
 		this.s = scene.input.keyboard.addKey('S');
