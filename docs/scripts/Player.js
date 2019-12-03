@@ -12,7 +12,7 @@ export default class Player extends Phaser.GameObjects.Sprite{
 
 		this.inventory = new Inventory(inventoryCapacity);
 
-		this.toolTier = 1;
+		this.toolTier = 0;
 
 		//Character control
 		this.movementEnabled = true;

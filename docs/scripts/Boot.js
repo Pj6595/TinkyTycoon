@@ -13,7 +13,8 @@ export default class Boot extends Phaser.Scene{
 		this.load.image('car','resources/car.png');
 		this.load.image('UIWindow', 'resources/BaseWindow.png');
 		this.load.image('EnabledButton', 'resources/ButtonEnabled.png');
-		this.load.image('DisabledButton', 'resources/ButtonDisabled.png')
+		this.load.image('DisabledButton', 'resources/ButtonDisabled.png');
+		this.load.image('ApplyButton', 'resources/ButtonApply.png');
 	}
 	create(){
 		this.scene.start('MainMenu');

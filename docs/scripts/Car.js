@@ -8,6 +8,8 @@ export default class Car extends Phaser.GameObjects.Sprite{
 		this.scene.physics.add.existing(this);
 		this.body.setCollideWorldBounds();
 
+		this.tier = 0;
+
 		this.player = player;
 
 		this.inventory = new Inventory(inventoryCapacity);
@@ -100,5 +102,11 @@ export default class Car extends Phaser.GameObjects.Sprite{
 
 	setCollider(collider){
 		this.playerCarCollider = collider;
+	}
+
+	upgrade(){
+		this.tier += 1;
+		this.speed += 100;
+		this.inventory.addCapacity(10);
 	}
 }
