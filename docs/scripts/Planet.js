@@ -1,6 +1,7 @@
 import Player from './Player.js'
 import Crater from './Crater.js'
 import Car from './Car.js'
+import PlayerBase from './PlayerBase.js'
 
 export default class Planet extends Phaser.Scene{
     constructor(){
@@ -9,14 +10,6 @@ export default class Planet extends Phaser.Scene{
     preload(){
     }
     create(){
-        this.carPrice = 10;
-        this.toolPrice = 15;
-        this.cleanerPrice = 30;
-        this.polisherPrice = 200;
-        this.hormonatorPrice = 2000;
-        this.maxtoolTier = 6;
-        this.maxCarTier = 5;
-
         this.createWorld();
         //Craters set-up
         this.createCraters();
@@ -25,9 +18,9 @@ export default class Planet extends Phaser.Scene{
 
         //Loading station set-up
         this.createSellStation();
-        
+
         //Player Base set-up
-        this.createPlayerBase();
+        this.base = new PlayerBase(this, 578, 638, 1);
        
         //Camera control
 
@@ -46,14 +39,7 @@ export default class Planet extends Phaser.Scene{
             this.sellButton.setVisible(true);
         } else this.sellButton.setVisible(false);
 
-        if(this.physics.overlap(this.player, this.base)){
-            this.playerBaseGroup.setVisible(true);
-            if(this.player.money < this.toolPrice) this.ToolButton.setVisible(false);
-            if(this.player.money < this.carPrice) this.vehicleButton.setVisible(false);
-            if(this.player.money < this.cleanerPrice) this.buyCleanerButton.setVisible(false);
-            if(this.player.money < this.polisherPrice) this.buyPolisherButton.setVisible(false);
-            if(this.player.money < this.hormonatorPrice) this.buyHormonatorButton.setVisible(false);
-        } else this.playerBaseGroup.setVisible(false);
+        this.base.update();
     }
     updateInventoryText(){
         this.inventoryText.setText(this.player.money + " dineros");
@@ -95,134 +81,6 @@ export default class Planet extends Phaser.Scene{
                 this.player.sellTinkies(this.car.inventory);
                 console.log("vendido");
         })
-    }
-
-    createPlayerBase(){
-        this.base = this.add.sprite(578, 638, 'playerBase');
-        this.physics.add.existing(this.base);
-        this.base.body.setImmovable();
-
-        //Window contaimer
-
-        this.playerBaseContainer = this.add.container(400, 300);
-        this.playerBaseGroup = this.add.group();
-
-        let playerBaseWindow = this.add.image(400, 300, 'UIWindow');
-        playerBaseWindow.setScale(0.5);
-        playerBaseWindow.setScrollFactor(0);
-        this.playerBaseGroup.add(playerBaseWindow);
-
-        //Tool button
-
-        let DisabledToolButton = this.add.image(245, 225, 'DisabledButton');
-        DisabledToolButton.setScale(0.4);
-        DisabledToolButton.setScrollFactor(0);
-        this.playerBaseGroup.add(DisabledToolButton);
-
-        let ToolButtonText = this.add.text(80, 120, ['Actualizar herramienta', this.toolPrice + ' dineros']).setAlign('center').setFontSize(25).setColor('black');
-        ToolButtonText.setScrollFactor(0);
-        this.playerBaseGroup.add(ToolButtonText);
-
-        this.ToolButton = this.add.image(245, 225, 'EnabledButton');
-        this.ToolButton.setScale(0.4);
-        this.ToolButton.setInteractive();
-        this.ToolButton.on('pointerdown', ()=> {this.buyToolUpdate(ToolButtonText, this.ToolButton, DisabledToolButton)});
-        this.ToolButton.setScrollFactor(0);
-        this.playerBaseGroup.add(this.ToolButton);
-
-        //Vehicle button
-
-        let DisabledVehicleButton = this.add.image(245, 395, 'DisabledButton');
-        DisabledVehicleButton.setScale(0.4);
-        DisabledVehicleButton.setScrollFactor(0);
-        this.playerBaseGroup.add(DisabledVehicleButton);
-
-        let vehicleButtonText = this.add.text(130, 290, ['Actualizar coche', this.carPrice + ' dineros']).setAlign('center').setFontSize(25).setColor('black');
-        vehicleButtonText.setScrollFactor(0);
-        this.playerBaseGroup.add(vehicleButtonText);
-
-        this.vehicleButton = this.add.image(245, 395, 'EnabledButton');
-        this.vehicleButton.setScale(0.4);
-        this.vehicleButton.setInteractive();
-        this.vehicleButton.on('pointerdown', ()=> {this.buyCarUpdate(vehicleButtonText, this.vehicleButton, DisabledVehicleButton)});
-        this.vehicleButton.setScrollFactor(0);
-        this.playerBaseGroup.add(this.vehicleButton);
-
-        //Cleaner Button
-
-        this.cleanButton = this.add.image(590, 200, 'ApplyButton');
-        this.cleanButton.setScale(0.3);
-        this.cleanButton.setScrollFactor(0);
-        this.cleanButton.setInteractive();
-        this.cleanButton.on('pointerdown', ()=> {this.player.inventory.cleanTinkies(); this.car.inventory.cleanTinkies()})
-        this.playerBaseGroup.add(this.cleanButton);
-
-        let DisabledCleanerButton = this.add.image(590, 200, 'DisabledButton');
-        DisabledCleanerButton.setScale(0.3);
-        DisabledCleanerButton.setScrollFactor(0);
-        this.playerBaseGroup.add(DisabledCleanerButton);
-
-        let cleanerText = this.add.text(480, 120, ['Comprar Limpiadora', this.cleanerPrice]).setAlign('center').setFontSize(20).setColor('black');
-        cleanerText.setScrollFactor(0);
-        this.playerBaseGroup.add(cleanerText);
-
-        this.buyCleanerButton = this.add.image(590, 200, 'EnabledButton');
-        this.buyCleanerButton.setScale(0.3);
-        this.buyCleanerButton.setScrollFactor(0);
-        this.buyCleanerButton.setInteractive();
-        this.buyCleanerButton.on('pointerdown', ()=> {this.buyCleaner(cleanerText, DisabledCleanerButton, this.buyCleanerButton)})
-        this.playerBaseGroup.add(this.buyCleanerButton);
-
-        //Polisher button
-
-        this.polishButton = this.add.image(590, 330, 'ApplyButton');
-        this.polishButton.setScale(0.3);
-        this.polishButton.setScrollFactor(0);
-        this.polishButton.setInteractive();
-        this.polishButton.on('pointerdown', ()=> {this.player.inventory.polishTinkies(); this.car.inventory.polishTinkies()})
-        this.playerBaseGroup.add(this.polishButton);
-
-        let DisabledPolisherButton = this.add.image(590, 330, 'DisabledButton');
-        DisabledPolisherButton.setScale(0.3);
-        DisabledPolisherButton.setScrollFactor(0);
-        this.playerBaseGroup.add(DisabledPolisherButton);
-
-        let polisherText = this.add.text(490, 260, ['Comprar Pulidora', this.polisherPrice]).setAlign('center').setFontSize(20).setColor('black');
-        polisherText.setScrollFactor(0);
-        this.playerBaseGroup.add(polisherText);
-
-
-        this.buyPolisherButton = this.add.image(590, 330, 'EnabledButton');
-        this.buyPolisherButton.setScale(0.3);
-        this.buyPolisherButton.setScrollFactor(0);
-        this.buyPolisherButton.setInteractive();
-        this.buyPolisherButton.on('pointerdown', ()=> {this.buyPolisher(polisherText, DisabledPolisherButton, this.buyPolisherButton)})
-        this.playerBaseGroup.add(this.buyPolisherButton);
-
-        //Hormonator button
-
-        this.HormonateButton = this.add.image(590, 450, 'ApplyButton');
-        this.HormonateButton.setScale(0.3);
-        this.HormonateButton.setScrollFactor(0);
-        this.HormonateButton.setInteractive();
-        this.HormonateButton.on('pointerdown', ()=> {this.player.inventory.hormonateTinkies(); this.car.inventory.hormonateTinkies()})
-        this.playerBaseGroup.add(this.HormonateButton);
-
-        let DisabledHormonatorButton = this.add.image(590, 450, 'DisabledButton');
-        DisabledHormonatorButton.setScale(0.3);
-        DisabledHormonatorButton.setScrollFactor(0);
-        this.playerBaseGroup.add(DisabledHormonatorButton);
-
-        let hormonatorText = this.add.text(480, 380, ['Comprar Hormonadora', this.polisherPrice]).setAlign('center').setFontSize(20).setColor('black');
-        hormonatorText.setScrollFactor(0);
-        this.playerBaseGroup.add(hormonatorText);
-
-        this.buyHormonatorButton = this.add.image(590, 450, 'EnabledButton');
-        this.buyHormonatorButton.setScale(0.3);
-        this.buyHormonatorButton.setScrollFactor(0);
-        this.buyHormonatorButton.setInteractive();
-        this.buyHormonatorButton.on('pointerdown', ()=> {this.buyHormonator(hormonatorText, DisabledHormonatorButton, this.buyHormonatorButton)})
-        this.playerBaseGroup.add(this.buyHormonatorButton);
     }
 
     buyToolUpdate(text, buyToolButton, buyToolButtonDisabled){
