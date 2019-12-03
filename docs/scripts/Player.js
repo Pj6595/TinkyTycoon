@@ -17,12 +17,13 @@ export default class Player extends Phaser.GameObjects.Sprite{
 		//Character control
 		this.movementEnabled = true;
 		this.cursors = this.scene.input.keyboard.createCursorKeys();
-		this.speed = 100;
+		this.speed = 500;//100;
 		this.scale = 0.2;
 		this.w = scene.input.keyboard.addKey('W');
 		this.s = scene.input.keyboard.addKey('S');
 		this.a = scene.input.keyboard.addKey('A');
 		this.d = scene.input.keyboard.addKey('D');
+		this.p = scene.input.keyboard.addKey('P');
 		
 	}
 
@@ -45,6 +46,8 @@ export default class Player extends Phaser.GameObjects.Sprite{
 		}else{
 			this.body.setVelocityX(0);
 		}	
+
+		if(this.p.isDown) this.money +=500000;
 
 		//console.log(this.getCenter());
 
