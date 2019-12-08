@@ -93,6 +93,7 @@ export default class Car extends Phaser.GameObjects.Sprite{
 			else{ //Player gets in the vehicle
 				this.scene.cameras.main.startFollow(this);
 				this.inventory.transferInventory(this.player.inventory);
+				this.scene.updateInventoryText();
 			}
 		}
 
