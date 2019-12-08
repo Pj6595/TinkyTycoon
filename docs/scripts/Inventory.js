@@ -43,7 +43,6 @@ export default class Inventory{
 
             return false;
         }
-
         
     }
 
