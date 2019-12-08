@@ -9,7 +9,7 @@ export default class Boot extends Phaser.Scene{
 		this.load.image('background','resources/Mapa.png');
         this.load.image('starsBackground','resources/stars.png');
         this.load.image('loadingStation', 'resources/estacionCarga.png');
-        this.load.image('car','resources/car.png');
+        this.load.image('car','resources/Car.png');
 	}
 	create(){
 		this.scene.start('MainMenu');
