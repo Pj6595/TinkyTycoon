@@ -8,17 +8,18 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
 
         //Prices and tier constants
 
-        this.carPrice = 10;
-        this.toolPrice = 15;
-        this.cleanerPrice = 30;
-        this.polisherPrice = 200;
-        this.hormonatorPrice = 2000;
+        this.valueIndex = valueIndex;
+
+        this.carPrice = 10 * valueIndex;
+        this.toolPrice = 15 * valueIndex;
+        this.cleanerPrice = 30 * valueIndex;
+        this.polisherPrice = 200 * valueIndex;
+        this.hormonatorPrice = 2000 * valueIndex;
         this.maxtoolTier = 6;
         this.maxCarTier = 5;
 
         //Window contaimer
 
-        this.playerBaseContainer = this.scene.add.container(400, 300);
         this.playerBaseGroup = this.scene.add.group();
 
         let playerBaseWindow = this.scene.add.image(400, 300, 'UIWindow');

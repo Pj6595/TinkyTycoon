@@ -2,6 +2,7 @@ import Player from './Player.js'
 import Crater from './Crater.js'
 import Car from './Car.js'
 import PlayerBase from './PlayerBase.js'
+import SellStation from './SellStation.js'
 
 export default class Planet extends Phaser.Scene{
     constructor(){
@@ -17,13 +18,12 @@ export default class Planet extends Phaser.Scene{
         this.createUI();
 
         //Loading station set-up
-        this.createSellStation();
+        this.estacion = new SellStation(this, 1622, 527);
 
         //Player Base set-up
         this.base = new PlayerBase(this, 578, 638, 1);
        
         //Camera control
-
         this.cameras.main.startFollow(this.player);
         
         this.debugKey = this.input.keyboard.addKey('P');
@@ -35,10 +35,11 @@ export default class Planet extends Phaser.Scene{
     update(){
         this.updateInventoryText();
 
-        if (this.physics.overlap(this.player, this.estacion)){
+        /*if (this.physics.overlap(this.player, this.estacion)){
             this.sellButton.setVisible(true);
-        } else this.sellButton.setVisible(false);
-
+        } else this.sellButton.setVisible(false);*/
+        
+        this.estacion.update();
         this.base.update();
     }
     updateInventoryText(){
@@ -65,6 +66,7 @@ export default class Planet extends Phaser.Scene{
     }
 
     createSellStation(){
+        /*
         this.estacion = this.add.sprite(1622, 527, 'loadingStation');
         this.physics.add.existing(this.estacion);
         this.estacion.body.setImmovable();
@@ -80,7 +82,7 @@ export default class Planet extends Phaser.Scene{
                 this.player.sellTinkies(this.player.inventory);
                 this.player.sellTinkies(this.car.inventory);
                 console.log("vendido");
-        })
+        })*/
     }
 
 
