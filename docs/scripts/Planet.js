@@ -83,62 +83,6 @@ export default class Planet extends Phaser.Scene{
         })
     }
 
-    buyToolUpdate(text, buyToolButton, buyToolButtonDisabled){
-        this.player.upgradeTool(1);
-        this.player.money -= this.toolPrice;
-        this.toolPrice *= 20;
-        if(this.player.toolTier < this.maxtoolTier){
-            text.setText(['Actualizar herramienta', this.toolPrice + ' dineros']);
-        }
-        else{
-            text.setText(['Herramienta', 'al máximo']);
-            text.setX(text.x + 80); text.setY(text.y + 70);
-            text.setColor('red');
-            buyToolButton.destroy();
-            buyToolButtonDisabled.destroy();
-        }
-        
-    }
-
-    buyCarUpdate(text, buyCarButton, buyCarButtonDisabled){
-        this.car.upgrade();
-        this.player.money -= this.carPrice;
-        this.carPrice*=20;
-        if(this.car.tier < this.maxCarTier){
-            text.setText(['Actualizar coche', this.carPrice + ' dineros']);
-        }
-        else{
-            text.setText(['Vehículo', 'al máximo']);
-            text.setX(text.x + 50); text.setY(text.y + 70);
-            text.setColor('red');
-            buyCarButton.destroy();
-            buyCarButtonDisabled.destroy();
-        }
-    }
-
-    buyCleaner(text, disabledCleanerButton, buyCleanerButton){
-        this.money -= this.cleanerPrice;
-        disabledCleanerButton.destroy();
-        buyCleanerButton.destroy();
-        text.setText(['Limpiar', 'Tinkies']);
-        text.setX(text.x + 70);
-    }
-
-    buyPolisher(text, disabledPolisherButton, buyPolisherButton){
-        this.money -= this.polisherPrice;
-        disabledPolisherButton.destroy();
-        buyPolisherButton.destroy();
-        text.setText(['Pulir', 'Tinkies']);
-        text.setX(text.x + 60);
-    }
-
-    buyHormonator(text, disabledHormonatorButton, buyHormonatorButton){
-        this.money -= this.HormonatorPrice;
-        disabledHormonatorButton.destroy();
-        buyHormonatorButton.destroy();
-        text.setText(['Hormonar', 'Tinkies']);
-        text.setX(text.x + 60);
-    }
 
     createCraters(){
         this.crateres = this.add.group();
