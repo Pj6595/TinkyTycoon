@@ -26,6 +26,23 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         playerBaseWindow.setScrollFactor(0);
         this.playerBaseGroup.add(playerBaseWindow);
 
+        //Tool upgrade
+        this.createToolUpgrade();
+        
+        //Vehicle upgrade
+        this.createVehicleUpdgrade();
+
+        //Create Cleaner
+        this.createCleaner();
+
+        //Create Polisher
+        this.createPolisher();
+
+        //Create Hormonator
+        this.createHormonator();
+    }
+
+    createToolUpgrade(){
         //Tool button
 
         let DisabledToolButton = this.scene.add.image(245, 225, 'DisabledButton');
@@ -43,7 +60,9 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         this.ToolButton.on('pointerdown', ()=> {this.buyToolUpdate(ToolButtonText, this.ToolButton, DisabledToolButton)});
         this.ToolButton.setScrollFactor(0);
         this.playerBaseGroup.add(this.ToolButton);
+    }
 
+    createVehicleUpdgrade(){
         //Vehicle button
 
         let DisabledVehicleButton = this.scene.add.image(245, 395, 'DisabledButton');
@@ -58,10 +77,12 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         this.vehicleButton = this.scene.add.image(245, 395, 'EnabledButton');
         this.vehicleButton.setScale(0.4);
         this.vehicleButton.setInteractive();
-        this.vehicleButton.on('pointerdown', ()=> {this.buyCarUpdate(vehicleButtonText, this.vehicleButton, DisabledVehicleButton)});
+        this.vehicleButton.on('pointerdown', ()=> {this.buyCarUpgrade(vehicleButtonText, this.vehicleButton, DisabledVehicleButton)});
         this.vehicleButton.setScrollFactor(0);
         this.playerBaseGroup.add(this.vehicleButton);
+    }
 
+    createCleaner(){
         //Cleaner Button
 
         this.cleanButton = this.scene.add.image(590, 200, 'ApplyButton');
@@ -86,7 +107,9 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         this.buyCleanerButton.setInteractive();
         this.buyCleanerButton.on('pointerdown', ()=> {this.buyCleaner(cleanerText, DisabledCleanerButton, this.buyCleanerButton)})
         this.playerBaseGroup.add(this.buyCleanerButton);
+    }
 
+    createPolisher(){
         //Polisher button
 
         this.polishButton = this.scene.add.image(590, 330, 'ApplyButton');
@@ -111,7 +134,9 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         this.buyPolisherButton.setInteractive();
         this.buyPolisherButton.on('pointerdown', ()=> {this.buyPolisher(polisherText, DisabledPolisherButton, this.buyPolisherButton)})
         this.playerBaseGroup.add(this.buyPolisherButton);
+    }
 
+    createHormonator(){
         //Hormonator button
 
         this.HormonateButton = this.scene.add.image(590, 450, 'ApplyButton');
@@ -155,7 +180,7 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         
     }
 
-    buyCarUpdate(text, buyCarButton, buyCarButtonDisabled){
+    buyCarUpgrade(text, buyCarButton, buyCarButtonDisabled){
         this.scene.car.upgrade();
         this.scene.player.money -= this.carPrice;
         this.carPrice*=20;
