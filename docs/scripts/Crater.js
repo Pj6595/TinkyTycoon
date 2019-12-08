@@ -21,4 +21,3 @@ export default class Crater extends Phaser.GameObjects.Sprite{
 		}
 	console.log("I have tinkies of type " + this.tinkyInside);
 }
-}

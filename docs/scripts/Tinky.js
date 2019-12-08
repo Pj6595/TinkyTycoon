@@ -29,6 +29,18 @@ export default class Tinky{
         this.status = this.status+1;
     }
 
+    cleanTinky(){
+        if (this.status === this.tinkyStates.normal) this.status = this.tinkyStates.clean;
+    }
+
+    polishTinky(){
+        if(this.status < this.tinkyStates.polished) this.status = this.tinkyStates.polished;
+    }
+
+    hormonateTinky(){
+        this.status = this.tinkyStates.hormonated;
+    }
+
     returnTinkyValue(){
         let value = this.tinkyValue[this.tinkyType];
         switch(this.status){
