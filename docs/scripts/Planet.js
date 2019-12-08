@@ -14,8 +14,6 @@ export default class Planet extends Phaser.Scene{
         this.createWorld();
         //Craters set-up
         this.createCraters();
-        //UI
-        this.createUI();
 
         //Loading station set-up
 
@@ -23,26 +21,56 @@ export default class Planet extends Phaser.Scene{
         this.physics.add.existing(this.estacion);
         this.estacion.body.setImmovable();
        
+        //UI
+        this.createUI();
 
-        //Camera control
 
-        this.cameras.main.startFollow(this.player);
-        
         this.debugKey = this.input.keyboard.addKey('P');
+        this.inventoryKey = this.input.keyboard.addKey('I');
 
         this.debugKey.on('down', event =>{
             console.log(this.player.inventory.returnTotalValue());
         })
+
+        this.inventoryKey.on('down', event =>{
+            if(this.tinkyInventoryIsOpen)
+                this.inventoryCloseTween.play();
+            else
+                this.inventoryOpenTween.play();
+
+            this.tinkyInventoryIsOpen = !this.tinkyInventoryIsOpen;
+        })
     }
     update(){
-        this.updateInventoryText();
+        //this.updateInventoryText();
 
         if (this.physics.overlap(this.player, this.estacion)){
             this.sellButton.setVisible(true);
         } else this.sellButton.setVisible(false);
     }
     updateInventoryText(){
-        this.inventoryText.setText(this.player.money + " dineros");
+        this.moneyText.setText(this.player.money + " dineros");
+
+        let numberOfTinkiesPlayer = [0,0,0,0,0,0,0];
+        let numberOfTinkiesCar = [0,0,0,0,0,0,0];
+        //Update player inventory
+        //Get number of tinkies in each category
+        //Player
+        for(let i = 0; i < this.player.inventory.numTinkies; i++){
+            numberOfTinkiesPlayer[this.player.inventory.tinkies[i].tinkyType] += 1;
+        }
+        //Car
+        for(let i = 0; i < this.car.inventory.numTinkies; i++){
+            numberOfTinkiesCar[this.car.inventory.tinkies[i].tinkyType] += 1;
+        }
+        //Update inventory text
+        for(let i = 0; i < 7; i++){
+            let currentInventoryTxtPlayer = this.tinkyInventoryContainer.list[i+1];
+            let currentInventoryTxtCar = this.tinkyInventoryContainer.list[i+8];
+            currentInventoryTxtPlayer.setText(numberOfTinkiesPlayer[i]);
+            currentInventoryTxtCar.setText(numberOfTinkiesCar[i]);
+            console.log("Updated for tinkyType", i);
+        }
     }
 
     createWorld(){
@@ -86,6 +114,11 @@ export default class Planet extends Phaser.Scene{
     }
 
     createUI(){
+        let elementPadding = 5; //pixels
+        let gameWidth = this.game.config.width;
+        let gameHeight = this.game.config.height;
+
+        this.cameras.main.startFollow(this.player);
         //Selling Tinkies
 
         this.sellButton = this.add.text(75, 200, 'VENDE');
@@ -99,8 +132,43 @@ export default class Planet extends Phaser.Scene{
         })
 
         //Inventory
-        this.inventoryText = this.add.text(10, 10, 0 + " dineros");
-        this.inventoryText.setFontSize(50);
-        this.inventoryText.setScrollFactor(0);
+        this.moneyText = this.add.text(10, 10, 0 + " dineros");
+        this.moneyText.setFontSize(50);
+        this.moneyText.setScrollFactor(0);
+
+        this.tinkyInventory = this.add.image(0, 0, 'inventory');
+        this.tinkyInventory.x = gameWidth + this.tinkyInventory.displayWidth/2;
+        this.tinkyInventory.y = elementPadding + this.tinkyInventory.displayHeight/2;
+        this.tinkyInventory.setScrollFactor(0);
+        this.tinkyInventoryIsOpen = false;
+
+        this.tinkyInventoryContainer = this.add.container(0,0,[this.tinkyInventory]);
+        let xOffset = this.tinkyInventory.x-this.tinkyInventory.width/2+this.tinkyInventory.width/3;
+        for(let i = 0; i < 14; i++){
+            if(i == 7) xOffset += this.tinkyInventory.width/3;
+            this.tinkyInventoryContainer.add(new Phaser.GameObjects.Text(this,xOffset,elementPadding+64+2+16+(65*(i%7)),0));
+            this.tinkyInventoryContainer.last.setScrollFactor(0);
+            this.tinkyInventoryContainer.last.setFontSize(50);
+        }
+
+        this.inventoryOpenTween = this.tweens.add({
+                targets: this.tinkyInventoryContainer,
+                x: { from: 0, to: 0 - this.tinkyInventory.displayWidth - elementPadding},
+                ease: 'Quad.easeOut',       // 'Cubic', 'Elastic', 'Bounce', 'Back'
+                duration: 500,
+                repeat: 0,            // -1: infinity
+                paused: true,
+                yoyo: false
+            });
+
+        this.inventoryCloseTween = this.tweens.add({
+                targets: this.tinkyInventoryContainer,
+                x: { from: 0 - this.tinkyInventory.displayWidth - elementPadding, to: 0},
+                ease: 'Quad.easeOut',       // 'Cubic', 'Elastic', 'Bounce', 'Back'
+                duration: 500,
+                repeat: 0,            // -1: infinity
+                paused: true,
+                yoyo: false
+            });
     }
 }
