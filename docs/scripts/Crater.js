@@ -20,4 +20,5 @@ export default class Crater extends Phaser.GameObjects.Sprite{
 			console.log("Your inventory is full");
 		}
 	console.log("I have tinkies of type " + this.tinkyInside);
+	}
 }
