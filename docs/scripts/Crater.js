@@ -13,13 +13,11 @@ export default class Crater extends Phaser.GameObjects.Sprite{
 	}
 
 	ClickedCrater(){
-			console.log("I've given you a tinky of type " + this.tinkyInside);
-			if(this.scene.player.inventory.addTinky(this.tinkyInside)){
-				console.log("I've given you a tinky");
-			  this.scene.updateInventoryText();
-      } 
-      else{
-				console.log("Your inventory is full");
-			}
-	}
+		if(this.scene.player.inventory.addTinky(this.tinkyInside)){
+			console.log("I've given you a tinky");
+			this.scene.updateInventoryText();
+		} else{
+			console.log("Your inventory is full");
+		}
+	console.log("I have tinkies of type " + this.tinkyInside);
 }
