@@ -61,6 +61,7 @@ export default class Car extends ControllableSprite{
 			else{ //Player gets in the vehicle
 				this.scene.cameras.main.startFollow(this);
 				this.inventory.transferInventory(this.player.inventory);
+				this.scene.updateInventoryText();
 			}
 		}
 
