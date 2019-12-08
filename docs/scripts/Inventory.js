@@ -77,4 +77,22 @@ export default class Inventory{
         }
         otherInventory.emptyNum(max);
     }
+
+    cleanTinkies(){
+        for(var i=0; i<this.numTinkies; i++){
+            this.tinkies[i].cleanTinky();
+        }
+    }
+
+    polishTinkies(){
+        for(var i=0; i<this.numTinkies; i++){
+            this.tinkies[i].polishTinky();
+        }
+    }
+
+    hormonateTinkies(){
+        for(var i=0; i<this.numTinkies; i++){
+            this.tinkies[i].hormonateTinky();
+        }
+    }
 }

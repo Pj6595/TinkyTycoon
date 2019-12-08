@@ -1,7 +1,8 @@
 import Player from './Player.js'
 import Crater from './Crater.js'
-import Inventory from './Inventory.js'
 import Car from './Car.js'
+import PlayerBase from './PlayerBase.js'
+import SellStation from './SellStation.js'
 
 export default class Planet extends Phaser.Scene{
     constructor(){
@@ -10,20 +11,18 @@ export default class Planet extends Phaser.Scene{
     preload(){
     }
     create(){
-
         this.createWorld();
         //Craters set-up
         this.createCraters();
 
         //Loading station set-up
+        this.estacion = new SellStation(this, 1622, 527);
 
-        this.estacion = this.add.sprite(1622, 527, 'loadingStation');
-        this.physics.add.existing(this.estacion);
-        this.estacion.body.setImmovable();
+        //Player Base set-up
+        this.base = new PlayerBase(this, 578, 638, 1);
        
         //UI
         this.createUI();
-
 
         this.debugKey = this.input.keyboard.addKey('P');
         this.inventoryKey = this.input.keyboard.addKey('I');
@@ -44,9 +43,12 @@ export default class Planet extends Phaser.Scene{
     update(){
         //this.updateInventoryText();
 
-        if (this.physics.overlap(this.player, this.estacion)){
+        /*if (this.physics.overlap(this.player, this.estacion)){
             this.sellButton.setVisible(true);
-        } else this.sellButton.setVisible(false);
+        } else this.sellButton.setVisible(false);*/
+        
+        this.estacion.update();
+        this.base.update();
     }
     updateInventoryText(){
         this.moneyText.setText(this.player.money + " dineros");
@@ -92,9 +94,29 @@ export default class Planet extends Phaser.Scene{
         this.car.setCollider(this.physics.add.collider(this.player, this.car));
     }
 
+    createSellStation(){
+        /*
+        this.estacion = this.add.sprite(1622, 527, 'loadingStation');
+        this.physics.add.existing(this.estacion);
+        this.estacion.body.setImmovable();
+
+        //Selling Tinkies
+
+        this.sellButton = this.add.text(75, 200, 'VENDE');
+        this.sellButton.setInteractive();
+        this.sellButton.setScrollFactor(0);
+        this.sellButton.setFontSize(200);
+
+        this.sellButton.on('pointerdown', ()=> {
+                this.player.sellTinkies(this.player.inventory);
+                this.player.sellTinkies(this.car.inventory);
+                console.log("vendido");
+        })*/
+    }
+
+
     createCraters(){
         this.crateres = this.add.group();
-
 
         this.crateres.add(new Crater(this, 430, 200, Math.floor(Math.random()*7)));
         this.crateres.add(new Crater(this, 400, 400, Math.floor(Math.random()*7)));
@@ -130,7 +152,7 @@ export default class Planet extends Phaser.Scene{
                 this.player.sellTinkies(this.player.inventory);
                 console.log("vendido");
         })
-
+      
         //Inventory
         this.moneyText = this.add.text(10, 10, 0 + " dineros");
         this.moneyText.setFontSize(50);

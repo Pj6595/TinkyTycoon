@@ -5,6 +5,8 @@ export default class Car extends ControllableSprite{
 	constructor(scene, x, y, inventoryCapacity, player){
 		super(scene,x,y,'car',500, false);
 
+		this.tier = 0;
+
 		this.player = player;
 
 		this.inventory = new Inventory(inventoryCapacity);
@@ -67,5 +69,11 @@ export default class Car extends ControllableSprite{
 
 	setCollider(collider){
 		this.playerCarCollider = collider;
+	}
+
+	upgrade(){
+		this.tier += 1;
+		this.speed += 100;
+		this.inventory.addCapacity(10);
 	}
 }
