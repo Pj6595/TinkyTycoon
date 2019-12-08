@@ -181,43 +181,52 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
     }
 
     buyCarUpgrade(text, buyCarButton, buyCarButtonDisabled){
-        this.scene.car.upgrade();
-        this.scene.player.money -= this.carPrice;
-        this.carPrice*=20;
-        if(this.scene.car.tier < this.maxCarTier){
-            text.setText(['Actualizar coche', this.carPrice + ' dineros']);
+        if(this.scene.player.money >= this.carPrice){
+            this.scene.car.upgrade();
+            this.scene.player.money -= this.carPrice;
+            this.carPrice*=20;
+            if(this.scene.car.tier < this.maxCarTier){
+                text.setText(['Actualizar coche', this.carPrice + ' dineros']);
+            }
+            else{
+                text.setText(['Vehículo', 'al máximo']);
+                text.setX(text.x + 50); text.setY(text.y + 70);
+                text.setColor('red');
+                buyCarButton.destroy();
+                buyCarButtonDisabled.destroy();
+            }
         }
-        else{
-            text.setText(['Vehículo', 'al máximo']);
-            text.setX(text.x + 50); text.setY(text.y + 70);
-            text.setColor('red');
-            buyCarButton.destroy();
-            buyCarButtonDisabled.destroy();
-        }
+
     }
 
     buyCleaner(text, disabledCleanerButton, buyCleanerButton){
-        this.scene.player.money -= this.cleanerPrice;
-        disabledCleanerButton.destroy();
-        buyCleanerButton.destroy();
-        text.setText(['Limpiar', 'Tinkies']);
-        text.setX(text.x + 70);
+        if(this.scene.player.money >= this.cleanerPrice){
+            this.scene.player.money -= this.cleanerPrice;
+            disabledCleanerButton.destroy();
+            buyCleanerButton.destroy();
+            text.setText(['Limpiar', 'Tinkies']);
+            text.setX(text.x + 70);
+        }
     }
 
     buyPolisher(text, disabledPolisherButton, buyPolisherButton){
-        this.scene.player.money -= this.polisherPrice;
-        disabledPolisherButton.destroy();
-        buyPolisherButton.destroy();
-        text.setText(['Pulir', 'Tinkies']);
-        text.setX(text.x + 60);
+        if(this.scene.player.money >= this.polisherPrice){
+            this.scene.player.money -= this.polisherPrice;
+            disabledPolisherButton.destroy();
+            buyPolisherButton.destroy();
+            text.setText(['Pulir', 'Tinkies']);
+            text.setX(text.x + 60);
+        }
     }
 
     buyHormonator(text, disabledHormonatorButton, buyHormonatorButton){
-        this.scene.player.money -= this.HormonatorPrice;
-        disabledHormonatorButton.destroy();
-        buyHormonatorButton.destroy();
-        text.setText(['Hormonar', 'Tinkies']);
-        text.setX(text.x + 60);
+        if(this.scene.player.money >= this.hormonatorPrice){
+            this.scene.player.money -= this.HormonatorPrice;
+            disabledHormonatorButton.destroy();
+            buyHormonatorButton.destroy();
+            text.setText(['Hormonar', 'Tinkies']);
+            text.setX(text.x + 60);
+        }
     }
 
     update(){
