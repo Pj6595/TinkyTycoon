@@ -26,7 +26,10 @@ export default class SellStation extends Phaser.GameObjects.Sprite{
         sellButton.setScale(0.5);
         sellButton.setScrollFactor(0);
         sellButton.setInteractive();
-        sellButton.on('pointerdown', ()=> {this.scene.player.sellTinkies(this.scene.player.inventory), this.scene.player.sellTinkies(this.scene.car.inventory)});
+        sellButton.on('pointerdown', ()=> {
+            this.scene.player.sellTinkies(this.scene.player.inventory), 
+            this.scene.player.sellTinkies(this.scene.car.inventory),
+            this.scene.updateInventoryText()});
         this.sellStationGroup.add(sellButton);
     }
     update(){
