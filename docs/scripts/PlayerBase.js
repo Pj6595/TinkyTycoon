@@ -164,20 +164,21 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
     }
 
     buyToolUpdate(text, buyToolButton, buyToolButtonDisabled){
-        this.scene.player.upgradeTool(1);
-        this.scene.player.money -= this.toolPrice;
-        this.toolPrice *= 20;
-        if(this.scene.player.toolTier < this.maxtoolTier){
-            text.setText(['Actualizar herramienta', this.toolPrice + ' dineros']);
+        if(this.scene.player.money >= this.toolPrice){
+            this.scene.player.upgradeTool(1);
+            this.scene.player.money -= this.toolPrice;
+            this.toolPrice *= 20;
+            if(this.scene.player.toolTier < this.maxtoolTier){
+                text.setText(['Actualizar herramienta', this.toolPrice + ' dineros']);
+            }
+            else{
+                text.setText(['Herramienta', 'al máximo']);
+                text.setX(text.x + 80); text.setY(text.y + 70);
+                text.setColor('red');
+                buyToolButton.destroy();
+                buyToolButtonDisabled.destroy();
+            }
         }
-        else{
-            text.setText(['Herramienta', 'al máximo']);
-            text.setX(text.x + 80); text.setY(text.y + 70);
-            text.setColor('red');
-            buyToolButton.destroy();
-            buyToolButtonDisabled.destroy();
-        }
-        
     }
 
     buyCarUpgrade(text, buyCarButton, buyCarButtonDisabled){
