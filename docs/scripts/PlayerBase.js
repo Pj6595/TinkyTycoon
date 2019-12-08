@@ -152,7 +152,7 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         DisabledHormonatorButton.setScrollFactor(0);
         this.playerBaseGroup.add(DisabledHormonatorButton);
 
-        let hormonatorText = this.scene.add.text(480, 380, ['Comprar Hormonadora', this.polisherPrice]).setAlign('center').setFontSize(20).setColor('black');
+        let hormonatorText = this.scene.add.text(480, 380, ['Comprar Hormonadora', this.hormonatorPrice]).setAlign('center').setFontSize(20).setColor('black');
         hormonatorText.setScrollFactor(0);
         this.playerBaseGroup.add(hormonatorText);
 
@@ -223,7 +223,7 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
 
     buyHormonator(text, disabledHormonatorButton, buyHormonatorButton){
         if(this.scene.player.money >= this.hormonatorPrice){
-            this.scene.player.money -= this.HormonatorPrice;
+            this.scene.player.money -= this.hormonatorPrice;
             disabledHormonatorButton.destroy();
             buyHormonatorButton.destroy();
             text.setText(['Hormonar', 'Tinkies']);
