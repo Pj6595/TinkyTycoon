@@ -10,34 +10,29 @@ export default class ControllableSprite extends Phaser.GameObjects.Sprite{
 		this.movementEnabled = movementEnabled;
 		this.cursors = this.scene.input.keyboard.createCursorKeys();
 		this.speed = speed;
+		this.movement = {vertical:0,sideways:0};
 		this.up = scene.input.keyboard.addKey('W');
 		this.down = scene.input.keyboard.addKey('S');
 		this.left = scene.input.keyboard.addKey('A');
 		this.right = scene.input.keyboard.addKey('D');
 		
+		this.up.on('down', event => {if(this.movementEnabled){this.movement.vertical = (-1);console.log(this.movement.vertical)}});
+		this.up.on('up', event => {if(this.movementEnabled)this.movement.vertical = 0});
+		this.down.on('down', event => {if(this.movementEnabled)this.movement.vertical = 1});
+		this.down.on('up', event => {if(this.movementEnabled)this.movement.vertical = 0});
+		this.left.on('down', event => {if(this.movementEnabled)this.movement.sideways = -1});
+		this.left.on('up', event => {if(this.movementEnabled)this.movement.sideways = 0});
+		this.right.on('down', event => {if(this.movementEnabled)this.movement.sideways = 1});
+		this.right.on('up', event => {if(this.movementEnabled)this.movement.sideways = 0});
 	}
 
 	preUpdate(){
-		if((this.cursors.down.isDown || this.down.isDown) && this.movementEnabled){
-			this.body.setVelocityY(this.speed);
-		}
-		else if((this.cursors.up.isDown || this.up.isDown) && this.movementEnabled){
-			this.body.setVelocityY(-this.speed);
-		}else{
-			this.body.setVelocityY(0);
-		}
-			
+		this.body.setVelocity(this.speed*this.movement.sideways,this.speed*this.movement.vertical);
 
-		if((this.cursors.left.isDown || this.left.isDown) && this.movementEnabled){
-			this.body.setVelocityX(-this.speed);
-		}
-		else if((this.cursors.right.isDown || this.right.isDown) && this.movementEnabled){
-			this.body.setVelocityX(this.speed);
-		}else{
-			this.body.setVelocityX(0);
-		}	
+	}
 
-		//console.log(this.getCenter());
-
+	resetMovement(){
+		this.movement.vertical = 0;
+		this.movement.sideways = 0;
 	}
 }
