@@ -51,7 +51,7 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         DisabledToolButton.setScrollFactor(0);
         this.playerBaseGroup.add(DisabledToolButton);
 
-        let ToolButtonText = this.scene.add.text(80, 120, ['Actualizar herramienta', this.toolPrice + ' dineros']).setAlign('center').setFontSize(25).setColor('black');
+        let ToolButtonText = this.scene.add.text(110, 120, ['Actualizar herramienta', this.toolPrice + ' dineros']).setAlign('center').setFontSize(25).setColor('black').setFontFamily('raleway').setFontStyle('bold');
         ToolButtonText.setScrollFactor(0);
         this.playerBaseGroup.add(ToolButtonText);
 
@@ -71,7 +71,7 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         DisabledVehicleButton.setScrollFactor(0);
         this.playerBaseGroup.add(DisabledVehicleButton);
 
-        let vehicleButtonText = this.scene.add.text(130, 290, ['Actualizar coche', this.carPrice + ' dineros']).setAlign('center').setFontSize(25).setColor('black');
+        let vehicleButtonText = this.scene.add.text(160, 290, ['Actualizar coche', this.carPrice + ' dineros']).setAlign('center').setFontSize(25).setColor('black').setFontFamily('raleway').setFontStyle('bold');
         vehicleButtonText.setScrollFactor(0);
         this.playerBaseGroup.add(vehicleButtonText);
 
@@ -98,7 +98,7 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         DisabledCleanerButton.setScrollFactor(0);
         this.playerBaseGroup.add(DisabledCleanerButton);
 
-        let cleanerText = this.scene.add.text(480, 120, ['Comprar Limpiadora', this.cleanerPrice]).setAlign('center').setFontSize(20).setColor('black');
+        let cleanerText = this.scene.add.text(490, 120, ['Comprar Limpiadora', this.cleanerPrice]).setAlign('center').setFontSize(20).setColor('black').setFontFamily('raleway').setFontStyle('bold');
         cleanerText.setScrollFactor(0);
         this.playerBaseGroup.add(cleanerText);
 
@@ -125,7 +125,7 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         DisabledPolisherButton.setScrollFactor(0);
         this.playerBaseGroup.add(DisabledPolisherButton);
 
-        let polisherText = this.scene.add.text(490, 260, ['Comprar Pulidora', this.polisherPrice]).setAlign('center').setFontSize(20).setColor('black');
+        let polisherText = this.scene.add.text(505, 250, ['Comprar Pulidora', this.polisherPrice]).setAlign('center').setFontSize(20).setColor('black').setFontFamily('raleway').setFontStyle('bold');
         polisherText.setScrollFactor(0);
         this.playerBaseGroup.add(polisherText);
 
@@ -152,7 +152,7 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         DisabledHormonatorButton.setScrollFactor(0);
         this.playerBaseGroup.add(DisabledHormonatorButton);
 
-        let hormonatorText = this.scene.add.text(480, 380, ['Comprar Hormonadora', this.hormonatorPrice]).setAlign('center').setFontSize(20).setColor('black');
+        let hormonatorText = this.scene.add.text(485, 370, ['Comprar Hormonadora', this.hormonatorPrice]).setAlign('center').setFontSize(20).setColor('black').setFontFamily('raleway').setFontStyle('bold');
         hormonatorText.setScrollFactor(0);
         this.playerBaseGroup.add(hormonatorText);
 
@@ -174,7 +174,7 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
             }
             else{
                 text.setText(['Herramienta', 'al máximo']);
-                text.setX(text.x + 80); text.setY(text.y + 70);
+                text.setX(text.x + 80); text.setY(text.y + 40);
                 text.setColor('red');
                 buyToolButton.destroy();
                 buyToolButtonDisabled.destroy();
@@ -192,7 +192,7 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
             }
             else{
                 text.setText(['Vehículo', 'al máximo']);
-                text.setX(text.x + 50); text.setY(text.y + 70);
+                text.setX(text.x + 50); text.setY(text.y + 40);
                 text.setColor('red');
                 buyCarButton.destroy();
                 buyCarButtonDisabled.destroy();
@@ -217,7 +217,7 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
             disabledPolisherButton.destroy();
             buyPolisherButton.destroy();
             text.setText(['Pulir', 'Tinkies']);
-            text.setX(text.x + 60);
+            text.setX(text.x + 50);
         }
     }
 

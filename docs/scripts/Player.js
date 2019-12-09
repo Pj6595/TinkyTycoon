@@ -3,7 +3,7 @@ import ControllableSprite from './ControllableSprite.js'
 
 export default class Player extends ControllableSprite{
 	constructor(scene, x, y, w, h, inventoryCapacity){
-		super(scene,x,y,'player',100, true);
+		super(scene,x,y,'player',300, true);
 		this.scale = 0.2;
 
 		this.money = 0;

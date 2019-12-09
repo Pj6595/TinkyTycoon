@@ -29,6 +29,8 @@ export default class Planet extends Phaser.Scene{
 
         this.debugKey.on('down', event =>{
             console.log(this.player.inventory.returnTotalValue());
+            this.player.money+=400000;
+            this.updateInventoryText();
         })
 
         this.inventoryKey.on('down', event =>{
@@ -50,6 +52,7 @@ export default class Planet extends Phaser.Scene{
         this.estacion.update();
         this.base.update();
     }
+
     updateInventoryText(){
         this.moneyText.setText(this.player.money + " dineros");
 
@@ -124,7 +127,7 @@ export default class Planet extends Phaser.Scene{
         //Selling Tinkies
       
         //Inventory
-        this.moneyText = this.add.text(10, 10, 0 + " dineros");
+        this.moneyText = this.add.text(10, 0, this.player.money + " dineros").setFontFamily('raleway').setFontStyle('bold');
         this.moneyText.setFontSize(50);
         this.moneyText.setScrollFactor(0);
 
