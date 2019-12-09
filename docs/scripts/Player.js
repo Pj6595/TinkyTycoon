@@ -4,7 +4,7 @@ import ControllableSprite from './ControllableSprite.js'
 export default class Player extends ControllableSprite{
 	constructor(scene, x, y, w, h, inventoryCapacity){
 		super(scene,x,y,'player',100, true);
-		this.scale = 1;
+		this.scale = 2;
 
 		this.money = 0;
 
@@ -12,32 +12,43 @@ export default class Player extends ControllableSprite{
 
 		this.toolTier = 1;
 
+		this.setUpAnimations();
+
+	}
+
+	setUpAnimations(){
 		//Animations
 		this.scene.anims.create({
-    	key: 'PlayerUp',
+			key: 'PlayerIdle',
+			frames: [ { key: 'player', frame: 0 } ],
+			frameRate: 20,
+			repeat: -1
+		})
+		this.scene.anims.create({
+    	key: 'PlayerDown',
     	frames: this.scene.anims.generateFrameNumbers('player', { start: 1, end: 2 }),
-    	frameRate: 10,
+    	frameRate: 5,
     	repeat: -1
 		});
 
 		this.scene.anims.create({
-    	key: 'PlayerDown',
-    	frames: this.scene.anims.generateFrameNumbers('player', { start: 3, end: 4 }),
-    	frameRate: 10,
+    	key: 'PlayerUp',
+    	frames: this.scene.anims.generateFrameNumbers('player', {frames:[3,4]}),
+    	frameRate: 5,
     	repeat: -1
 		});
 
 		this.scene.anims.create({
     	key: 'PlayerRight',
     	frames: this.scene.anims.generateFrameNumbers('player', { start: 5, end: 6 }),
-    	frameRate: 10,
+    	frameRate: 5,
     	repeat: -1
 		});
 
 		this.scene.anims.create({
     	key: 'PlayerLeft',
     	frames: this.scene.anims.generateFrameNumbers('player', { start: 7, end: 8 }),
-    	frameRate: 10,
+    	frameRate: 5,
     	repeat: -1
 		});
 	}
@@ -61,5 +72,18 @@ export default class Player extends ControllableSprite{
 	sellTinkies(tinkyContainer){
 		this.money += tinkyContainer.returnTotalValue();
 		tinkyContainer.empty();
+	}
+
+	updateAnims(){
+		if(this.movement.vertical == -1)
+			this.scene.player.anims.play('PlayerUp',true);
+		else if(this.movement.vertical == 1)
+			this.scene.player.anims.play('PlayerDown',true);
+		else if(this.movement.sideways == -1)
+			this.scene.player.anims.play('PlayerLeft',true);
+		else if(this.movement.sideways == 1)
+			this.scene.player.anims.play('PlayerRight',true);
+		else
+			this.scene.player.anims.play('PlayerIdle',true);
 	}
 }

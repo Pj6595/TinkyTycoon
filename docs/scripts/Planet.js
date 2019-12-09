@@ -40,13 +40,7 @@ export default class Planet extends Phaser.Scene{
             this.tinkyInventoryIsOpen = !this.tinkyInventoryIsOpen;
         })
     }
-    update(){
-        //this.updateInventoryText();
-
-        /*if (this.physics.overlap(this.player, this.estacion)){
-            this.sellButton.setVisible(true);
-        } else this.sellButton.setVisible(false);*/
-        
+    update(){ 
         this.estacion.update();
         this.base.update();
     }
