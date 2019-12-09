@@ -16,7 +16,7 @@ export default class ControllableSprite extends Phaser.GameObjects.Sprite{
 		this.left = scene.input.keyboard.addKey('A');
 		this.right = scene.input.keyboard.addKey('D');
 		
-		this.up.on('down', event => {if(this.movementEnabled){this.movement.vertical = (-1);console.log(this.movement.vertical)}});
+		this.up.on('down', event => {if(this.movementEnabled)this.movement.vertical = -1});
 		this.up.on('up', event => {if(this.movementEnabled)this.movement.vertical = 0});
 		this.down.on('down', event => {if(this.movementEnabled)this.movement.vertical = 1});
 		this.down.on('up', event => {if(this.movementEnabled)this.movement.vertical = 0});
