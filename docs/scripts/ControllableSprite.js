@@ -8,6 +8,7 @@ export default class ControllableSprite extends Phaser.GameObjects.Sprite{
 
 		//Character control
 		this.movementEnabled = movementEnabled;
+		this.body.setImmovable(!this.movementEnabled);
 		this.cursors = this.scene.input.keyboard.createCursorKeys();
 		this.speed = speed;
 		this.movement = {vertical:0,sideways:0};
