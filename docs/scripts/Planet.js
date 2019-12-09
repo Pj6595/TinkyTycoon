@@ -30,6 +30,7 @@ export default class Planet extends Phaser.Scene{
 
         this.cameras.main.startFollow(this.player);
         this.cameras.main.roundPixels=true;
+        this.cameras.main.setRoundPixels(true);
         
         this.debugKey = this.input.keyboard.addKey('P');
 
@@ -54,15 +55,12 @@ export default class Planet extends Phaser.Scene{
         //Background creation
 
         this.spaceBackground = this.add.sprite(1920/2, 1080/2, 'starsBackground');
-        //this.spaceBackground.scale = 1;
-
-        //this.background = this.add.sprite(1920/2, 1080/2, 'background');
-        //this.background.scale = 0.5;
+        this.spaceBackground.setScale(5);
 
         this.map = this.make.tilemap({
             key:'planetTilemap',
             tileWidth: 32,
-            tileHeight:32
+            tileHeight: 32
         });
     
         this.tileset1 = this.map.addTilesetImage('PlanetGrey', 'PlanetGrey');
@@ -72,7 +70,7 @@ export default class Planet extends Phaser.Scene{
 
         //Physics initialization and world bounds
 
-        this.physics.world.setBounds(180, 180, 5000, 5000);
+        this.physics.world.setBounds(97, 97, 4930, 4965);
         this.player = new Player(this, 800, 500, 10);
         this.car = new Car(this, 864, 564, 10, this.player);
 
