@@ -12,19 +12,27 @@ export default class ControllableSprite extends Phaser.GameObjects.Sprite{
 		this.cursors = this.scene.input.keyboard.createCursorKeys();
 		this.speed = speed;
 		this.movement = {vertical:0,sideways:0};
-		this.up = scene.input.keyboard.addKey('W');
-		this.down = scene.input.keyboard.addKey('S');
-		this.left = scene.input.keyboard.addKey('A');
-		this.right = scene.input.keyboard.addKey('D');
+		this.keySetup();
+	}
+
+	keySetup(){
+		this.up = this.scene.input.keyboard.addKey('W');
+		this.down = this.scene.input.keyboard.addKey('S');
+		this.left = this.scene.input.keyboard.addKey('A');
+		this.right = this.scene.input.keyboard.addKey('D');
 		
 		this.up.on('down', event => {if(this.movementEnabled){this.movement.vertical = -1;this.updateAnims()}});
-		this.up.on('up', event => {if(this.movementEnabled){this.movement.vertical = 0;this.updateAnims()}});
+		this.up.on('up', event => {if(this.movementEnabled){
+			if(this.movement.vertical == -1)this.movement.vertical = 0;this.updateAnims()}});
 		this.down.on('down', event => {if(this.movementEnabled){this.movement.vertical = 1;this.updateAnims()}});
-		this.down.on('up', event => {if(this.movementEnabled){this.movement.vertical = 0;this.updateAnims()}});
+		this.down.on('up', event => {if(this.movementEnabled){
+			if(this.movement.vertical == 1)this.movement.vertical = 0;this.updateAnims()}});
 		this.left.on('down', event => {if(this.movementEnabled){this.movement.sideways = -1;this.updateAnims()}});
-		this.left.on('up', event => {if(this.movementEnabled){this.movement.sideways = 0;this.updateAnims()}});
+		this.left.on('up', event => {if(this.movementEnabled){
+			if(this.movement.sideways == -1)this.movement.sideways = 0;this.updateAnims()}});
 		this.right.on('down', event => {if(this.movementEnabled){this.movement.sideways = 1;this.updateAnims()}});
-		this.right.on('up', event => {if(this.movementEnabled){this.movement.sideways = 0;this.updateAnims()}});
+		this.right.on('up', event => {if(this.movementEnabled){
+			if(this.movement.sideways == 1)this.movement.sideways = 0;this.updateAnims()}});
 	}
 
 	preUpdate(t,dt){
