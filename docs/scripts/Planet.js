@@ -9,6 +9,9 @@ export default class Planet extends Phaser.Scene{
         super({key: 'Planet'})
     }
     preload(){
+        this.load.tilemapTiledJSON('planetTilemap', 'resources/Planet.json');
+        this.load.image('PlanetGrey', 'resources/PlanetGrey.png');
+        this.load.image('CliffGrey', 'resources/CliffGrey.png');
     }
     create(){
         this.createWorld();
@@ -40,10 +43,12 @@ export default class Planet extends Phaser.Scene{
             this.tinkyInventoryIsOpen = !this.tinkyInventoryIsOpen;
         })
     }
+
     update(){ 
         this.estacion.update();
         this.base.update();
     }
+
     updateInventoryText(){
         this.moneyText.setText(this.player.money + " dineros");
 
@@ -73,17 +78,24 @@ export default class Planet extends Phaser.Scene{
         //Background creation
 
         this.spaceBackground = this.add.sprite(1920/2, 1080/2, 'starsBackground');
-        this.spaceBackground.scale = 1;
+        this.spaceBackground.setScale(5);
 
-        this.background = this.add.sprite(1920/2, 1080/2, 'background');
-        this.background.scale = 0.5;
+        this.map = this.make.tilemap({
+            key:'planetTilemap',
+            tileWidth: 32,
+            tileHeight: 32
+        });
+    
+        this.tileset1 = this.map.addTilesetImage('PlanetGrey', 'PlanetGrey');
+        this.tileset2 = this.map.addTilesetImage('CliffGrey', 'CliffGrey');
+        this.map.createStaticLayer('PlanetSurface', [this.tileset1, this.tileset2]);
 
 
         //Physics initialization and world bounds
 
-        this.physics.world.setBounds(0, 0, 1920, 1080);
-        this.player = new Player(this, 0, 0, 50, 50, 10);
-        this.car = new Car(this, 800, 500, 10, this.player);
+        this.physics.world.setBounds(97, 97, 4930, 4965);
+        this.player = new Player(this, 800, 500, 10);
+        this.car = new Car(this, 864, 564, 10, this.player);
 
         this.car.setCollider(this.physics.add.collider(this.player, this.car));
     }
