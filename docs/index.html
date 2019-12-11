@@ -36,12 +36,13 @@
         width: 800,
         height: 600,
         type: Phaser.WEBGL,
+        pixelArt: true,
         canvas: document.getElementById("gameCanvas"),
         scale: {
-                mode: Phaser.Scale.FIT,
-                autoCenter: Phaser.Scale.CENTER_BOTH
-            },
-            physics: { default: 'arcade', arcade: { gravity: { y: 0 }, debug: false } },
+            mode: Phaser.Scale.FIT,
+            autoCenter: Phaser.Scale.CENTER_BOTH
+        },
+        physics: { default: 'arcade', arcade: { gravity: { y: 0 }, debug: false } },
         scene: [Boot,MainMenu,Planet]
     };
 
