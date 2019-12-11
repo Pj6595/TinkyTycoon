@@ -44,13 +44,7 @@ export default class Planet extends Phaser.Scene{
         })
     }
 
-    update(){
-        //this.updateInventoryText();
-
-        /*if (this.physics.overlap(this.player, this.estacion)){
-            this.sellButton.setVisible(true);
-        } else this.sellButton.setVisible(false);*/
-        
+    update(){ 
         this.estacion.update();
         this.base.update();
     }

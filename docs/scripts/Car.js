@@ -46,6 +46,8 @@ export default class Car extends ControllableSprite{
 		*/
 		let distance = this.player.getCenter().distance(this.getCenter());
 		if(this.movementEnabled || distance <= this.acceptableDistanceToPlayer){
+			this.resetMovement();
+			this.player.resetMovement();
 			this.movementEnabled = !this.movementEnabled;
 			this.body.setImmovable(!this.movementEnabled); //if car is moving immovable = false, not moving = true
 			this.player.movementEnabled = !this.movementEnabled;
