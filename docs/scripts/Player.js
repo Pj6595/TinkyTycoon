@@ -2,8 +2,8 @@ import Inventory from './Inventory.js'
 import ControllableSprite from './ControllableSprite.js'
 
 export default class Player extends ControllableSprite{
-	constructor(scene, x, y, inventoryCapacity){
-		super(scene,x,y,'player',100, true);
+	constructor(scene, x, y, inventoryCapacity, speed){
+		super(scene,x,y,'player',speed, true);
 		this.scale = 2;
 
 		this.money = 0;

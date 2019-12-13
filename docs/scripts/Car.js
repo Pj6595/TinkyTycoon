@@ -2,8 +2,8 @@ import Inventory from './Inventory.js'
 import ControllableSprite from './ControllableSprite.js'
 
 export default class Car extends ControllableSprite{
-	constructor(scene, x, y, inventoryCapacity, player){
-		super(scene,x,y,'car',500, false);
+	constructor(scene, x, y, inventoryCapacity, speed, player){
+		super(scene,x,y,'car',speed, false);
 
 		this.tier = 0;
 
