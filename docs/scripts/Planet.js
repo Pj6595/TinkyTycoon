@@ -16,13 +16,11 @@ export default class Planet extends Phaser.Scene{
     create(){
         this.createWorld();
         //Craters set-up
+
+        
         this.createCraters();
 
-        //Loading station set-up
-        this.estacion = new SellStation(this, 1622, 527);
-
-        //Player Base set-up
-        this.base = new PlayerBase(this, 578, 638, 1);
+        
        
         //UI
         this.createUI();
@@ -45,7 +43,7 @@ export default class Planet extends Phaser.Scene{
     }
 
     update(){ 
-        this.estacion.update();
+        this.station.update();
         this.base.update();
     }
 
@@ -96,7 +94,13 @@ export default class Planet extends Phaser.Scene{
         this.physics.world.setBounds(97, 97, 4930, 4965);
         this.player = new Player(this, 800, 500, 10);
         this.car = new Car(this, 864, 564, 10, this.player);
+        //Loading station set-up
+        this.station = new SellStation(this, 1622, 527);
+        //Player Base set-up
+        this.base = new PlayerBase(this, 578, 638, 1);
 
+        this.physics.add.collider(this.station,this.car);
+        this.physics.add.collider(this.base,this.car);
         this.car.setCollider(this.physics.add.collider(this.player, this.car));
     }
 
