@@ -23,7 +23,7 @@ export default class Planet extends Phaser.Scene{
         //UI
         this.createUI();
 
-        this.cameras.main.setZoom(0.2);
+        //this.cameras.main.setZoom(0.2);
 
         this.debugKey = this.input.keyboard.addKey('P');
         this.inventoryKey = this.input.keyboard.addKey('I');
@@ -106,39 +106,38 @@ export default class Planet extends Phaser.Scene{
 
         this.physics.add.collider(this.station,this.car);
         this.physics.add.collider(this.base,this.car);
-        this.physics.add.collider(this.player, this.crateres);
-        this.physics.add.collider(this.car, this.crateres);
+        this.physics.add.collider(this.player, this.craters);
+        this.physics.add.collider(this.car, this.craters);
         this.car.setCollider(this.physics.add.collider(this.player, this.car));
     }
 
 
     createCraters(amount){
-        this.crateres = this.add.group();
+        this.craters = this.add.group();
 
         let craterSizeX = 100;
         let craterSizeY = 100;
         let mapWidth = this.map.widthInPixels;
         let mapHeight = this.map.heightInPixels;
         let worldPadding = this.worldPadding
-        let crateres = this.crateres;
-        //this.crateres.add(new Crater(this, 430, 200, Math.floor(Math.random()*7)));
+        //this.craters.add(new Crater(this, 430, 200, Math.floor(Math.random()*7)));
         for(let i = 0; i < amount; i++){
-            let position = randomizePosition();
+            let position = randomizePosition(this.craters);
             //Check if the position would intersect with player starting area
-            crateres.add(new Crater(this, position[0], position[1], Math.floor(Math.random()*7)));
+            this.craters.add(new Crater(this, position[0], position[1], Math.floor(Math.random()*7)));
         }
 
-        function randomizePosition(){
+        function randomizePosition(craters){
             let posX = Math.floor(Math.random()*(mapWidth-worldPadding-craterSizeX))+worldPadding;
             let posY = Math.floor(Math.random()*(mapHeight-worldPadding-craterSizeY))+worldPadding;
-            while(posX > 2200 && posX < 2700 && posY > 2400 && posY < 2750 && !collidesExistingCraters(posX,posY)){
+            while((posX > 2200 && posX < 2700 && posY > 2400 && posY < 2750) || collidesExistingCraters(posX,posY,craters)){
                 posX = Math.floor(Math.random()*(mapWidth-worldPadding-craterSizeX))+worldPadding;
                 posY = Math.floor(Math.random()*(mapHeight-worldPadding-craterSizeY))+worldPadding;
                 }
             return [posX,posY];
         }
 
-        function collidesExistingCraters(posX,posY){
+        function collidesExistingCraters(posX,posY, craters){
             let j = 0;
             let maxCraters = craters.children.size;
             let collided = false;
