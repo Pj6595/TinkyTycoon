@@ -115,8 +115,8 @@ export default class Planet extends Phaser.Scene{
     createCraters(amount){
         this.craters = this.add.group();
 
-        let craterSizeX = 100;
-        let craterSizeY = 100;
+        let craterSizeX = 64;
+        let craterSizeY = 39;
         let mapWidth = this.map.widthInPixels;
         let mapHeight = this.map.heightInPixels;
         let worldPadding = this.worldPadding

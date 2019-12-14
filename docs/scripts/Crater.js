@@ -1,6 +1,6 @@
 export default class Crater extends Phaser.GameObjects.Sprite{
 	constructor(scene, x, y, tinkyType){
-		super(scene,x,y,'crater');
+		super(scene,x,y,'crater',tinkyType+1);
 		this.scene.add.existing(this);
 		//Physics
 		this.scene.physics.add.existing(this);
