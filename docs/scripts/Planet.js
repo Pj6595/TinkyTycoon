@@ -114,13 +114,17 @@ export default class Planet extends Phaser.Scene{
 
     createCraters(amount){
         this.craters = this.add.group();
-
-        let craterSizeX = 64;
-        let craterSizeY = 39;
+        this.craters.add(new Crater(this, 300, 300, 0));
+        let craterSizeX = this.craters.children.entries[0].displayWidth;
+        let craterSizeY = this.craters.children.entries[0].displayHeight;
         let mapWidth = this.map.widthInPixels;
         let mapHeight = this.map.heightInPixels;
         let worldPadding = this.worldPadding
-        //this.craters.add(new Crater(this, 430, 200, Math.floor(Math.random()*7)));
+        //Distribution zones, zone 1 is outer, zone 2 is inner, distribution is for proportion of craters in zone2 (percent)
+        //First is x min, second is y min
+        let zone1 = [0,0]
+        let zone2 = [0,0]
+        let distribution = 70;
         for(let i = 0; i < amount; i++){
             let position = randomizePosition(this.craters);
             //Check if the position would intersect with player starting area
@@ -130,7 +134,8 @@ export default class Planet extends Phaser.Scene{
         function randomizePosition(craters){
             let posX = Math.floor(Math.random()*(mapWidth-worldPadding-craterSizeX))+worldPadding;
             let posY = Math.floor(Math.random()*(mapHeight-worldPadding-craterSizeY))+worldPadding;
-            while((posX > 2200 && posX < 2700 && posY > 2400 && posY < 2750) || collidesExistingCraters(posX,posY,craters)){
+            while((posX > (2200-craterSizeX/2) && posX < (2700+craterSizeX/2) && posY > (2400-craterSizeY/2) && posY < (2750+craterSizeY/2)) 
+                || collidesExistingCraters(posX,posY,craters)){
                 posX = Math.floor(Math.random()*(mapWidth-worldPadding-craterSizeX))+worldPadding;
                 posY = Math.floor(Math.random()*(mapHeight-worldPadding-craterSizeY))+worldPadding;
                 }
@@ -142,8 +147,8 @@ export default class Planet extends Phaser.Scene{
             let maxCraters = craters.children.size;
             let collided = false;
             while(j < maxCraters && !collided){
-                if(posX > (craters.children.entries[j].x-craters.children.entries[j].width) && posX < (craters.children.entries[j].x+craters.children.entries[j].width) 
-                && posY > (craters.children.entries[j].y-craters.children.entries[j].height) && posY < (craters.children.entries[j].y+craters.children.entries[j].height))
+                if(posX > (craters.children.entries[j].x-craterSizeX) && posX < (craters.children.entries[j].x+craterSizeX) 
+                && posY > (craters.children.entries[j].y-craterSizeY) && posY < (craters.children.entries[j].y+craterSizeY))
                     collided = true;
                 j++;
             }
