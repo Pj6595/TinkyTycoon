@@ -23,7 +23,7 @@ export default class Planet extends Phaser.Scene{
         //UI
         this.createUI();
 
-        //this.cameras.main.setZoom(0.2);
+        this.cameras.main.setZoom(0.2);
 
         this.debugKey = this.input.keyboard.addKey('P');
         this.inventoryKey = this.input.keyboard.addKey('I');
@@ -122,22 +122,27 @@ export default class Planet extends Phaser.Scene{
         let worldPadding = this.worldPadding
         //Distribution zones, zone 1 is outer, zone 2 is inner, distribution is for proportion of craters in zone2 (percent)
         //First is x min, second is y min
-        let zone1 = [0,0]
-        let zone2 = [0,0]
+        let zone1 = [0,0];
+        let zone2 = [1000,1000];
         let distribution = 70;
         for(let i = 0; i < amount; i++){
-            let position = randomizePosition(this.craters);
+            let chance = Math.floor(Math.random()*100);
+            let position = [0,0];
+            if(chance > distribution)
+                position = randomizePosition(this.craters,zone1[0],zone1[1]);
+            else
+                position = randomizePosition(this.craters,zone2[0],zone2[1]);
             //Check if the position would intersect with player starting area
-            this.craters.add(new Crater(this, position[0], position[1], Math.floor(Math.random()*7)));
+            this.craters.add(new Crater(this, position[0], position[1], randomTinky()));
         }
 
-        function randomizePosition(craters){
-            let posX = Math.floor(Math.random()*(mapWidth-worldPadding-craterSizeX))+worldPadding;
-            let posY = Math.floor(Math.random()*(mapHeight-worldPadding-craterSizeY))+worldPadding;
+        function randomizePosition(craters,minX,minY){
+            let posX = Math.floor(Math.random()*(mapWidth-worldPadding-craterSizeX-minX))+worldPadding+minX;
+            let posY = Math.floor(Math.random()*(mapHeight-worldPadding-craterSizeY-minY))+worldPadding+minY;
             while((posX > (2200-craterSizeX/2) && posX < (2700+craterSizeX/2) && posY > (2400-craterSizeY/2) && posY < (2750+craterSizeY/2)) 
                 || collidesExistingCraters(posX,posY,craters)){
-                posX = Math.floor(Math.random()*(mapWidth-worldPadding-craterSizeX))+worldPadding;
-                posY = Math.floor(Math.random()*(mapHeight-worldPadding-craterSizeY))+worldPadding;
+                posX = Math.floor(Math.random()*(mapWidth-worldPadding-craterSizeX-minX))+worldPadding+minX;
+                posY = Math.floor(Math.random()*(mapHeight-worldPadding-craterSizeY-minY))+worldPadding+minY;
                 }
             return [posX,posY];
         }
@@ -152,6 +157,11 @@ export default class Planet extends Phaser.Scene{
                     collided = true;
                 j++;
             }
+            return collided;
+        }
+
+        function randomTinky(){
+            let chance = Math.floor(Math.random()*100);
         }
         
     }
