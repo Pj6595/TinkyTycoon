@@ -68,8 +68,8 @@ export default class Planet extends Phaser.Scene{
             let currentInventoryTxtCar = this.tinkyInventoryContainer.list[i+8];
             currentInventoryTxtPlayer.setText(numberOfTinkiesPlayer[i]);
             currentInventoryTxtCar.setText(numberOfTinkiesCar[i]);
-            console.log("Updated for tinkyType", i);
         }
+        console.log(numberOfTinkiesPlayer, " ", this.player.inventory.numTinkies," ",this.player.inventory.tinkies);
     }
 
     createWorld(){
