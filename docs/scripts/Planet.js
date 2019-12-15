@@ -86,8 +86,8 @@ export default class Planet extends Phaser.Scene{
             tileHeight: 32
         });
     
-        this.tileset1 = this.map.addTilesetImage('PlanetGrey', 'PlanetGrey');
-        this.tileset2 = this.map.addTilesetImage('CliffGrey', 'CliffGrey');
+        this.tileset1 = this.map.addTilesetImage('Planet', 'PlanetGrey');
+        this.tileset2 = this.map.addTilesetImage('Cliff', 'CliffGrey');
         this.map.createStaticLayer('PlanetSurface', [this.tileset1, this.tileset2]);
 
 
