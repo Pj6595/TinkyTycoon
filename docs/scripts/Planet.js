@@ -3,34 +3,34 @@ import Crater from './Crater.js'
 import Car from './Car.js'
 import PlayerBase from './PlayerBase.js'
 import SellStation from './SellStation.js'
+import Notification from './Notification.js'
 
 export default class Planet extends Phaser.Scene{
     constructor(){
         super({key: 'Planet'})
     }
     preload(){
+        this.load.tilemapTiledJSON('planetTilemap', 'resources/Planet.json');
+        this.load.image('Planet', 'resources/PlanetGrey.png');
+        this.load.image('CliffGrey', 'resources/CliffGrey.png');
     }
     create(){
+        this.numerito = '0';
         this.createWorld();
+        this.createPlayerAndBases();
         //Craters set-up
-        this.createCraters();
-
-        //Loading station set-up
-        this.estacion = new SellStation(this, 1622, 527);
-
-        //Player Base set-up
-        this.base = new PlayerBase(this, 578, 638, 1);
-       
+        this.createCraters(70);
         //UI
         this.createUI();
+        
+        //this.cameras.main.setZoom(0.2);
 
         this.debugKey = this.input.keyboard.addKey('P');
         this.inventoryKey = this.input.keyboard.addKey('I');
 
         this.debugKey.on('down', event =>{
             console.log(this.player.inventory.returnTotalValue());
-            this.player.money+=400000;
-            this.updateInventoryText();
+            this.player.money += 100000;
         })
 
         this.inventoryKey.on('down', event =>{
@@ -42,14 +42,9 @@ export default class Planet extends Phaser.Scene{
             this.tinkyInventoryIsOpen = !this.tinkyInventoryIsOpen;
         })
     }
-    update(){
-        //this.updateInventoryText();
 
-        /*if (this.physics.overlap(this.player, this.estacion)){
-            this.sellButton.setVisible(true);
-        } else this.sellButton.setVisible(false);*/
-        
-        this.estacion.update();
+    update(){ 
+        this.station.update();
         this.base.update();
     }
 
@@ -74,48 +69,101 @@ export default class Planet extends Phaser.Scene{
             let currentInventoryTxtCar = this.tinkyInventoryContainer.list[i+8];
             currentInventoryTxtPlayer.setText(numberOfTinkiesPlayer[i]);
             currentInventoryTxtCar.setText(numberOfTinkiesCar[i]);
-            console.log("Updated for tinkyType", i);
         }
+        console.log(numberOfTinkiesPlayer, " ", this.player.inventory.numTinkies," ",this.player.inventory.tinkies);
     }
 
     createWorld(){
+        this.worldPadding= 97;
         //Background creation
 
         this.spaceBackground = this.add.sprite(1920/2, 1080/2, 'starsBackground');
-        this.spaceBackground.scale = 1;
+        this.spaceBackground.setScale(5);
 
-        this.background = this.add.sprite(1920/2, 1080/2, 'background');
-        this.background.scale = 0.5;
-
+        this.map = this.make.tilemap({
+            key:'planetTilemap',
+            tileWidth: 32,
+            tileHeight: 32
+        });
+    
+        this.tileset1 = this.map.addTilesetImage('PlanetGrey', 'Planet');
+        this.tileset2 = this.map.addTilesetImage('CliffGrey', 'CliffGrey');
+        this.map.createStaticLayer('PlanetSurface', [this.tileset1, this.tileset2]);
+        console.log(this.map.heightInPixels);
 
         //Physics initialization and world bounds
+        this.physics.world.setBounds(this.worldPadding, this.worldPadding, 4930, 4965);
+    }
 
-        this.physics.world.setBounds(0, 0, 1920, 1080);
-        this.player = new Player(this, 0, 0, 50, 50, 10);
-        this.car = new Car(this, 800, 500, 10, this.player);
+    createPlayerAndBases(){
+        let mapWidth = this.map.widthInPixels;
+        let mapHeight = this.map.heightInPixels;
+        this.player = new Player(this, mapWidth/2, mapHeight/2, 10, 200);
+        this.car = new Car(this, mapWidth/2+100, mapHeight/2-this.player.displayHeight/2, 10, 500, this.player);
+        //Loading station set-up
+        this.station = new SellStation(this, this.map.widthInPixels/2+380, this.map.heightInPixels/2);
+        //Player Base set-up
+        this.base = new PlayerBase(this, mapWidth/2-250, mapHeight/2, 1);
 
+        this.physics.add.collider(this.station,this.car);
+        this.physics.add.collider(this.base,this.car);
         this.car.setCollider(this.physics.add.collider(this.player, this.car));
     }
 
 
-    createCraters(){
-        this.crateres = this.add.group();
+    createCraters(amount){
+        this.craters = this.add.group();
+        this.craters.add(new Crater(this, 300, 300));
+        let craterSizeX = this.craters.children.entries[0].displayWidth;
+        let craterSizeY = this.craters.children.entries[0].displayHeight;
+        let mapWidth = this.map.widthInPixels;
+        let mapHeight = this.map.heightInPixels;
+        let worldPadding = this.worldPadding
+        let base = this.base;
+        let station = this.station;
+        //Distribution zones, zone 1 is outer, zone 2 is inner, distribution is for proportion of craters in zone2 (percent)
+        //First is x min, second is y min
+        let zone1 = [0,0];
+        let zone2 = [1000,1000];
+        let distribution = 70;
+        for(let i = 0; i < amount; i++){
+            let chance = Math.floor(Math.random()*100);
+            let position = [0,0];
+            if(chance > distribution)
+                position = randomizePosition(this.craters,zone1[0],zone1[1]);
+            else
+                position = randomizePosition(this.craters,zone2[0],zone2[1]);
+            //Check if the position would intersect with player starting area
+            this.craters.add(new Crater(this, position[0], position[1]));
+        }
 
-        this.crateres.add(new Crater(this, 430, 200, Math.floor(Math.random()*7)));
-        this.crateres.add(new Crater(this, 400, 400, Math.floor(Math.random()*7)));
-        this.crateres.add(new Crater(this, 180, 520, Math.floor(Math.random()*7)));
-        this.crateres.add(new Crater(this, 240, 840, Math.floor(Math.random()*7)));
-        this.crateres.add(new Crater(this, 690, 990, Math.floor(Math.random()*7)));
-        this.crateres.add(new Crater(this, 1040, 890, Math.floor(Math.random()*7)));
-        this.crateres.add(new Crater(this, 1360, 800, Math.floor(Math.random()*7)));
-        this.crateres.add(new Crater(this, 1320, 520, Math.floor(Math.random()*7)));
-        this.crateres.add(new Crater(this, 755, 320, Math.floor(Math.random()*7)));
-        this.crateres.add(new Crater(this, 1040, 270, Math.floor(Math.random()*7)));
-        this.crateres.add(new Crater(this, 1330, 240, Math.floor(Math.random()*7)));
-        this.crateres.add(new Crater(this, 980, 600, Math.floor(Math.random()*7)));
+        function randomizePosition(craters,minX,minY){
+            let posX = Math.floor(Math.random()*(mapWidth-worldPadding-craterSizeX-minX))+worldPadding+minX;
+            let posY = Math.floor(Math.random()*(mapHeight-worldPadding-craterSizeY-minY))+worldPadding+minY;
+            while((posX > (base.x-base.width-craterSizeX/2) && posX < (station.x+station.width+craterSizeX/2) 
+                && posY > (station.y-station.height-craterSizeY/2) && posY < (station.y+station.height+craterSizeY/2)) 
+                || collidesExistingCraters(posX,posY,craters)){
+                posX = Math.floor(Math.random()*(mapWidth-worldPadding-craterSizeX-minX))+worldPadding+minX;
+                posY = Math.floor(Math.random()*(mapHeight-worldPadding-craterSizeY-minY))+worldPadding+minY;
+                }
+            return [posX,posY];
+        }
 
-        this.physics.add.collider(this.player, this.crateres);
-        this.physics.add.collider(this.car, this.crateres);
+        function collidesExistingCraters(posX,posY, craters){
+            let j = 0;
+            let maxCraters = craters.children.size;
+            let collided = false;
+            while(j < maxCraters && !collided){
+                if(posX > (craters.children.entries[j].x-craterSizeX) && posX < (craters.children.entries[j].x+craterSizeX) 
+                && posY > (craters.children.entries[j].y-craterSizeY) && posY < (craters.children.entries[j].y+craterSizeY))
+                    collided = true;
+                j++;
+            }
+            return collided;
+        }
+        
+        this.physics.add.collider(this.player, this.craters);
+        this.physics.add.collider(this.car, this.craters);
     }
 
     createUI(){
@@ -138,6 +186,7 @@ export default class Planet extends Phaser.Scene{
         this.tinkyInventoryIsOpen = false;
 
         this.tinkyInventoryContainer = this.add.container(0,0,[this.tinkyInventory]);
+        this.tinkyInventoryContainer.setDepth(10);
         let xOffset = this.tinkyInventory.x-this.tinkyInventory.width/2+this.tinkyInventory.width/3;
         for(let i = 0; i < 14; i++){
             if(i == 7) xOffset += this.tinkyInventory.width/3;
@@ -165,5 +214,23 @@ export default class Planet extends Phaser.Scene{
                 paused: true,
                 yoyo: false
             });
+
+
+        this.notificationSystem = new Notification(this,this.cameras.main.width/2,this.cameras.main.height*2/3);//this.player.y+this.cameras.main.width/2,this.cameras.main.height/4
+        //this.notificationsSystem = this.add.text(this.cameras.main.width/2,0,"AAAAAAAAAAAA\nBBB").setFontSize(50).setAlign('center');
+        //this.notificationsSystem.setFontSize(50);
+       // this.notificationsSystem.setScrollFactor(0);
+    }
+
+    displayNotification(text,color){
+        let notif = new Notification(this, this.cameras.main.width/2, this.cameras.main.height*3/4,text,color);
+        //notif.destroy();
+        notif.notificationTween.on('complete',function(tween, targets){
+            notif.destroy();
+        });
+    }
+
+    closeMinigame(){
+        this.scene.stop('Minigame');
     }
 }

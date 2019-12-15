@@ -8,8 +8,6 @@
     <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Carter+One&display=swap" rel="stylesheet">
 
-    <script src="scripts/phaser.js"></script>
-
     <title>Tinky Tycoon</title>
 </head>
 <body>
@@ -18,37 +16,12 @@
 	-->
     <h1>&Psi;&Phi; Tinky Tycoon&trade; &Psi;&Phi; </h1>
     <h2 class="center" style="text-align:center"><a href="index.html">Play</a> | <a href="about.html">About us</a> | <a href="gdd.html">GDD</a></h2>
-    
 
-    <canvas id="gameCanvas"></canvas>
+    <object data="TinkyTycoonGDD.pdf" style="width:75%; height:750px;" class= "center"></object>
 
     <p class = "footer">Created by Pablo Jurado & Esteban Restrepo</p>
     <p class = "footer">Licensed under GNU GPL v3.0</p>
     <p class = "footer">Proyect created for PVLI, Universidad Complutense de Madrid, 2019 </p>
-
-    <script type="module">
-    	import Boot from './scripts/Boot.js'
-        import MainMenu from './scripts/MainMenu.js'
-        import Planet from './scripts/Planet.js'
-        import Minigame from './scripts/Minigame.js'
-    var config = {
-        width: 800,
-        height: 600,
-        pixelArt: true,
-        type: Phaser.WEBGL,
-        pixelArt: true,
-        canvas: document.getElementById("gameCanvas"),
-        scale: {
-            mode: Phaser.Scale.FIT,
-            autoCenter: Phaser.Scale.CENTER_BOTH
-        },
-        physics: { default: 'arcade', arcade: { gravity: { y: 0 }, debug: false } },
-        scene: [Boot,MainMenu,Planet,Minigame]
-    };
-
-    let game = new Phaser.Game(config);
-
-    
 
 	</script>
 </body>

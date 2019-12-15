@@ -1,6 +1,6 @@
 export default class SellStation extends Phaser.GameObjects.Sprite{
     constructor(scene, x, y){
-        super(scene, x, y, 'SellStation');
+        super(scene, x, y, 'sellStation');
         this.scene.add.existing(this);
 
         this.scene.physics.add.existing(this);
@@ -27,9 +27,13 @@ export default class SellStation extends Phaser.GameObjects.Sprite{
         sellButton.setScrollFactor(0);
         sellButton.setInteractive();
         sellButton.on('pointerdown', ()=> {
-            this.scene.player.sellTinkies(this.scene.player.inventory), 
-            this.scene.player.sellTinkies(this.scene.car.inventory),
-            this.scene.updateInventoryText()});
+            let value = 0;
+            value += this.scene.player.sellTinkies(this.scene.player.inventory);
+            value += this.scene.player.sellTinkies(this.scene.car.inventory);
+            this.scene.updateInventoryText();
+            let text = "Sold for: " + value;
+            this.scene.displayNotification(text,'#d9e800');
+        });
         this.sellStationGroup.add(sellButton);
     }
     update(){

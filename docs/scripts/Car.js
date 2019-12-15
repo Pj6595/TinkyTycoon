@@ -2,8 +2,8 @@ import Inventory from './Inventory.js'
 import ControllableSprite from './ControllableSprite.js'
 
 export default class Car extends ControllableSprite{
-	constructor(scene, x, y, inventoryCapacity, player){
-		super(scene,x,y,'car',500, false);
+	constructor(scene, x, y, inventoryCapacity, speed, player){
+		super(scene,x,y,'car',speed, false);
 
 		this.tier = 0;
 
@@ -46,6 +46,9 @@ export default class Car extends ControllableSprite{
 		*/
 		let distance = this.player.getCenter().distance(this.getCenter());
 		if(this.movementEnabled || distance <= this.acceptableDistanceToPlayer){
+			this.resetMovement();
+			this.player.resetMovement();
+			this.player.playerInCar = !this.player.playerInCar;
 			this.movementEnabled = !this.movementEnabled;
 			this.body.setImmovable(!this.movementEnabled); //if car is moving immovable = false, not moving = true
 			this.player.movementEnabled = !this.movementEnabled;
@@ -63,6 +66,8 @@ export default class Car extends ControllableSprite{
 				this.inventory.transferInventory(this.player.inventory);
 				this.scene.updateInventoryText();
 			}
+		}else{
+			this.scene.displayNotification("Car is too far away",'#cc0000');
 		}
 
 	}
