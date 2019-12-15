@@ -15,7 +15,7 @@ export default class Boot extends Phaser.Scene{
 		this.load.image('SellButton', 'resources/SellButton.png')
 		this.load.spritesheet('craters','resources/CratersGrey.png',{frameWidth:64,frameHeight:39});
 		this.load.spritesheet('player','resources/Player-sheet.png',{frameWidth: 20, frameHeight: 32});
-		this.load.audio('mainMenuMusic', 'resources/audio/mainMenuTheme.mp3');
+		this.load.audio('mainMenuMusic', 'resources/mainMenuTheme.mp3');
 		this.load.image('logo', 'resources/TinkyTycoonLogo.png');
 	}
 	create(){
