@@ -3,9 +3,13 @@ export default class Loading extends Phaser.Scene{
 		super({key:'Loading'})
 	}
 	create(){
-		const loadingText = this.add.text(100, 100, 'cargando...', {fill:'#0f0'});
+		this.currentLevel = 0
+		this.scene.launch('Planet',[this.currentLevel,this]);
+	}
 
-        this.scene.remove('Planet');
-        this.scene.start('Planet');
+	nextLevel(){
+		this.scene.remove('Planet');
+		this.currentLevel++;
+		this.scene.launch('Planet',[this.currentLevel,this]);
 	}
 }

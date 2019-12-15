@@ -17,10 +17,6 @@ export default class Minigame extends Phaser.Scene{
         this.spawnKey();
 
         this.cursors = this.input.keyboard.createCursorKeys();
-        /*this.cursors.up.on('down', event=>{this.checkCollision(0);});
-        this.cursors.down.on('down', event=>{this.checkCollision(1);});
-        this.cursors.left.on('down', event=>{this.checkCollision(2);});
-        this.cursors.right.on('down', event=>{this.checkCollision(3);});*/
     }
 
     spawnKey(){

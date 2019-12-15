@@ -9,8 +9,8 @@ export default class Planet extends Phaser.Scene{
     constructor(){
         super({key: 'Planet'})
     }
-    init(lvl){
-        this.level = lvl;
+    init(){
+        this.level = 0;
         this.planetTilesets = ['resources/PlanetGrey.png', 'resources/PlanetBlue.png', 'resources/PlanetGreen.png', 
         'resources/PlanetRed.png', 'resources/PlanetBrown.png', 'resources/PlanetPurple.png'];
         this.cliffTilesets = ['resources/CliffGrey.png', 'resources/CliffBlue.png', 'resources/CliffGreen.png',
@@ -23,7 +23,6 @@ export default class Planet extends Phaser.Scene{
 
     }
     create(){
-        this.numerito = '0';
         this.createWorld();
         this.createPlayerAndBases();
         //Craters set-up
@@ -39,6 +38,7 @@ export default class Planet extends Phaser.Scene{
         this.debugKey.on('down', event =>{
             console.log(this.player.inventory.returnTotalValue());
             this.player.money += 100000;
+            this.nextLevel();
         })
 
         this.inventoryKey.on('down', event =>{
@@ -98,7 +98,6 @@ export default class Planet extends Phaser.Scene{
         this.tileset2 = this.map.addTilesetImage('Cliff', 'Cliff');
 
         this.map.createStaticLayer('PlanetSurface', [this.tileset1, this.tileset2]);
-        console.log(this.map.heightInPixels);
 
         //Physics initialization and world bounds
         this.physics.world.setBounds(this.worldPadding, this.worldPadding, 4930, 4965);
@@ -241,5 +240,20 @@ export default class Planet extends Phaser.Scene{
 
     closeMinigame(){
         this.scene.stop('Minigame');
+    }
+
+    nextLevel(){
+        this.level++;
+        this.textures.remove('Planet');
+        this.textures.remove('Cliff');
+        this.textures.remove('planetTilemap');
+        this.load.image('Planet', this.planetTilesets[this.level]);
+        this.load.image('Cliff', this.cliffTilesets[this.level]);
+        this.load.tilemapTiledJSON('planetTilemap', 'resources/Planet.json');
+        this.map.destroy();
+        this.load.start();
+        this.load.once('complete', event=>{
+            console.log("loading complete");
+        this.create();}); //Poner una imagen encima y luego quitarla
     }
 }
