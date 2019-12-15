@@ -43,8 +43,20 @@ export default class Minigame extends Phaser.Scene{
             collision = true;
         this.key.destroy();
         if(collision){
-            this.spawnKey();
-            this.stage+=1;
+            this.planetScene.player.inventory.addTinky(this.tinkyInside)
+            this.planetScene.updateInventoryText();
+            this.planetScene.displayNotification("Obtained a Tinky!",'#03ff52');
+            if(this.planetScene.player.inventory.numTinkies < this.planetScene.player.inventory.capacity){
+                this.spawnKey();
+                this.stage+=1;
+                this.planetScene.player.inventory.addTinky(this.tinkyInside)
+                this.planetScene.updateInventoryText();
+                this.planetScene.displayNotification("Obtained a Tinky!",'#03ff52');
+            }else{
+                this.planetScene.displayNotification("Inventory now full", '#cc9600');
+                this.planetScene.closeMinigame();
+            }
+            
         }else{
             this.planetScene.displayNotification("Game Over",'#cc0000');
             this.planetScene.closeMinigame();
