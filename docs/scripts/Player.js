@@ -70,8 +70,10 @@ export default class Player extends ControllableSprite{
 	}
 
 	sellTinkies(tinkyContainer){
-		this.money += tinkyContainer.returnTotalValue();
+		let value = tinkyContainer.returnTotalValue();
+		this.money += value;
 		tinkyContainer.empty();
+		return value;
 	}
 
 	updateAnims(){
