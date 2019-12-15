@@ -3,6 +3,7 @@ import Crater from './Crater.js'
 import Car from './Car.js'
 import PlayerBase from './PlayerBase.js'
 import SellStation from './SellStation.js'
+//import Minigame from './Minigame.js'
 
 export default class Planet extends Phaser.Scene{
     constructor(){
@@ -14,6 +15,7 @@ export default class Planet extends Phaser.Scene{
         this.load.image('CliffGrey', 'resources/CliffGrey.png');
     }
     create(){
+        this.numerito = '0';
         this.createWorld();
         
         this.createPlayerAndBases();
@@ -29,16 +31,18 @@ export default class Planet extends Phaser.Scene{
         this.inventoryKey = this.input.keyboard.addKey('I');
 
         this.debugKey.on('down', event =>{
-            console.log(this.player.inventory.returnTotalValue());
+            this.scene.launch('Minigame', this.numerito);
+            this.numerito+=1;
         })
 
         this.inventoryKey.on('down', event =>{
-            if(this.tinkyInventoryIsOpen)
+            this.scene.stop('Minigame');
+            /*if(this.tinkyInventoryIsOpen)
                 this.inventoryCloseTween.play();
             else
                 this.inventoryOpenTween.play();
 
-            this.tinkyInventoryIsOpen = !this.tinkyInventoryIsOpen;
+            this.tinkyInventoryIsOpen = !this.tinkyInventoryIsOpen;*/
         })
     }
 
