@@ -3,7 +3,6 @@ import Crater from './Crater.js'
 import Car from './Car.js'
 import PlayerBase from './PlayerBase.js'
 import SellStation from './SellStation.js'
-//import Minigame from './Minigame.js'
 
 export default class Planet extends Phaser.Scene{
     constructor(){
