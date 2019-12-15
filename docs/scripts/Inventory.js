@@ -73,9 +73,11 @@ export default class Inventory{
 
         for(let i = 0; i < max; i++){
             this.tinkies.push(otherInventory.tinkies.pop());
+            otherInventory.numTinkies--;
             this.numTinkies++;
         }
-        otherInventory.emptyNum(max);
+        //otherInventory.numTinkies -= max;
+
     }
 
     cleanTinkies(){
