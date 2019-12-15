@@ -30,18 +30,15 @@ export default class Planet extends Phaser.Scene{
         this.inventoryKey = this.input.keyboard.addKey('I');
 
         this.debugKey.on('down', event =>{
-            this.scene.launch('Minigame', this.numerito);
-            this.numerito+=1;
         })
 
         this.inventoryKey.on('down', event =>{
-            this.scene.stop('Minigame');
-            /*if(this.tinkyInventoryIsOpen)
+            if(this.tinkyInventoryIsOpen)
                 this.inventoryCloseTween.play();
             else
                 this.inventoryOpenTween.play();
 
-            this.tinkyInventoryIsOpen = !this.tinkyInventoryIsOpen;*/
+            this.tinkyInventoryIsOpen = !this.tinkyInventoryIsOpen;
         })
     }
 
@@ -216,5 +213,9 @@ export default class Planet extends Phaser.Scene{
                 paused: true,
                 yoyo: false
             });
+    }
+
+    closeMinigame(){
+        this.scene.stop('Minigame');
     }
 }

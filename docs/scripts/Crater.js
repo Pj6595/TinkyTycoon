@@ -14,13 +14,14 @@ export default class Crater extends Phaser.GameObjects.Sprite{
 	}
 
 	ClickedCrater(){
+		this.scene.scene.launch('Minigame',[this.tinkyInside+1,this.scene]); //Offsetting by one due to an unkown engine bug
+		/*
 		if(this.scene.player.inventory.addTinky(this.tinkyInside)){
 			console.log("I've given you a tinky");
 			this.scene.updateInventoryText();
 		} else{
 			console.log("Your inventory is full");
-		}
-	console.log("I have tinkies of type " + this.tinkyInside);
+		}*/
 	}
 
 	randomizeTinky(){
