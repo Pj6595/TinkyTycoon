@@ -100,7 +100,7 @@ export default class Planet extends Phaser.Scene{
         this.player = new Player(this, mapWidth/2, mapHeight/2, 10, 200);
         this.car = new Car(this, mapWidth/2+100, mapHeight/2-this.player.displayHeight/2, 10, 500, this.player);
         //Loading station set-up
-        this.station = new SellStation(this, this.map.widthInPixels/2+300, this.map.heightInPixels/2);
+        this.station = new SellStation(this, this.map.widthInPixels/2+380, this.map.heightInPixels/2);
         //Player Base set-up
         this.base = new PlayerBase(this, mapWidth/2-250, mapHeight/2, 1);
 
@@ -118,6 +118,8 @@ export default class Planet extends Phaser.Scene{
         let mapWidth = this.map.widthInPixels;
         let mapHeight = this.map.heightInPixels;
         let worldPadding = this.worldPadding
+        let base = this.base;
+        let station = this.station;
         //Distribution zones, zone 1 is outer, zone 2 is inner, distribution is for proportion of craters in zone2 (percent)
         //First is x min, second is y min
         let zone1 = [0,0];
@@ -137,7 +139,8 @@ export default class Planet extends Phaser.Scene{
         function randomizePosition(craters,minX,minY){
             let posX = Math.floor(Math.random()*(mapWidth-worldPadding-craterSizeX-minX))+worldPadding+minX;
             let posY = Math.floor(Math.random()*(mapHeight-worldPadding-craterSizeY-minY))+worldPadding+minY;
-            while((posX > (2200-craterSizeX/2) && posX < (2700+craterSizeX/2) && posY > (2400-craterSizeY/2) && posY < (2750+craterSizeY/2)) 
+            while((posX > (base.x-base.width-craterSizeX/2) && posX < (station.x+station.width+craterSizeX/2) 
+                && posY > (station.y-station.height-craterSizeY/2) && posY < (station.y+station.height+craterSizeY/2)) 
                 || collidesExistingCraters(posX,posY,craters)){
                 posX = Math.floor(Math.random()*(mapWidth-worldPadding-craterSizeX-minX))+worldPadding+minX;
                 posY = Math.floor(Math.random()*(mapHeight-worldPadding-craterSizeY-minY))+worldPadding+minY;
@@ -182,6 +185,7 @@ export default class Planet extends Phaser.Scene{
         this.tinkyInventoryIsOpen = false;
 
         this.tinkyInventoryContainer = this.add.container(0,0,[this.tinkyInventory]);
+        this.tinkyInventoryContainer.setDepth(10);
         let xOffset = this.tinkyInventory.x-this.tinkyInventory.width/2+this.tinkyInventory.width/3;
         for(let i = 0; i < 14; i++){
             if(i == 7) xOffset += this.tinkyInventory.width/3;
