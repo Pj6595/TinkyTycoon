@@ -167,6 +167,8 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
     buyToolUpdate(text, buyToolButton, buyToolButtonDisabled){
         if(this.scene.player.money >= this.toolPrice){
             this.scene.player.upgradeTool(1);
+            let text = "Tool upgraded! new level: " + this.scene.player.toolTier;
+            this.scene.displayNotification(text,'#03ff52');
             this.scene.player.money -= this.toolPrice;
             this.toolPrice *= 20;
             if(this.scene.player.toolTier < this.maxtoolTier){
@@ -185,6 +187,8 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
     buyCarUpgrade(text, buyCarButton, buyCarButtonDisabled){
         if(this.scene.player.money >= this.carPrice){
             this.scene.car.upgrade();
+            let text = "Tool upgraded! new level: " + this.scene.car.tier;
+            this.scene.displayNotification(text,'#03ff52');
             this.scene.player.money -= this.carPrice;
             this.carPrice*=20;
             if(this.scene.car.tier < this.maxCarTier){
@@ -203,6 +207,7 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
 
     buyCleaner(text, disabledCleanerButton, buyCleanerButton){
         if(this.scene.player.money >= this.cleanerPrice){
+            this.scene.displayNotification("Cleaner obtained!",'#03ff52');
             this.scene.player.money -= this.cleanerPrice;
             disabledCleanerButton.destroy();
             buyCleanerButton.destroy();
@@ -213,6 +218,7 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
 
     buyPolisher(text, disabledPolisherButton, buyPolisherButton){
         if(this.scene.player.money >= this.polisherPrice){
+            this.scene.displayNotification("Polisher obtained!",'#03ff52');
             this.scene.player.money -= this.polisherPrice;
             disabledPolisherButton.destroy();
             buyPolisherButton.destroy();
@@ -223,6 +229,7 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
 
     buyHormonator(text, disabledHormonatorButton, buyHormonatorButton){
         if(this.scene.player.money >= this.hormonatorPrice){
+            this.scene.displayNotification("Hormonator obtained!",'#03ff52');
             this.scene.player.money -= this.hormonatorPrice;
             disabledHormonatorButton.destroy();
             buyHormonatorButton.destroy();
