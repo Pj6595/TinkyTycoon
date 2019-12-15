@@ -90,7 +90,8 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         this.cleanButton.setScale(0.3);
         this.cleanButton.setScrollFactor(0);
         this.cleanButton.setInteractive();
-        this.cleanButton.on('pointerdown', ()=> {this.scene.player.inventory.cleanTinkies(); this.scene.car.inventory.cleanTinkies()})
+        this.cleanButton.on('pointerdown', ()=> {this.scene.player.inventory.cleanTinkies(); 
+            this.scene.car.inventory.cleanTinkies(); this.scene.displayNotification("Tinkies cleaned",'#03ff52');})
         this.playerBaseGroup.add(this.cleanButton);
 
         let DisabledCleanerButton = this.scene.add.image(590, 200, 'DisabledButton');
@@ -117,7 +118,8 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         this.polishButton.setScale(0.3);
         this.polishButton.setScrollFactor(0);
         this.polishButton.setInteractive();
-        this.polishButton.on('pointerdown', ()=> {this.scene.player.inventory.polishTinkies(); this.scene.car.inventory.polishTinkies()})
+        this.polishButton.on('pointerdown', ()=> {this.scene.player.inventory.polishTinkies(); 
+            this.scene.car.inventory.polishTinkies(); this.scene.displayNotification("Tinkies polished",'#03ff52');})
         this.playerBaseGroup.add(this.polishButton);
 
         let DisabledPolisherButton = this.scene.add.image(590, 330, 'DisabledButton');
@@ -144,7 +146,8 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         this.HormonateButton.setScale(0.3);
         this.HormonateButton.setScrollFactor(0);
         this.HormonateButton.setInteractive();
-        this.HormonateButton.on('pointerdown', ()=> {this.scene.player.inventory.hormonateTinkies(); this.scene.car.inventory.hormonateTinkies()})
+        this.HormonateButton.on('pointerdown', ()=> {this.scene.player.inventory.hormonateTinkies(); 
+            this.scene.car.inventory.hormonateTinkies(); this.scene.displayNotification("Tinkies hormonated",'#03ff52');})
         this.playerBaseGroup.add(this.HormonateButton);
 
         let DisabledHormonatorButton = this.scene.add.image(590, 450, 'DisabledButton');
@@ -168,6 +171,9 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         if(this.scene.player.money >= this.toolPrice){
             this.scene.player.upgradeTool(1);
             this.scene.player.money -= this.toolPrice;
+            let textString = "Tool upgraded! new level: " + this.scene.player.toolTier;
+            this.scene.displayNotification(textString,'#03ff52');
+            this.scene.updateInventoryText();
             this.toolPrice *= 20;
             if(this.scene.player.toolTier < this.maxtoolTier){
                 text.setText(['Actualizar herramienta', this.toolPrice + ' dineros']);
@@ -186,6 +192,9 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         if(this.scene.player.money >= this.carPrice){
             this.scene.car.upgrade();
             this.scene.player.money -= this.carPrice;
+            let textString = "Tool upgraded! new level: " + this.scene.car.tier;
+            this.scene.displayNotification(textString,'#03ff52');
+            this.scene.updateInventoryText();
             this.carPrice*=20;
             if(this.scene.car.tier < this.maxCarTier){
                 text.setText(['Actualizar coche', this.carPrice + ' dineros']);
@@ -203,7 +212,9 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
 
     buyCleaner(text, disabledCleanerButton, buyCleanerButton){
         if(this.scene.player.money >= this.cleanerPrice){
+            this.scene.displayNotification("Cleaner obtained!",'#03ff52');
             this.scene.player.money -= this.cleanerPrice;
+            this.scene.updateInventoryText();
             disabledCleanerButton.destroy();
             buyCleanerButton.destroy();
             text.setText(['Limpiar', 'Tinkies']);
@@ -213,7 +224,9 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
 
     buyPolisher(text, disabledPolisherButton, buyPolisherButton){
         if(this.scene.player.money >= this.polisherPrice){
+            this.scene.displayNotification("Polisher obtained!",'#03ff52');
             this.scene.player.money -= this.polisherPrice;
+            this.scene.updateInventoryText();
             disabledPolisherButton.destroy();
             buyPolisherButton.destroy();
             text.setText(['Pulir', 'Tinkies']);
@@ -223,7 +236,9 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
 
     buyHormonator(text, disabledHormonatorButton, buyHormonatorButton){
         if(this.scene.player.money >= this.hormonatorPrice){
+            this.scene.displayNotification("Hormonator obtained!",'#03ff52');
             this.scene.player.money -= this.hormonatorPrice;
+            this.scene.updateInventoryText();
             disabledHormonatorButton.destroy();
             buyHormonatorButton.destroy();
             text.setText(['Hormonar', 'Tinkies']);

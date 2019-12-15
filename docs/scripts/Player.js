@@ -7,10 +7,12 @@ export default class Player extends ControllableSprite{
 		this.scale = 2;
 
 		this.money = 0;
+		this.toolTier = 0;
+		this.playerInCar = false;
 
 		this.inventory = new Inventory(inventoryCapacity);
 
-		this.toolTier = 0;
+		
 
 		this.setUpAnimations();
 
@@ -70,8 +72,10 @@ export default class Player extends ControllableSprite{
 	}
 
 	sellTinkies(tinkyContainer){
-		this.money += tinkyContainer.returnTotalValue();
+		let value = tinkyContainer.returnTotalValue();
+		this.money += value;
 		tinkyContainer.empty();
+		return value;
 	}
 
 	updateAnims(){

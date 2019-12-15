@@ -23,23 +23,10 @@ export default class Inventory{
         if(this.numTinkies < this.capacity){
             this.tinkies.push(new Tinky(type));
             this.numTinkies++;
-
-            console.clear();
-
-            for(let i=0; i<this.numTinkies; i++){
-                console.log(this.tinkies[i]);
-            }
-
             return true;
         }
         else{
             console.clear();
-            
-            console.log("No cabe we");
-
-            for(let i=0; i<this.numTinkies; i++){
-                console.log(this.tinkies[i]);
-            }
 
             return false;
         }

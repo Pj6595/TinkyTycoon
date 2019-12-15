@@ -3,6 +3,7 @@ import Crater from './Crater.js'
 import Car from './Car.js'
 import PlayerBase from './PlayerBase.js'
 import SellStation from './SellStation.js'
+import Notification from './Notification.js'
 
 export default class Planet extends Phaser.Scene{
     constructor(){
@@ -22,22 +23,22 @@ export default class Planet extends Phaser.Scene{
 
     }
     create(){
+        this.numerito = '0';
         this.createWorld();
-        
         this.createPlayerAndBases();
-
         //Craters set-up
         this.createCraters(70);
         //UI
         this.createUI();
-
+        
         //this.cameras.main.setZoom(0.2);
 
         this.debugKey = this.input.keyboard.addKey('P');
         this.inventoryKey = this.input.keyboard.addKey('I');
 
         this.debugKey.on('down', event =>{
-            this.scene.restart();
+            console.log(this.player.inventory.returnTotalValue());
+            this.player.money += 100000;
         })
 
         this.inventoryKey.on('down', event =>{
@@ -222,5 +223,23 @@ export default class Planet extends Phaser.Scene{
                 paused: true,
                 yoyo: false
             });
+
+
+        this.notificationSystem = new Notification(this,this.cameras.main.width/2,this.cameras.main.height*2/3);//this.player.y+this.cameras.main.width/2,this.cameras.main.height/4
+        //this.notificationsSystem = this.add.text(this.cameras.main.width/2,0,"AAAAAAAAAAAA\nBBB").setFontSize(50).setAlign('center');
+        //this.notificationsSystem.setFontSize(50);
+       // this.notificationsSystem.setScrollFactor(0);
+    }
+
+    displayNotification(text,color){
+        let notif = new Notification(this, this.cameras.main.width/2, this.cameras.main.height*3/4,text,color);
+        //notif.destroy();
+        notif.notificationTween.on('complete',function(tween, targets){
+            notif.destroy();
+        });
+    }
+
+    closeMinigame(){
+        this.scene.stop('Minigame');
     }
 }
