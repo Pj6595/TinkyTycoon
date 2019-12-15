@@ -166,8 +166,9 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
 
     buyToolUpdate(text, buyToolButton, buyToolButtonDisabled){
         if(this.scene.player.money >= this.toolPrice){
-            this.scene.displayNotification("Tool upgraded!",'#03ff52');
             this.scene.player.upgradeTool(1);
+            let text = "Tool upgraded! new level: " + this.scene.player.toolTier;
+            this.scene.displayNotification(text,'#03ff52');
             this.scene.player.money -= this.toolPrice;
             this.toolPrice *= 20;
             if(this.scene.player.toolTier < this.maxtoolTier){
@@ -186,7 +187,8 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
     buyCarUpgrade(text, buyCarButton, buyCarButtonDisabled){
         if(this.scene.player.money >= this.carPrice){
             this.scene.car.upgrade();
-            this.scene.displayNotification("Car upgraded!",'#03ff52');
+            let text = "Tool upgraded! new level: " + this.scene.car.tier;
+            this.scene.displayNotification(text,'#03ff52');
             this.scene.player.money -= this.carPrice;
             this.carPrice*=20;
             if(this.scene.car.tier < this.maxCarTier){
