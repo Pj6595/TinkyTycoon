@@ -15,6 +15,7 @@ export default class Planet extends Phaser.Scene{
         this.load.image('CliffGrey', 'resources/CliffGrey.png');
     }
     create(){
+        this.numerito = '0';
         this.createWorld();
         this.createPlayerAndBases();
         //Craters set-up
@@ -227,5 +228,9 @@ export default class Planet extends Phaser.Scene{
         notif.notificationTween.on('complete',function(tween, targets){
             notif.destroy();
         });
+    }
+
+    closeMinigame(){
+        this.scene.stop('Minigame');
     }
 }
