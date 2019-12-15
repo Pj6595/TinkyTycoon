@@ -174,7 +174,7 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
             let textString = "Tool upgraded! new level: " + this.scene.player.toolTier;
             this.scene.displayNotification(textString,'#03ff52');
             this.scene.updateInventoryText();
-            this.toolPrice *= 20;
+            this.toolPrice *= 5;
             if(this.scene.player.toolTier < this.maxtoolTier){
                 text.setText(['Actualizar herramienta', this.toolPrice + ' dineros']);
             }
@@ -195,7 +195,7 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
             let textString = "Tool upgraded! new level: " + this.scene.car.tier;
             this.scene.displayNotification(textString,'#03ff52');
             this.scene.updateInventoryText();
-            this.carPrice*=20;
+            this.carPrice*=5;
             if(this.scene.car.tier < this.maxCarTier){
                 text.setText(['Actualizar coche', this.carPrice + ' dineros']);
             }
