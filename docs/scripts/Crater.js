@@ -1,12 +1,13 @@
 export default class Crater extends Phaser.GameObjects.Sprite{
-	constructor(scene, x, y, tinkyType){
-		super(scene,x,y,'craters',tinkyType+1);
+	constructor(scene, x, y){
+		super(scene,x,y,'craters',0);
 		this.scene.add.existing(this);
 		//Physics
 		this.scene.physics.add.existing(this);
 		this.scale = 2;
 		this.body.setImmovable();
-		this.tinkyInside = tinkyType;
+
+		this.randomizeTinky();
 
 		this.setInteractive();
 		this.on('pointerdown',this.ClickedCrater);
@@ -20,5 +21,17 @@ export default class Crater extends Phaser.GameObjects.Sprite{
 			console.log("Your inventory is full");
 		}
 	console.log("I have tinkies of type " + this.tinkyInside);
+	}
+
+	randomizeTinky(){
+		//50% getting a tinky of your tier, 50% of getting any other tinky, equal chances
+		let toolTier = this.scene.player.toolTier;
+		if(Math.floor(Math.random()*100) < 50){
+			this.tinkyInside = toolTier;
+		}else{
+			let tinkyNum = 7 - toolTier;
+			this.tinkyInside = Math.floor(Math.random()*tinkyNum)+toolTier;
+		}
+		this.setFrame(this.tinkyInside+1);
 	}
 }

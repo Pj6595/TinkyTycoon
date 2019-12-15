@@ -15,15 +15,15 @@ export default class Planet extends Phaser.Scene{
     }
     create(){
         this.createWorld();
-        //Craters set-up
-        this.createCraters(70);
         
         this.createPlayerAndBases();
 
+        //Craters set-up
+        this.createCraters(70);
         //UI
         this.createUI();
 
-        this.cameras.main.setZoom(0.2);
+        //this.cameras.main.setZoom(0.2);
 
         this.debugKey = this.input.keyboard.addKey('P');
         this.inventoryKey = this.input.keyboard.addKey('I');
@@ -106,15 +106,13 @@ export default class Planet extends Phaser.Scene{
 
         this.physics.add.collider(this.station,this.car);
         this.physics.add.collider(this.base,this.car);
-        this.physics.add.collider(this.player, this.craters);
-        this.physics.add.collider(this.car, this.craters);
         this.car.setCollider(this.physics.add.collider(this.player, this.car));
     }
 
 
     createCraters(amount){
         this.craters = this.add.group();
-        this.craters.add(new Crater(this, 300, 300, 0));
+        this.craters.add(new Crater(this, 300, 300));
         let craterSizeX = this.craters.children.entries[0].displayWidth;
         let craterSizeY = this.craters.children.entries[0].displayHeight;
         let mapWidth = this.map.widthInPixels;
@@ -133,7 +131,7 @@ export default class Planet extends Phaser.Scene{
             else
                 position = randomizePosition(this.craters,zone2[0],zone2[1]);
             //Check if the position would intersect with player starting area
-            this.craters.add(new Crater(this, position[0], position[1], randomTinky()));
+            this.craters.add(new Crater(this, position[0], position[1]));
         }
 
         function randomizePosition(craters,minX,minY){
@@ -159,11 +157,9 @@ export default class Planet extends Phaser.Scene{
             }
             return collided;
         }
-
-        function randomTinky(){
-            let chance = Math.floor(Math.random()*100);
-        }
         
+        this.physics.add.collider(this.player, this.craters);
+        this.physics.add.collider(this.car, this.craters);
     }
 
     createUI(){
