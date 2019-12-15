@@ -10,8 +10,8 @@ export default class Planet extends Phaser.Scene{
     }
     preload(){
         this.load.tilemapTiledJSON('planetTilemap', 'resources/Planet.json');
-        this.load.image('PlanetGrey', 'resources/PlanetGrey.png');
-        this.load.image('CliffGrey', 'resources/CliffGrey.png');
+        this.load.image('PlanetGrey', 'resources/PlanetBlue.png');
+        this.load.image('CliffGrey', 'resources/CliffBlue.png');
     }
     create(){
         this.createWorld();
