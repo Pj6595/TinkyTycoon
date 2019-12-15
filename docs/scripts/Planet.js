@@ -30,7 +30,7 @@ export default class Planet extends Phaser.Scene{
 
         this.debugKey.on('down', event =>{
             console.log(this.player.inventory.returnTotalValue());
-            this.displayNotification('HEy! you got one thousand coins','#1b65de');
+            this.player.money += 100000;
         })
 
         this.inventoryKey.on('down', event =>{
