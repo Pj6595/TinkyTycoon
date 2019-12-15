@@ -32,6 +32,7 @@
         import Tinky from './scripts/Tinky.js'
         import SellStation from './scripts/SellStation.js'
         import PlayerBase from './scripts/PlayerBase.js'
+        import Loading from './scripts/Loading.js'
     var config = {
         width: 800,
         height: 600,
@@ -43,7 +44,7 @@
             autoCenter: Phaser.Scale.CENTER_BOTH
         },
         physics: { default: 'arcade', arcade: { gravity: { y: 0 }, debug: false } },
-        scene: [Boot,MainMenu,Planet]
+        scene: [Boot,MainMenu,Planet,Loading]
     };
 
     let game = new Phaser.Game(config);

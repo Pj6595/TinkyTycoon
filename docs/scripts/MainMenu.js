@@ -6,6 +6,6 @@ export default class MainMenu extends Phaser.Scene{
 		const playButton = this.add.text(100, 100, 'Comenzar', {fill:'#0f0'});
 		playButton.setInteractive();
 
-		playButton.on('pointerdown', ()=> {this.scene.start('Planet')})
+		playButton.on('pointerdown', ()=> {this.scene.start('Planet', 3)})
 	}
 }

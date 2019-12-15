@@ -8,10 +8,17 @@ export default class Planet extends Phaser.Scene{
     constructor(){
         super({key: 'Planet'})
     }
+    init(lvl){
+        this.level = lvl;
+        this.planetTilesets = ['resources/PlanetGrey.png', 'resources/PlanetBlue.png', 'resources/PlanetGreen.png', 
+        'resources/PlanetRed.png', 'resources/PlanetBrown.png', 'resources/PlanetPurple.png'];
+        this.cliffTilesets = ['resources/CliffGrey.png', 'resources/CliffBlue.png', 'resources/CliffGreen.png',
+        'resources/CliffRed.png', 'resources/CliffBrown.png', 'resources/CliffPurple.png'];
+    }
     preload(){
         this.load.tilemapTiledJSON('planetTilemap', 'resources/Planet.json');
-        this.load.image('PlanetGrey', 'resources/PlanetBlue.png');
-        this.load.image('CliffGrey', 'resources/CliffBlue.png');
+        this.load.image('Planet', this.planetTilesets[this.level]);
+        this.load.image('Cliff', this.cliffTilesets[this.level]);
     }
     create(){
         this.createWorld();
@@ -31,7 +38,7 @@ export default class Planet extends Phaser.Scene{
         this.inventoryKey = this.input.keyboard.addKey('I');
 
         this.debugKey.on('down', event =>{
-            console.log(this.player.inventory.returnTotalValue());
+            this.scene.restart();
         })
 
         this.inventoryKey.on('down', event =>{
@@ -86,8 +93,8 @@ export default class Planet extends Phaser.Scene{
             tileHeight: 32
         });
     
-        this.tileset1 = this.map.addTilesetImage('Planet', 'PlanetGrey');
-        this.tileset2 = this.map.addTilesetImage('Cliff', 'CliffGrey');
+        this.tileset1 = this.map.addTilesetImage('Planet', 'Planet');
+        this.tileset2 = this.map.addTilesetImage('Cliff', 'Cliff');
         this.map.createStaticLayer('PlanetSurface', [this.tileset1, this.tileset2]);
 
 
