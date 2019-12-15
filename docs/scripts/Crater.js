@@ -17,8 +17,7 @@ export default class Crater extends Phaser.GameObjects.Sprite{
 		if(this.scene.player.inventory.numTinkies < this.scene.player.inventory.capacity){
 			this.scene.scene.launch('Minigame',[this.tinkyInside+1,this.scene]); //Offsetting by one due to an unkown engine bug
 		} else{
-			console.log("Your inventory is full");
-			this.scene.displayNotification("Inventory is full",'#d6061f')
+			this.scene.displayNotification("Inventory is full",'#cc0000');
 		}
 	console.log("I have tinkies of type " + this.tinkyInside);
 	}

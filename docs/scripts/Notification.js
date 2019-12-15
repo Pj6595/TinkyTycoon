@@ -8,7 +8,6 @@ export default class ControllableSprite extends Phaser.GameObjects.Text{
 		this.setColor(color);
 		this.x = this.scene.cameras.main.width/2-this.width/2;
 		this.setStyle({stroke:'#000',strokeThickness:'2'});
-		console.log(this.width);
 		
 		this.notificationTween = this.scene.tweens.add({
                 targets: this,

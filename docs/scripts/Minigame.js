@@ -17,10 +17,10 @@ export default class Minigame extends Phaser.Scene{
         this.spawnKey();
 
         this.cursors = this.input.keyboard.createCursorKeys();
-        this.cursors.up.on('down', event=>{this.checkCollision(0);});
+        /*this.cursors.up.on('down', event=>{this.checkCollision(0);});
         this.cursors.down.on('down', event=>{this.checkCollision(1);});
         this.cursors.left.on('down', event=>{this.checkCollision(2);});
-        this.cursors.right.on('down', event=>{this.checkCollision(3);});
+        this.cursors.right.on('down', event=>{this.checkCollision(3);});*/
     }
 
     spawnKey(){
@@ -34,6 +34,12 @@ export default class Minigame extends Phaser.Scene{
 
     update(t,dt){
         this.key.x -= this.speed*dt;
+        if(this.key.x+this.key.displayWidth < this.background.x-this.background.width/2)
+            this.loseGame("Game Over");
+        if (Phaser.Input.Keyboard.JustDown(this.cursors.up)) this.checkCollision(0);
+        if (Phaser.Input.Keyboard.JustDown(this.cursors.down)) this.checkCollision(1);
+        if (Phaser.Input.Keyboard.JustDown(this.cursors.left)) this.checkCollision(2);
+        if (Phaser.Input.Keyboard.JustDown(this.cursors.right)) this.checkCollision(3);
     }
 
     checkCollision(keyNumber){
@@ -43,31 +49,30 @@ export default class Minigame extends Phaser.Scene{
             collision = true;
         this.key.destroy();
         if(collision){
-            this.planetScene.player.inventory.addTinky(this.tinkyInside)
-            this.planetScene.updateInventoryText();
-            this.planetScene.displayNotification("Obtained a Tinky!",'#03ff52');
             if(this.planetScene.player.inventory.numTinkies < this.planetScene.player.inventory.capacity){
-                this.spawnKey();
-                this.stage+=1;
-                this.planetScene.player.inventory.addTinky(this.tinkyInside)
+                this.planetScene.player.inventory.addTinky(this.tinkyType);
                 this.planetScene.updateInventoryText();
                 this.planetScene.displayNotification("Obtained a Tinky!",'#03ff52');
-            }else{
-                this.planetScene.displayNotification("Inventory now full", '#cc9600');
-                this.planetScene.closeMinigame();
-            }
-            
+                this.stage+=1;
+                //this.time.delayedCall(200, func=>{this.spawnKey();});
+                this.spawnKey();
+            }else
+            this.loseGame("Inventory is full");
         }else{
-            this.planetScene.displayNotification("Game Over",'#cc0000');
-            this.planetScene.closeMinigame();
+            this.loseGame("Game Over");
         }
     }
 
     calculateSpeed(){
         let tierDifference =this.tinkyType - this.planetScene.player.toolTier;
-        if(this.stage > 1)
+        if(this.stage > 2)
             this.speed *= this.stage/3;
         if(tierDifference > 1)
             this.speed *= tierDifference;
+    }
+
+    loseGame(message){
+        this.planetScene.displayNotification(message,'#cc0000');
+        this.planetScene.closeMinigame();
     }
 }
