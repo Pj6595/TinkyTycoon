@@ -29,7 +29,6 @@ export default class Inventory{
             for(let i=0; i<this.numTinkies; i++){
                 console.log(this.tinkies[i]);
             }
-
             return true;
         }
         else{
