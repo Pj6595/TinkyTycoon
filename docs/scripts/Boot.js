@@ -18,14 +18,7 @@ export default class Boot extends Phaser.Scene{
 		this.load.spritesheet('arrows','resources/Arrows.png',{frameWidth:32,frameHeight:32});
 		this.load.spritesheet('craters','resources/CratersGrey.png',{frameWidth:64,frameHeight:39});
 		this.load.spritesheet('player','resources/Player-sheet.png',{frameWidth: 20, frameHeight: 32});
-
-		this.load.audio('backgroundMusic', 'resources/backgroundMusic.ogg');
-		this.load.audio('minigameMusic', 'resources/minigameMusic.ogg');
-		this.load.audio('carSound', 'resources/carSound.ogg');
 		this.load.audio('mainMenuMusic', 'resources/mainMenuTheme.ogg');
-		this.load.audio('powerUpSound', 'resources/powerUpSound.ogg');
-		this.load.audio('walkingSound', 'resources/walkingSound.ogg');
-
 		this.load.image('logo', 'resources/TinkyTycoonLogo.png');
 	}
 	create(){
