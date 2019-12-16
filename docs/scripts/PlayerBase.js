@@ -90,8 +90,11 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         this.cleanButton.setScale(0.3);
         this.cleanButton.setScrollFactor(0);
         this.cleanButton.setInteractive();
-        this.cleanButton.on('pointerdown', ()=> {this.scene.player.inventory.cleanTinkies(); 
-            this.scene.car.inventory.cleanTinkies(); this.scene.displayNotification("Tinkys limpiados",'#03ff52');})
+        this.cleanButton.on('pointerdown', ()=> {
+            this.scene.powerUpSound.play();
+            this.scene.player.inventory.cleanTinkies(); 
+            this.scene.car.inventory.cleanTinkies(); this.scene.displayNotification("Tinkys limpiados",'#03ff52');
+        })
         this.playerBaseGroup.add(this.cleanButton);
 
         let DisabledCleanerButton = this.scene.add.image(590, 200, 'DisabledButton');
@@ -118,8 +121,11 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         this.polishButton.setScale(0.3);
         this.polishButton.setScrollFactor(0);
         this.polishButton.setInteractive();
-        this.polishButton.on('pointerdown', ()=> {this.scene.player.inventory.polishTinkies(); 
-            this.scene.car.inventory.polishTinkies(); this.scene.displayNotification("Tinkys pulidos",'#03ff52');})
+        this.polishButton.on('pointerdown', ()=> {
+            this.scene.powerUpSound.play();
+            this.scene.player.inventory.polishTinkies(); 
+            this.scene.car.inventory.polishTinkies(); this.scene.displayNotification("Tinkys pulidos",'#03ff52');
+        })
         this.playerBaseGroup.add(this.polishButton);
 
         let DisabledPolisherButton = this.scene.add.image(590, 330, 'DisabledButton');
@@ -146,8 +152,11 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         this.HormonateButton.setScale(0.3);
         this.HormonateButton.setScrollFactor(0);
         this.HormonateButton.setInteractive();
-        this.HormonateButton.on('pointerdown', ()=> {this.scene.player.inventory.hormonateTinkies(); 
-            this.scene.car.inventory.hormonateTinkies(); this.scene.displayNotification("Tinkys hormonados",'#03ff52');})
+        this.HormonateButton.on('pointerdown', ()=> {
+            this.scene.powerUpSound.play();
+            this.scene.player.inventory.hormonateTinkies(); 
+            this.scene.car.inventory.hormonateTinkies(); this.scene.displayNotification("Tinkys hormonados",'#03ff52');
+        })
         this.playerBaseGroup.add(this.HormonateButton);
 
         let DisabledHormonatorButton = this.scene.add.image(590, 450, 'DisabledButton');
@@ -169,7 +178,8 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
 
     buyToolUpdate(text, buyToolButton, buyToolButtonDisabled){
         if(this.scene.player.money >= this.toolPrice){
-            this.scene.player.upgradeTool(1);
+            this.scene.powerUpSound.play();
+            this.scene.player.upgradeTool();
             this.scene.player.money -= this.toolPrice;
             let textString = "Herramienta mejorada! nivel: " + this.scene.player.toolTier;
             this.scene.displayNotification(textString,'#03ff52');
@@ -190,6 +200,7 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
 
     buyCarUpgrade(text, buyCarButton, buyCarButtonDisabled){
         if(this.scene.player.money >= this.carPrice){
+            this.scene.powerUpSound.play();
             this.scene.car.upgrade();
             this.scene.player.money -= this.carPrice;
             let textString = "Coche mejorado! nivel: " + this.scene.car.tier;
@@ -207,11 +218,11 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
                 buyCarButtonDisabled.destroy();
             }
         }
-
     }
 
     buyCleaner(text, disabledCleanerButton, buyCleanerButton){
         if(this.scene.player.money >= this.cleanerPrice){
+            this.scene.powerUpSound.play();
             this.scene.displayNotification("Limpiadora obtenida!",'#03ff52');
             this.scene.player.money -= this.cleanerPrice;
             this.scene.updateInventoryText();
@@ -224,6 +235,7 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
 
     buyPolisher(text, disabledPolisherButton, buyPolisherButton){
         if(this.scene.player.money >= this.polisherPrice){
+            this.scene.powerUpSound.play();
             this.scene.displayNotification("Pulidora obtenida!",'#03ff52');
             this.scene.player.money -= this.polisherPrice;
             this.scene.updateInventoryText();
@@ -236,6 +248,7 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
 
     buyHormonator(text, disabledHormonatorButton, buyHormonatorButton){
         if(this.scene.player.money >= this.hormonatorPrice){
+            this.scene.powerUpSound.play();
             this.scene.displayNotification("Hormonadora obtenida!",'#03ff52');
             this.scene.player.money -= this.hormonatorPrice;
             this.scene.updateInventoryText();
