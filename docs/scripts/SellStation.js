@@ -27,6 +27,7 @@ export default class SellStation extends Phaser.GameObjects.Sprite{
         sellButton.setScrollFactor(0);
         sellButton.setInteractive();
         sellButton.on('pointerdown', ()=> {
+            if(this.scene.player.inventory.numTinkies > 0) this.scene.powerUpSound.play();
             let value = 0;
             value += this.scene.player.sellTinkies(this.scene.player.inventory);
             value += this.scene.player.sellTinkies(this.scene.car.inventory);
