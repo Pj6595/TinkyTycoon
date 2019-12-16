@@ -18,8 +18,7 @@ export default class Car extends ControllableSprite{
 
 
 	boardVehicle(){
-		let distance = this.player.getCenter().distance(this.getCenter());
-		if(this.movementEnabled || distance <= this.acceptableDistanceToPlayer){
+		if(this.movementEnabled || this.playerInRange()){
 			this.resetMovement();
 			this.player.resetMovement();
 			this.player.playerInCar = !this.player.playerInCar;
@@ -41,7 +40,7 @@ export default class Car extends ControllableSprite{
 				this.scene.updateInventoryText();
 			}
 		}else{
-			this.scene.displayNotification("Car is too far away",'#cc0000');
+			this.scene.displayNotification("Coche demasiado lejos",'#cc0000');
 		}
 
 	}
@@ -54,5 +53,10 @@ export default class Car extends ControllableSprite{
 		this.tier += 1;
 		this.speed *= 2;
 		this.inventory.addCapacity(this.inventory.capacity);
+	}
+
+	playerInRange(){
+		let distance = this.player.getCenter().distance(this.getCenter());
+		return (distance <= this.acceptableDistanceToPlayer);
 	}
 }

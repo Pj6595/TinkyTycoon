@@ -21,11 +21,11 @@ export default class Crater extends Phaser.GameObjects.Sprite{
 				if(this.scene.player.inventory.numTinkies < this.scene.player.inventory.capacity){
 					this.scene.scene.launch('Minigame',[this.tinkyInside+1,this.scene]); //Offsetting by one due to an unkown engine bug
 				}else
-					this.scene.displayNotification("Inventory is full",'#cc0000');
+					this.scene.displayNotification("Inventario lleno",'#cc0000');
 			}else
-				this.scene.displayNotification("Crater is too far away",'#cc0000');	
+				this.scene.displayNotification("Crater demasiado lejos",'#cc0000');	
 		}else
-			this.scene.displayNotification("Can't mine craters in the car",'#cc0000');
+			this.scene.displayNotification("No se puede acceder desde el coche",'#cc0000');
 	}
 
 	randomizeTinky(){
