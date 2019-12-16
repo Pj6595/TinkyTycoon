@@ -5,7 +5,6 @@ export default class Minigame extends Phaser.Scene{
     init(parameters){
     	this.tinkyType = parameters[0]-1; //Offsetting by one due to an unkown engine bug
     	this.planetScene = parameters[1];
-        this.parentCrater = parameters[2];
     }
     create(){
     	this.background = this.add.image(this.cameras.main.width/2,this.cameras.main.height*3/4,'minigameBackground');
@@ -18,6 +17,10 @@ export default class Minigame extends Phaser.Scene{
         this.spawnKey();
 
         this.cursors = this.input.keyboard.createCursorKeys();
+        /*this.cursors.up.on('down', event=>{this.checkCollision(0);});
+        this.cursors.down.on('down', event=>{this.checkCollision(1);});
+        this.cursors.left.on('down', event=>{this.checkCollision(2);});
+        this.cursors.right.on('down', event=>{this.checkCollision(3);});*/
     }
 
     spawnKey(){
@@ -32,7 +35,7 @@ export default class Minigame extends Phaser.Scene{
     update(t,dt){
         this.key.x -= this.speed*dt;
         if(this.key.x+this.key.displayWidth < this.background.x-this.background.width/2)
-            this.loseGame("Has fallado!");
+            this.loseGame("Game Over");
         if (Phaser.Input.Keyboard.JustDown(this.cursors.up)) this.checkCollision(0);
         if (Phaser.Input.Keyboard.JustDown(this.cursors.down)) this.checkCollision(1);
         if (Phaser.Input.Keyboard.JustDown(this.cursors.left)) this.checkCollision(2);
@@ -45,18 +48,18 @@ export default class Minigame extends Phaser.Scene{
         if((this.key.x-this.key.displayWidth/2 < this.tinkyHitbox.xMax && this.key.x+this.key.displayWidth/2 > this.tinkyHitbox.xMin))
             collision = true;
         this.key.destroy();
-        if(collision && keyNumber == this.key.keyNum){
-            if(this.planetScene.car.playerInRange() && this.planetScene.car.inventory.numTinkies < this.planetScene.car.inventory.capacity){
-                this.planetScene.car.inventory.addTinky(this.tinkyType);
-                this.winGame("Tinky enviado al coche!");
-            }
-            else if(this.planetScene.player.inventory.numTinkies < this.planetScene.player.inventory.capacity){
+        if(collision){
+            if(this.planetScene.player.inventory.numTinkies < this.planetScene.player.inventory.capacity){
                 this.planetScene.player.inventory.addTinky(this.tinkyType);
-                this.winGame("Tinky obtenido!");
+                this.planetScene.updateInventoryText();
+                this.planetScene.displayNotification("Obtained a Tinky!",'#03ff52');
+                this.stage+=1;
+                //this.time.delayedCall(200, func=>{this.spawnKey();});
+                this.spawnKey();
             }else
-            this.loseGame("Inventario lleno");
+            this.loseGame("Inventory is full");
         }else{
-            this.loseGame("Has fallado!");
+            this.loseGame("Game Over");
         }
     }
 
@@ -69,15 +72,7 @@ export default class Minigame extends Phaser.Scene{
     }
 
     loseGame(message){
-        this.planetScene.displayNotification(message,'#cc0000');        
-        this.parentCrater.disableCrater();
+        this.planetScene.displayNotification(message,'#cc0000');
         this.planetScene.closeMinigame();
-    }
-
-    winGame(message){
-        this.planetScene.updateInventoryText();
-        this.planetScene.displayNotification(message,'#03ff52');
-        this.stage+=1;
-        this.spawnKey();
     }
 }

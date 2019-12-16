@@ -31,7 +31,7 @@ export default class SellStation extends Phaser.GameObjects.Sprite{
             value += this.scene.player.sellTinkies(this.scene.player.inventory);
             value += this.scene.player.sellTinkies(this.scene.car.inventory);
             this.scene.updateInventoryText();
-            let text = "Vendidos por: " + value;
+            let text = "Sold for: " + value;
             this.scene.displayNotification(text,'#d9e800');
         });
         this.sellStationGroup.add(sellButton);
