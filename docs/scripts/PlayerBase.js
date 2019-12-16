@@ -18,6 +18,10 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         this.maxtoolTier = 6;
         this.maxCarTier = 5;
 
+        this.cleanerBought = false;
+        this.polisherBought = false;
+        this.hormonatorBought = false;
+
         //Window contaimer
 
         this.playerBaseGroup = this.scene.add.group();
@@ -91,9 +95,16 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         this.cleanButton.setScrollFactor(0);
         this.cleanButton.setInteractive();
         this.cleanButton.on('pointerdown', ()=> {
+<<<<<<< Updated upstream
             this.scene.powerUpSound.play();
             this.scene.player.inventory.cleanTinkies(); 
             this.scene.car.inventory.cleanTinkies(); this.scene.displayNotification("Tinkys limpiados",'#03ff52');
+=======
+            if(this.cleanerBought){
+                this.scene.player.inventory.cleanTinkies(); 
+                this.scene.car.inventory.cleanTinkies(); this.scene.displayNotification("Tinkys limpiados",'#03ff52');
+            }
+>>>>>>> Stashed changes
         })
         this.playerBaseGroup.add(this.cleanButton);
 
@@ -122,9 +133,16 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         this.polishButton.setScrollFactor(0);
         this.polishButton.setInteractive();
         this.polishButton.on('pointerdown', ()=> {
+<<<<<<< Updated upstream
             this.scene.powerUpSound.play();
             this.scene.player.inventory.polishTinkies(); 
             this.scene.car.inventory.polishTinkies(); this.scene.displayNotification("Tinkys pulidos",'#03ff52');
+=======
+            if(this.polisherBought){
+                this.scene.player.inventory.polishTinkies(); 
+                this.scene.car.inventory.polishTinkies(); this.scene.displayNotification("Tinkys pulidos",'#03ff52');
+            }
+>>>>>>> Stashed changes
         })
         this.playerBaseGroup.add(this.polishButton);
 
@@ -153,9 +171,16 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         this.HormonateButton.setScrollFactor(0);
         this.HormonateButton.setInteractive();
         this.HormonateButton.on('pointerdown', ()=> {
+<<<<<<< Updated upstream
             this.scene.powerUpSound.play();
             this.scene.player.inventory.hormonateTinkies(); 
             this.scene.car.inventory.hormonateTinkies(); this.scene.displayNotification("Tinkys hormonados",'#03ff52');
+=======
+            if(this.hormonatorBought){
+                this.scene.player.inventory.hormonateTinkies(); 
+                this.scene.car.inventory.hormonateTinkies(); this.scene.displayNotification("Tinkys hormonados",'#03ff52');
+            }
+>>>>>>> Stashed changes
         })
         this.playerBaseGroup.add(this.HormonateButton);
 
@@ -224,6 +249,7 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         if(this.scene.player.money >= this.cleanerPrice){
             this.scene.powerUpSound.play();
             this.scene.displayNotification("Limpiadora obtenida!",'#03ff52');
+            this.cleanerBought = true;
             this.scene.player.money -= this.cleanerPrice;
             this.scene.updateInventoryText();
             disabledCleanerButton.destroy();
@@ -237,6 +263,7 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         if(this.scene.player.money >= this.polisherPrice){
             this.scene.powerUpSound.play();
             this.scene.displayNotification("Pulidora obtenida!",'#03ff52');
+            this.polisherBought = true;
             this.scene.player.money -= this.polisherPrice;
             this.scene.updateInventoryText();
             disabledPolisherButton.destroy();
@@ -250,6 +277,7 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         if(this.scene.player.money >= this.hormonatorPrice){
             this.scene.powerUpSound.play();
             this.scene.displayNotification("Hormonadora obtenida!",'#03ff52');
+            this.hormonatorBought = true;
             this.scene.player.money -= this.hormonatorPrice;
             this.scene.updateInventoryText();
             disabledHormonatorButton.destroy();
