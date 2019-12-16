@@ -55,7 +55,7 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         DisabledToolButton.setScrollFactor(0);
         this.playerBaseGroup.add(DisabledToolButton);
 
-        let ToolButtonText = this.scene.add.text(110, 120, ['Actualizar herramienta', this.toolPrice + ' dineros']).setAlign('center').setFontSize(25).setColor('black').setFontFamily('raleway').setFontStyle('bold');
+        let ToolButtonText = this.scene.add.text(80, 120, ['Actualizar herramienta', this.toolPrice + ' dineros']).setAlign('center').setFontSize(25).setColor('black');
         ToolButtonText.setScrollFactor(0);
         this.playerBaseGroup.add(ToolButtonText);
 
@@ -75,7 +75,7 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         DisabledVehicleButton.setScrollFactor(0);
         this.playerBaseGroup.add(DisabledVehicleButton);
 
-        let vehicleButtonText = this.scene.add.text(160, 290, ['Actualizar coche', this.carPrice + ' dineros']).setAlign('center').setFontSize(25).setColor('black').setFontFamily('raleway').setFontStyle('bold');
+        let vehicleButtonText = this.scene.add.text(130, 290, ['Actualizar coche', this.carPrice + ' dineros']).setAlign('center').setFontSize(25).setColor('black');
         vehicleButtonText.setScrollFactor(0);
         this.playerBaseGroup.add(vehicleButtonText);
 
@@ -108,7 +108,7 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         DisabledCleanerButton.setScrollFactor(0);
         this.playerBaseGroup.add(DisabledCleanerButton);
 
-        let cleanerText = this.scene.add.text(490, 120, ['Comprar Limpiadora', this.cleanerPrice]).setAlign('center').setFontSize(20).setColor('black').setFontFamily('raleway').setFontStyle('bold');
+        let cleanerText = this.scene.add.text(480, 120, ['Comprar Limpiadora', this.cleanerPrice]).setAlign('center').setFontSize(20).setColor('black');
         cleanerText.setScrollFactor(0);
         this.playerBaseGroup.add(cleanerText);
 
@@ -141,7 +141,7 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         DisabledPolisherButton.setScrollFactor(0);
         this.playerBaseGroup.add(DisabledPolisherButton);
 
-        let polisherText = this.scene.add.text(505, 250, ['Comprar Pulidora', this.polisherPrice]).setAlign('center').setFontSize(20).setColor('black').setFontFamily('raleway').setFontStyle('bold');
+        let polisherText = this.scene.add.text(490, 260, ['Comprar Pulidora', this.polisherPrice]).setAlign('center').setFontSize(20).setColor('black');
         polisherText.setScrollFactor(0);
         this.playerBaseGroup.add(polisherText);
 
@@ -174,7 +174,7 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         DisabledHormonatorButton.setScrollFactor(0);
         this.playerBaseGroup.add(DisabledHormonatorButton);
 
-        let hormonatorText = this.scene.add.text(485, 370, ['Comprar Hormonadora', this.hormonatorPrice]).setAlign('center').setFontSize(20).setColor('black').setFontFamily('raleway').setFontStyle('bold');
+        let hormonatorText = this.scene.add.text(480, 380, ['Comprar Hormonadora', this.hormonatorPrice]).setAlign('center').setFontSize(20).setColor('black');
         hormonatorText.setScrollFactor(0);
         this.playerBaseGroup.add(hormonatorText);
 
@@ -188,18 +188,19 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
 
     buyToolUpdate(text, buyToolButton, buyToolButtonDisabled){
         if(this.scene.player.money >= this.toolPrice){
-            this.scene.player.upgradeTool(1);
+            this.scene.powerUpSound.play();
+            this.scene.player.upgradeTool();
             this.scene.player.money -= this.toolPrice;
-            let textString = "Tool upgraded! new level: " + this.scene.player.toolTier;
+            let textString = "Herramienta mejorada! nivel: " + this.scene.player.toolTier;
             this.scene.displayNotification(textString,'#03ff52');
             this.scene.updateInventoryText();
-            this.toolPrice *= 20;
+            this.toolPrice *= 5;
             if(this.scene.player.toolTier < this.maxtoolTier){
                 text.setText(['Actualizar herramienta', this.toolPrice + ' dineros']);
             }
             else{
                 text.setText(['Herramienta', 'al máximo']);
-                text.setX(text.x + 80); text.setY(text.y + 40);
+                text.setX(text.x + 80); text.setY(text.y + 70);
                 text.setColor('red');
                 buyToolButton.destroy();
                 buyToolButtonDisabled.destroy();
@@ -209,24 +210,24 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
 
     buyCarUpgrade(text, buyCarButton, buyCarButtonDisabled){
         if(this.scene.player.money >= this.carPrice){
+            this.scene.powerUpSound.play();
             this.scene.car.upgrade();
             this.scene.player.money -= this.carPrice;
-            let textString = "Tool upgraded! new level: " + this.scene.car.tier;
+            let textString = "Coche mejorado! nivel: " + this.scene.car.tier;
             this.scene.displayNotification(textString,'#03ff52');
             this.scene.updateInventoryText();
-            this.carPrice*=20;
+            this.carPrice*=5;
             if(this.scene.car.tier < this.maxCarTier){
                 text.setText(['Actualizar coche', this.carPrice + ' dineros']);
             }
             else{
                 text.setText(['Vehículo', 'al máximo']);
-                text.setX(text.x + 50); text.setY(text.y + 40);
+                text.setX(text.x + 50); text.setY(text.y + 70);
                 text.setColor('red');
                 buyCarButton.destroy();
                 buyCarButtonDisabled.destroy();
             }
         }
-
     }
 
     buyCleaner(text, disabledCleanerButton, buyCleanerButton){
@@ -253,7 +254,7 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
             disabledPolisherButton.destroy();
             buyPolisherButton.destroy();
             text.setText(['Pulir', 'Tinkies']);
-            text.setX(text.x + 50);
+            text.setX(text.x + 60);
         }
     }
 

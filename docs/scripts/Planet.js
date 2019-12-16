@@ -17,6 +17,9 @@ export default class Planet extends Phaser.Scene{
     create(){
         this.numerito = '0';
         this.createWorld();
+
+        this.createAudio();
+
         this.createPlayerAndBases();
         //Craters set-up
         this.createCraters(70);
@@ -71,6 +74,15 @@ export default class Planet extends Phaser.Scene{
             currentInventoryTxtCar.setText(numberOfTinkiesCar[i]);
         }
         console.log(numberOfTinkiesPlayer, " ", this.player.inventory.numTinkies," ",this.player.inventory.tinkies);
+    }
+
+    createAudio(){
+        this.backgroundMusic = this.sound.add('backgroundMusic', {loop: true});
+        this.backgroundMusic.play();
+        this.carSound = this.sound.add('carSound', {loop: true, volume:0.1});
+        this.minigameMusic = this.sound.add('minigameMusic', {loop:true});
+        this.powerUpSound = this.sound.add('powerUpSound');
+        this.walkingSound = this.sound.add('walkingSound', {loop:true});
     }
 
     createWorld(){
@@ -175,7 +187,7 @@ export default class Planet extends Phaser.Scene{
         //Selling Tinkies
       
         //Inventory
-        this.moneyText = this.add.text(10, 0, this.player.money + " dineros").setFontFamily('raleway').setFontStyle('bold');
+        this.moneyText = this.add.text(10, 10, 0 + " dineros");
         this.moneyText.setFontSize(50);
         this.moneyText.setScrollFactor(0);
 
