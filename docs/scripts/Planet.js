@@ -175,7 +175,7 @@ export default class Planet extends Phaser.Scene{
         //Selling Tinkies
       
         //Inventory
-        this.moneyText = this.add.text(10, 0, this.player.money + " dineros").setFontFamily('"Press Start 2P"').setFontStyle('bold').setFontSize(10);
+        this.moneyText = this.add.text(10, 0, this.player.money + " dineros").setFontFamily('raleway').setFontStyle('bold');
         this.moneyText.setFontSize(50);
         this.moneyText.setScrollFactor(0);
 
