@@ -58,7 +58,34 @@ export default class Car extends ControllableSprite{
 
 
 	boardVehicle(){
-		if(this.movementEnabled || this.playerInRange()){
+		/*
+		if(!this.movementEnabled){
+			let distance = this.player.getCenter().distance(this.getCenter());
+			console.log(distance);
+			//If distance acceptable, player rides vehicle
+			if(distance <= this.acceptableDistanceToPlayer){
+				this.body.setImmovable(false);
+				this.movementEnabled = true;
+				this.player.movementEnabled = false;
+				this.scene.cameras.main.startFollow(this);
+				this.player.setVisible(false);
+				//Disable physics with invisible player
+				this.playerCarCollider.active = false;
+			}
+		}else{
+			//Player gets off the vehicle
+			this.body.setImmovable(true);
+			this.movementEnabled = false;
+			this.player.movementEnabled = true;
+			this.player.setX(this.x);
+			this.player.setY(this.getTopCenter().y);
+			this.scene.cameras.main.startFollow(this.player);
+			this.player.setVisible(true);
+			this.playerCarCollider.active = true;
+		}
+		*/
+		let distance = this.player.getCenter().distance(this.getCenter());
+		if(this.movementEnabled || distance <= this.acceptableDistanceToPlayer){
 			this.resetMovement();
 			this.player.resetMovement();
 			this.player.playerInCar = !this.player.playerInCar;
@@ -68,7 +95,6 @@ export default class Car extends ControllableSprite{
 			this.player.setVisible(!this.movementEnabled);
 			this.playerCarCollider.active = !this.movementEnabled;
 			if(!this.movementEnabled){ //Player gets off the vehicle
-				this.scene.carSound.stop();
 				this.player.setX(this.x);
 				this.player.setY(this.getTopCenter().y);
 				this.scene.cameras.main.startFollow(this.player);
@@ -76,17 +102,12 @@ export default class Car extends ControllableSprite{
 				console.log("player: ", this.player.inventory.tinkies);
 			}
 			else{ //Player gets in the vehicle
-				if(this.scene.walkingSound.isPlaying) this.scene.walkingSound.stop();
-				this.scene.carSound.play();
 				this.scene.cameras.main.startFollow(this);
-				if(this.player.inventory.numTinkies > 0){
-					this.inventory.transferInventory(this.player.inventory);
-					this.scene.displayNotification("Inventario enviado a coche",'#d9e800');
-					this.scene.updateInventoryText();
-				}
+				this.inventory.transferInventory(this.player.inventory);
+				this.scene.updateInventoryText();
 			}
 		}else{
-			this.scene.displayNotification("Coche demasiado lejos",'#cc0000');
+			this.scene.displayNotification("Car is too far away",'#cc0000');
 		}
 
 	}
@@ -97,13 +118,8 @@ export default class Car extends ControllableSprite{
 
 	upgrade(){
 		this.tier += 1;
-		this.speed *= 2;
-		this.inventory.addCapacity(this.inventory.capacity);
-	}
-
-	playerInRange(){
-		let distance = this.player.getCenter().distance(this.getCenter());
-		return (distance <= this.acceptableDistanceToPlayer);
+		this.speed += 100;
+		this.inventory.addCapacity(10);
 	}
 
 	updateAnims(){

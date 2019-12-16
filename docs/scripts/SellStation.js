@@ -17,7 +17,7 @@ export default class SellStation extends Phaser.GameObjects.Sprite{
         this.createSellButton();
     }
     createSellText(){
-        this.sellText = this.scene.add.text(90, 170, 'a').setAlign('center').setFontSize(30).setColor('black');
+        this.sellText = this.scene.add.text(175, 160, 'a').setAlign('center').setFontSize(30).setColor('black').setFontFamily('raleway').setFontStyle('bold');
         this.sellText.setScrollFactor(0);
         this.sellStationGroup.add(this.sellText);
     }
@@ -27,12 +27,11 @@ export default class SellStation extends Phaser.GameObjects.Sprite{
         sellButton.setScrollFactor(0);
         sellButton.setInteractive();
         sellButton.on('pointerdown', ()=> {
-            if(this.scene.player.inventory.numTinkies > 0) this.scene.powerUpSound.play();
             let value = 0;
             value += this.scene.player.sellTinkies(this.scene.player.inventory);
             value += this.scene.player.sellTinkies(this.scene.car.inventory);
             this.scene.updateInventoryText();
-            let text = "Vendidos por: " + value;
+            let text = "Sold for: " + value;
             this.scene.displayNotification(text,'#d9e800');
         });
         this.sellStationGroup.add(sellButton);
