@@ -4,7 +4,9 @@ export default class Minigame extends Phaser.Scene{
     }
     init(parameters){
     	this.tinkyType = parameters[0]-1; //Offsetting by one due to an unkown engine bug
-    	this.planetScene = parameters[1];
+        this.planetScene = parameters[1];
+        this.planetScene.backgroundMusic.stop();
+        this.planetScene.minigameMusic.play();
     }
     create(){
     	this.background = this.add.image(this.cameras.main.width/2,this.cameras.main.height*3/4,'minigameBackground');
@@ -73,6 +75,8 @@ export default class Minigame extends Phaser.Scene{
 
     loseGame(message){
         this.planetScene.displayNotification(message,'#cc0000');
+        this.planetScene.minigameMusic.stop();
+        this.planetScene.backgroundMusic.play();
         this.planetScene.closeMinigame();
     }
 

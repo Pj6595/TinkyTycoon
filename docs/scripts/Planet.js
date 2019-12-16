@@ -80,6 +80,9 @@ export default class Planet extends Phaser.Scene{
         this.backgroundMusic = this.sound.add('backgroundMusic', {loop: true});
         this.backgroundMusic.play();
         this.carSound = this.sound.add('carSound', {loop: true, volume:0.1});
+        this.minigameMusic = this.sound.add('minigameMusic', {loop:true});
+        this.powerUpSound = this.sound.add('powerUpSound');
+        this.walkingSound = this.sound.add('walkingSound', {loop:true});
     }
 
     createWorld(){

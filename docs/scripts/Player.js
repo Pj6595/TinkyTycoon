@@ -12,10 +12,7 @@ export default class Player extends ControllableSprite{
 
 		this.inventory = new Inventory(inventoryCapacity);
 
-		
-
 		this.setUpAnimations();
-
 	}
 
 	setUpAnimations(){
@@ -63,8 +60,8 @@ export default class Player extends ControllableSprite{
         return this.money;
     }
 
-	upgradeTool(levels){
-		this.toolTier += levels;
+	upgradeTool(){
+		this.toolTier += 1;
 	}
 
 	returnToolTier(){
@@ -79,15 +76,24 @@ export default class Player extends ControllableSprite{
 	}
 
 	updateAnims(){
-		if(this.movement.vertical == -1)
+		if(this.movement.vertical != 0 || this.movement.sideways != 0){
+			if(!this.scene.walkingSound.isPlaying) this.scene.walkingSound.play();
+
+			if(this.movement.vertical == -1)
 			this.scene.player.anims.play('PlayerUp',true);
-		else if(this.movement.vertical == 1)
+
+			else if(this.movement.vertical == 1)
 			this.scene.player.anims.play('PlayerDown',true);
-		else if(this.movement.sideways == -1)
+
+			else if(this.movement.sideways == -1)
 			this.scene.player.anims.play('PlayerLeft',true);
-		else if(this.movement.sideways == 1)
+
+			else if(this.movement.sideways == 1)
 			this.scene.player.anims.play('PlayerRight',true);
-		else
+		}
+		else{
 			this.scene.player.anims.play('PlayerIdle',true);
+			this.scene.walkingSound.stop();
+		}
 	}
 }

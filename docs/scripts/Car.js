@@ -36,6 +36,7 @@ export default class Car extends ControllableSprite{
 				console.log("player: ", this.player.inventory.tinkies);
 			}
 			else{ //Player gets in the vehicle
+				if(this.scene.walkingSound.isPlaying) this.scene.walkingSound.stop();
 				this.scene.carSound.play();
 				this.scene.cameras.main.startFollow(this);
 				if(this.player.inventory.numTinkies > 0){
