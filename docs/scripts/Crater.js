@@ -10,7 +10,7 @@ export default class Crater extends Phaser.GameObjects.Sprite{
 		this.randomizeTinky();
 		this.acceptableDistanceToPlayer = 300;
 
-		this.timeToRespawn = 2000;//ms
+		this.timeToRespawn = 60000;//ms
 		this.craterActive = true;
 		this.setInteractive();
 		this.on('pointerdown',this.ClickedCrater);
