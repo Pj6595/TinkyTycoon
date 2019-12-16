@@ -28,6 +28,7 @@ export default class Car extends ControllableSprite{
 			this.player.setVisible(!this.movementEnabled);
 			this.playerCarCollider.active = !this.movementEnabled;
 			if(!this.movementEnabled){ //Player gets off the vehicle
+				this.scene.carSound.stop();
 				this.player.setX(this.x);
 				this.player.setY(this.getTopCenter().y);
 				this.scene.cameras.main.startFollow(this.player);
@@ -35,6 +36,8 @@ export default class Car extends ControllableSprite{
 				console.log("player: ", this.player.inventory.tinkies);
 			}
 			else{ //Player gets in the vehicle
+				if(this.scene.walkingSound.isPlaying) this.scene.walkingSound.stop();
+				this.scene.carSound.play();
 				this.scene.cameras.main.startFollow(this);
 				if(this.player.inventory.numTinkies > 0){
 					this.inventory.transferInventory(this.player.inventory);
