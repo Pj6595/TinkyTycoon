@@ -95,16 +95,11 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         this.cleanButton.setScrollFactor(0);
         this.cleanButton.setInteractive();
         this.cleanButton.on('pointerdown', ()=> {
-<<<<<<< Updated upstream
-            this.scene.powerUpSound.play();
-            this.scene.player.inventory.cleanTinkies(); 
-            this.scene.car.inventory.cleanTinkies(); this.scene.displayNotification("Tinkys limpiados",'#03ff52');
-=======
             if(this.cleanerBought){
+                this.scene.powerUpSound.play();
                 this.scene.player.inventory.cleanTinkies(); 
                 this.scene.car.inventory.cleanTinkies(); this.scene.displayNotification("Tinkys limpiados",'#03ff52');
             }
->>>>>>> Stashed changes
         })
         this.playerBaseGroup.add(this.cleanButton);
 
@@ -133,16 +128,11 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         this.polishButton.setScrollFactor(0);
         this.polishButton.setInteractive();
         this.polishButton.on('pointerdown', ()=> {
-<<<<<<< Updated upstream
-            this.scene.powerUpSound.play();
-            this.scene.player.inventory.polishTinkies(); 
-            this.scene.car.inventory.polishTinkies(); this.scene.displayNotification("Tinkys pulidos",'#03ff52');
-=======
             if(this.polisherBought){
+                this.scene.powerUpSound.play();
                 this.scene.player.inventory.polishTinkies(); 
                 this.scene.car.inventory.polishTinkies(); this.scene.displayNotification("Tinkys pulidos",'#03ff52');
             }
->>>>>>> Stashed changes
         })
         this.playerBaseGroup.add(this.polishButton);
 
@@ -171,16 +161,11 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         this.HormonateButton.setScrollFactor(0);
         this.HormonateButton.setInteractive();
         this.HormonateButton.on('pointerdown', ()=> {
-<<<<<<< Updated upstream
-            this.scene.powerUpSound.play();
-            this.scene.player.inventory.hormonateTinkies(); 
-            this.scene.car.inventory.hormonateTinkies(); this.scene.displayNotification("Tinkys hormonados",'#03ff52');
-=======
             if(this.hormonatorBought){
+                this.scene.powerUpSound.play();
                 this.scene.player.inventory.hormonateTinkies(); 
                 this.scene.car.inventory.hormonateTinkies(); this.scene.displayNotification("Tinkys hormonados",'#03ff52');
             }
->>>>>>> Stashed changes
         })
         this.playerBaseGroup.add(this.HormonateButton);
 
