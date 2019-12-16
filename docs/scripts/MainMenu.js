@@ -39,7 +39,7 @@ export default class MainMenu extends Phaser.Scene{
 		});
 
 		this.time.delayedCall(3500, ()=>{
-			let prompt = this.add.text(170, 350, 'Pulsa espacio para jugar').setFontSize(30).setFo;
+			let prompt = this.add.text(170, 350, 'Pulsa espacio para jugar').setFontSize(30);
 		})
 
 		this.logoAppearTween.on('complete', ()=>{this.logoTween.play();});

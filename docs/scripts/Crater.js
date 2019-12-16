@@ -8,21 +8,24 @@ export default class Crater extends Phaser.GameObjects.Sprite{
 		this.body.setImmovable();
 
 		this.randomizeTinky();
+		this.acceptableDistanceToPlayer = 300;
 
 		this.setInteractive();
 		this.on('pointerdown',this.ClickedCrater);
 	}
 
 	ClickedCrater(){
-		if(this.scene.player.inventory.addTinky(this.tinkyInside)){
-			console.log("I've given you a tinky");
-			this.scene.updateInventoryText();
-			this.scene.displayNotification("Obtained a Tinky!",'#03ff52');
-		} else{
-			console.log("Your inventory is full");
-			this.scene.displayNotification("Inventory is full",'#d6061f')
-		}
-	console.log("I have tinkies of type " + this.tinkyInside);
+		if(!this.scene.player.playerInCar){
+			let distance = this.scene.player.getCenter().distance(this.getCenter());
+			if(distance <= this.acceptableDistanceToPlayer){
+				if(this.scene.player.inventory.numTinkies < this.scene.player.inventory.capacity){
+					this.scene.scene.launch('Minigame',[this.tinkyInside+1,this.scene]); //Offsetting by one due to an unkown engine bug
+				}else
+					this.scene.displayNotification("Inventario lleno",'#cc0000');
+			}else
+				this.scene.displayNotification("Crater demasiado lejos",'#cc0000');	
+		}else
+			this.scene.displayNotification("No se puede acceder desde el coche",'#cc0000');
 	}
 
 	randomizeTinky(){
