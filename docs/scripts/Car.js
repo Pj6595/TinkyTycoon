@@ -36,8 +36,11 @@ export default class Car extends ControllableSprite{
 			}
 			else{ //Player gets in the vehicle
 				this.scene.cameras.main.startFollow(this);
-				this.inventory.transferInventory(this.player.inventory);
-				this.scene.updateInventoryText();
+				if(this.player.inventory.numTinkies > 0){
+					this.inventory.transferInventory(this.player.inventory);
+					this.scene.displayNotification("Inventario enviado a coche",'#d9e800');
+					this.scene.updateInventoryText();
+				}
 			}
 		}else{
 			this.scene.displayNotification("Coche demasiado lejos",'#cc0000');

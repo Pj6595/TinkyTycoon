@@ -35,7 +35,7 @@ export default class Minigame extends Phaser.Scene{
     update(t,dt){
         this.key.x -= this.speed*dt;
         if(this.key.x+this.key.displayWidth < this.background.x-this.background.width/2)
-            this.loseGame("Game Over");
+            this.loseGame("Has fallado!");
         if (Phaser.Input.Keyboard.JustDown(this.cursors.up)) this.checkCollision(0);
         if (Phaser.Input.Keyboard.JustDown(this.cursors.down)) this.checkCollision(1);
         if (Phaser.Input.Keyboard.JustDown(this.cursors.left)) this.checkCollision(2);
@@ -49,13 +49,13 @@ export default class Minigame extends Phaser.Scene{
             collision = true;
         this.key.destroy();
         if(collision && keyNumber == this.key.keyNum){
-            if(this.planetScene.player.inventory.numTinkies < this.planetScene.player.inventory.capacity){
+            if(this.planetScene.car.playerInRange() && this.planetScene.car.inventory.numTinkies < this.planetScene.car.inventory.capacity){
+                this.planetScene.car.inventory.addTinky(this.tinkyType);
+                this.winGame("Tinky enviado al coche!");
+            }
+            else if(this.planetScene.player.inventory.numTinkies < this.planetScene.player.inventory.capacity){
                 this.planetScene.player.inventory.addTinky(this.tinkyType);
-                this.planetScene.updateInventoryText();
-                this.planetScene.displayNotification("Tinky obtenido!",'#03ff52');
-                this.stage+=1;
-                //this.time.delayedCall(200, func=>{this.spawnKey();});
-                this.spawnKey();
+                this.winGame("Tinky obtenido!");
             }else
             this.loseGame("Inventario lleno");
         }else{
@@ -74,5 +74,12 @@ export default class Minigame extends Phaser.Scene{
     loseGame(message){
         this.planetScene.displayNotification(message,'#cc0000');
         this.planetScene.closeMinigame();
+    }
+
+    winGame(message){
+        this.planetScene.updateInventoryText();
+        this.planetScene.displayNotification(message,'#03ff52');
+        this.stage+=1;
+        this.spawnKey();
     }
 }
