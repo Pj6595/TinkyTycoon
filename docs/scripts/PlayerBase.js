@@ -51,7 +51,7 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         DisabledToolButton.setScrollFactor(0);
         this.playerBaseGroup.add(DisabledToolButton);
 
-        let ToolButtonText = this.scene.add.text(110, 120, ['Actualizar herramienta', this.toolPrice + ' dineros']).setAlign('center').setFontSize(25).setColor('black').setFontFamily('raleway').setFontStyle('bold');
+        let ToolButtonText = this.scene.add.text(110, 145, ['Actualizar herramienta', this.toolPrice + ' dineros'], {fontFamily: '"Press Start 2P"'}).setAlign('center').setFontSize(12).setColor('black').setFontStyle('bold');
         ToolButtonText.setScrollFactor(0);
         this.playerBaseGroup.add(ToolButtonText);
 
@@ -71,7 +71,7 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         DisabledVehicleButton.setScrollFactor(0);
         this.playerBaseGroup.add(DisabledVehicleButton);
 
-        let vehicleButtonText = this.scene.add.text(160, 290, ['Actualizar coche', this.carPrice + ' dineros']).setAlign('center').setFontSize(25).setColor('black').setFontFamily('raleway').setFontStyle('bold');
+        let vehicleButtonText = this.scene.add.text(160, 315, ['Actualizar coche', this.carPrice + ' dineros'], {fontFamily: '"Press Start 2P"'}).setAlign('center').setFontSize(12).setColor('black').setFontStyle('bold');
         vehicleButtonText.setScrollFactor(0);
         this.playerBaseGroup.add(vehicleButtonText);
 
@@ -99,7 +99,7 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         DisabledCleanerButton.setScrollFactor(0);
         this.playerBaseGroup.add(DisabledCleanerButton);
 
-        let cleanerText = this.scene.add.text(490, 120, ['Comprar Limpiadora', this.cleanerPrice]).setAlign('center').setFontSize(20).setColor('black').setFontFamily('raleway').setFontStyle('bold');
+        let cleanerText = this.scene.add.text(480, 132, ['Comprar Limpiadora', this.cleanerPrice], {fontFamily: '"Press Start 2P"'}).setAlign('center').setFontSize(12).setColor('black').setFontStyle('bold');
         cleanerText.setScrollFactor(0);
         this.playerBaseGroup.add(cleanerText);
 
@@ -127,7 +127,7 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         DisabledPolisherButton.setScrollFactor(0);
         this.playerBaseGroup.add(DisabledPolisherButton);
 
-        let polisherText = this.scene.add.text(505, 250, ['Comprar Pulidora', this.polisherPrice]).setAlign('center').setFontSize(20).setColor('black').setFontFamily('raleway').setFontStyle('bold');
+        let polisherText = this.scene.add.text(495, 265, ['Comprar Pulidora', this.polisherPrice], {fontFamily: '"Press Start 2P"'}).setAlign('center').setFontSize(12).setColor('black').setFontStyle('bold');
         polisherText.setScrollFactor(0);
         this.playerBaseGroup.add(polisherText);
 
@@ -155,7 +155,7 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         DisabledHormonatorButton.setScrollFactor(0);
         this.playerBaseGroup.add(DisabledHormonatorButton);
 
-        let hormonatorText = this.scene.add.text(485, 370, ['Comprar Hormonadora', this.hormonatorPrice]).setAlign('center').setFontSize(20).setColor('black').setFontFamily('raleway').setFontStyle('bold');
+        let hormonatorText = this.scene.add.text(480, 385, ['Comprar Hormonadora', this.hormonatorPrice], {fontFamily: '"Press Start 2P"'}).setAlign('center').setFontSize(12).setColor('black').setFontStyle('bold');
         hormonatorText.setScrollFactor(0);
         this.playerBaseGroup.add(hormonatorText);
 
