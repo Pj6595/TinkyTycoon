@@ -6,6 +6,7 @@ export default class Car extends ControllableSprite{
 		super(scene,x,y,'car',speed, false);
 
 		this.tier = 0;
+		this.scale = 2;
 
 		this.player = player;
 
@@ -14,6 +15,45 @@ export default class Car extends ControllableSprite{
 		this.acceptableDistanceToPlayer = 150;
 		this.setInteractive();
 		this.on('pointerdown',this.boardVehicle);
+
+		this.setUpAnimations();
+	}
+
+	setUpAnimations(){
+		//Animations
+		this.scene.anims.create({
+			key: 'CarIdle',
+			frames: [ { key: 'car', frame: 0 } ],
+			frameRate: 20,
+			repeat: -1
+		})
+		this.scene.anims.create({
+    	key: 'CarDown',
+    	frames: this.scene.anims.generateFrameNumbers('car', { start: 1, end: 4 }),
+    	frameRate: 5,
+    	repeat: -1
+		});
+
+		this.scene.anims.create({
+    	key: 'CarUp',
+    	frames: this.scene.anims.generateFrameNumbers('car', {start:5, end:8}),
+    	frameRate: 5,
+    	repeat: -1
+		});
+
+		this.scene.anims.create({
+    	key: 'CarRight',
+    	frames: this.scene.anims.generateFrameNumbers('car', { start: 9, end: 12 }),
+    	frameRate: 5,
+    	repeat: -1
+		});
+
+		this.scene.anims.create({
+    	key: 'CarLeft',
+    	frames: this.scene.anims.generateFrameNumbers('car', { start: 13, end: 16 }),
+    	frameRate: 5,
+    	repeat: -1
+		});
 	}
 
 
@@ -64,5 +104,25 @@ export default class Car extends ControllableSprite{
 	playerInRange(){
 		let distance = this.player.getCenter().distance(this.getCenter());
 		return (distance <= this.acceptableDistanceToPlayer);
+	}
+
+	updateAnims(){
+		if(this.movement.vertical != 0 || this.movement.sideways != 0){
+
+			if(this.movement.vertical == -1)
+			this.scene.car.anims.play('CarUp',true);
+
+			else if(this.movement.vertical == 1)
+			this.scene.car.anims.play('CarDown',true);
+
+			else if(this.movement.sideways == -1)
+			this.scene.car.anims.play('CarLeft',true);
+
+			else if(this.movement.sideways == 1)
+			this.scene.car.anims.play('CarRight',true);
+		}
+		else{
+			this.scene.car.anims.play('CarIdle',true);
+		}
 	}
 }
