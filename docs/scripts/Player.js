@@ -12,8 +12,6 @@ export default class Player extends ControllableSprite{
 
 		this.inventory = new Inventory(inventoryCapacity);
 
-		
-
 		this.setUpAnimations();
 
 	}
