@@ -17,7 +17,6 @@ export default class Planet extends Phaser.Scene{
     create(){
         this.numerito = '0';
         this.createWorld();
-
         this.createPlayerAndBases();
         //Craters set-up
         this.createCraters(70);
@@ -176,7 +175,7 @@ export default class Planet extends Phaser.Scene{
         //Selling Tinkies
       
         //Inventory
-        this.moneyText = this.add.text(10, 0, this.player.money + " dineros").setFontSize(20).setFontStyle('bold');
+        this.moneyText = this.add.text(10, 0, this.player.money + " dineros").setFontFamily('"Press Start 2P"').setFontStyle('bold').setFontSize(10);
         this.moneyText.setFontSize(50);
         this.moneyText.setScrollFactor(0);
 

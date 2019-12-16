@@ -17,7 +17,7 @@ export default class SellStation extends Phaser.GameObjects.Sprite{
         this.createSellButton();
     }
     createSellText(){
-        this.sellText = this.scene.add.text(100, 160, 'a', {fontFamily: '"Press Start 2P"'}).setAlign('center').setFontSize(18).setColor('black').setFontStyle('bold');
+        this.sellText = this.scene.add.text(175, 160, 'a').setAlign('center').setFontSize(30).setColor('black').setFontFamily('raleway').setFontStyle('bold');
         this.sellText.setScrollFactor(0);
         this.sellStationGroup.add(this.sellText);
     }
