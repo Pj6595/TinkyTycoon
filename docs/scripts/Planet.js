@@ -254,13 +254,15 @@ export default class Planet extends Phaser.Scene{
 
     nextLevel(){
         //this.events.removeAllListeners();
+        //Esto ya cambia el color del planeta bien
         let planetString = "Planet" + this.level;
         let cliffString = "Cliff" + this.level;
         this.level++;
         this.textures.remove(planetString);
         this.textures.remove(cliffString);
         this.map.destroy();
-
+        this.createWorld();
+        //Todo el trozo este de los craters y la base es para resetearlos
         let craters = this.craters;
         let base = this.base;
         let station = this.station;
@@ -271,19 +273,22 @@ export default class Planet extends Phaser.Scene{
         craters.destroy();
         base.destroy()
         station.destroy()
-        this.sound.stopAll();
 
-        this.createWorld();
+        //Evitar que la musica esté dos veces
+        this.sound.stopAll();
+        
         //this.createPlayerAndBases();
+        //Si se borra el jugador se rayan los eventos, pero si se borran todos los eventos se raya el resto dle juego xd
         this.resetPlayerAndCar();
 
+        //El problema está en que se rayan las fisicas
         this.station = new SellStation(this, this.map.widthInPixels/2+380, this.map.heightInPixels/2);
         this.base = new PlayerBase(this, this.map.widthInPixels/2-250, this.map.heightInPixels/2, 1);
-        this.physics.add.collider(this.station,this.car);
-        this.physics.add.collider(this.base,this.car);
-
-
+        //this.physics.add.collider(this.station,this.car);
+        //this.physics.add.collider(this.base,this.car);
         this.createCraters(70);
+
+        
         function destroyChild(child){
             child.destroy();
         }
