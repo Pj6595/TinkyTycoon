@@ -125,6 +125,7 @@ export default class Planet extends Phaser.Scene{
         let mapWidth = this.map.widthInPixels;
         let mapHeight = this.map.heightInPixels;
         this.player = new Player(this, mapWidth/2, mapHeight/2, 10, 200);
+        this.cameras.main.startFollow(this.player);
         this.car = new Car(this, mapWidth/2+100, mapHeight/2-this.player.displayHeight/2, 10, 500, this.player);
         //Loading station set-up
         this.station = new SellStation(this, this.map.widthInPixels/2+380, this.map.heightInPixels/2);
@@ -196,9 +197,6 @@ export default class Planet extends Phaser.Scene{
         let elementPadding = 5; //pixels
         let gameWidth = this.game.config.width;
         let gameHeight = this.game.config.height;
-
-        this.cameras.main.startFollow(this.player);
-        //Selling Tinkies
       
         //Inventory
         this.moneyText = this.add.text(10, 0, this.player.money + " dineros").setFontFamily('raleway').setFontStyle('bold');
@@ -240,12 +238,6 @@ export default class Planet extends Phaser.Scene{
                 paused: true,
                 yoyo: false
             });
-
-
-        this.notificationSystem = new Notification(this,this.cameras.main.width/2,this.cameras.main.height*2/3);//this.player.y+this.cameras.main.width/2,this.cameras.main.height/4
-        //this.notificationsSystem = this.add.text(this.cameras.main.width/2,0,"AAAAAAAAAAAA\nBBB").setFontSize(50).setAlign('center');
-        //this.notificationsSystem.setFontSize(50);
-       // this.notificationsSystem.setScrollFactor(0);
     }
 
     displayNotification(text,color){
@@ -261,13 +253,51 @@ export default class Planet extends Phaser.Scene{
     }
 
     nextLevel(){
+        //this.events.removeAllListeners();
         let planetString = "Planet" + this.level;
         let cliffString = "Cliff" + this.level;
         this.level++;
         this.textures.remove(planetString);
         this.textures.remove(cliffString);
         this.map.destroy();
-        this.tweens.killAll();
-        this.create();
+
+        let craters = this.craters;
+        let base = this.base;
+        let station = this.station;
+        this.craters = undefined;
+        this.base = undefined;
+        this.station = undefined;
+
+        craters.destroy();
+        base.destroy()
+        station.destroy()
+        this.sound.stopAll();
+
+        this.createWorld();
+        //this.createPlayerAndBases();
+        this.resetPlayerAndCar();
+
+        this.station = new SellStation(this, this.map.widthInPixels/2+380, this.map.heightInPixels/2);
+        this.base = new PlayerBase(this, this.map.widthInPixels/2-250, this.map.heightInPixels/2, 1);
+        this.physics.add.collider(this.station,this.car);
+        this.physics.add.collider(this.base,this.car);
+
+
+        this.createCraters(70);
+        function destroyChild(child){
+            child.destroy();
+        }
+    }
+
+    resetPlayerAndCar(){
+        let mapWidth = this.map.widthInPixels;
+        let mapHeight = this.map.heightInPixels;
+
+        this.player.x = mapWidth/2; 
+        this.player.y = mapHeight/2
+        this.car.tier = 0;
+        this.car.x = mapWidth/2+100;
+        this.car.y = mapHeight/2-this.player.displayHeight/2;
+        this.car.speed = 500;
     }
 }
