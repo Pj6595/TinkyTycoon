@@ -18,8 +18,12 @@ export default class Planet extends Phaser.Scene{
     }
     preload(){
         this.load.tilemapTiledJSON('planetTilemap', 'resources/Planet.json');
-        this.load.image('Planet', this.planetTilesets[this.level]);
-        this.load.image('Cliff', this.cliffTilesets[this.level]);
+        for(let i = 0; i < this.planetTilesets.length;i++){
+            let planetString = "Planet" + i;
+            let cliffString = "Cliff" + i;
+            this.load.image(planetString, this.planetTilesets[i]);
+            this.load.image(cliffString, this.cliffTilesets[i]);
+        }
 
     }
     create(){
@@ -94,10 +98,12 @@ export default class Planet extends Phaser.Scene{
             tileHeight: 32
         });
     
-        this.tileset1 = this.map.addTilesetImage('Planet', 'Planet');
-        this.tileset2 = this.map.addTilesetImage('Cliff', 'Cliff');
+        let planetString = "Planet" + this.level;
+        let cliffString = "Cliff" + this.level;
+        let tileset1 = this.map.addTilesetImage('Planet',planetString);
+        let tileset2 = this.map.addTilesetImage('Cliff',cliffString);
 
-        this.map.createStaticLayer('PlanetSurface', [this.tileset1, this.tileset2]);
+        this.map.createStaticLayer('PlanetSurface', [tileset1, tileset2]);
 
         //Physics initialization and world bounds
         this.physics.world.setBounds(this.worldPadding, this.worldPadding, 4930, 4965);
@@ -243,17 +249,13 @@ export default class Planet extends Phaser.Scene{
     }
 
     nextLevel(){
+        let planetString = "Planet" + this.level;
+        let cliffString = "Cliff" + this.level;
         this.level++;
-        this.textures.remove('Planet');
-        this.textures.remove('Cliff');
-        this.textures.remove('planetTilemap');
-        this.load.image('Planet', this.planetTilesets[this.level]);
-        this.load.image('Cliff', this.cliffTilesets[this.level]);
-        this.load.tilemapTiledJSON('planetTilemap', 'resources/Planet.json');
+        this.textures.remove(planetString);
+        this.textures.remove(cliffString);
         this.map.destroy();
-        this.load.start();
-        this.load.once('complete', event=>{
-            console.log("loading complete");
-        this.create();}); //Poner una imagen encima y luego quitarla
+        this.tweens.killAll();
+        this.create();
     }
 }
