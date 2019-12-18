@@ -303,6 +303,7 @@ export default class Planet extends Phaser.Scene{
 
         this.physics.resume();
         this.backgroundMusic.play();
+        this.updateInventoryText();
     }
 
     resetPlayerAndCar(){
