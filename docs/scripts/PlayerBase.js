@@ -68,6 +68,7 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
         this.PlanetButton.setInteractive();
         this.PlanetButton.on('pointerdown', ()=> {
             if(this.scene.player.money >= this.planetPrice){
+                this.scene.player.money -= this.scene.player.money;
                 this.playerBaseGroup.setVisible(false); 
                 this.scene.nextLevel()
             }
