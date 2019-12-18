@@ -11,6 +11,7 @@ export default class Planet extends Phaser.Scene{
     }
     init(){
         this.level = 0;
+        this.planetColorIndex = 0;
         this.planetTilesets = ['resources/PlanetGrey.png', 'resources/PlanetBlue.png', 'resources/PlanetGreen.png', 
         'resources/PlanetRed.png', 'resources/PlanetBrown.png', 'resources/PlanetPurple.png'];
         this.cliffTilesets = ['resources/CliffGrey.png', 'resources/CliffBlue.png', 'resources/CliffGreen.png',
@@ -27,9 +28,10 @@ export default class Planet extends Phaser.Scene{
 
     }
     create(){
-        this.createWorld();
 
         this.createAudio();
+
+        this.createWorld();
 
         this.createPlayerAndBases();
         //Craters set-up
@@ -43,9 +45,7 @@ export default class Planet extends Phaser.Scene{
         this.inventoryKey = this.input.keyboard.addKey('I');
 
         this.debugKey.on('down', event =>{
-            console.log(this.player.inventory.returnTotalValue());
             this.player.money += 100000;
-            this.nextLevel();
         })
 
         this.inventoryKey.on('down', event =>{
@@ -103,17 +103,19 @@ export default class Planet extends Phaser.Scene{
 
         this.spaceBackground = this.add.sprite(1920/2, 1080/2, 'starsBackground');
         this.spaceBackground.setScale(5);
+        this.spaceBackground.depth = 0;
 
         this.map = this.make.tilemap({
             key:'planetTilemap',
             tileWidth: 32,
             tileHeight: 32
         });
+        this.map.depth = 1;
     
-        let planetString = "Planet" + this.level;
-        let cliffString = "Cliff" + this.level;
-        let tileset1 = this.map.addTilesetImage('Planet',planetString);
-        let tileset2 = this.map.addTilesetImage('Cliff',cliffString);
+        let planetString = "Planet" + this.planetColorIndex;
+        let cliffString = "Cliff" + this.planetColorIndex;
+        let tileset1 = this.map.addTilesetImage('Planet', planetString);
+        let tileset2 = this.map.addTilesetImage('Cliff', cliffString);
 
         this.map.createStaticLayer('PlanetSurface', [tileset1, tileset2]);
 
@@ -130,10 +132,10 @@ export default class Planet extends Phaser.Scene{
         //Loading station set-up
         this.station = new SellStation(this, this.map.widthInPixels/2+380, this.map.heightInPixels/2);
         //Player Base set-up
-        this.base = new PlayerBase(this, mapWidth/2-250, mapHeight/2, 1);
+        this.base = new PlayerBase(this, mapWidth/2-250, mapHeight/2, 1, 1);
 
-        this.physics.add.collider(this.station,this.car);
-        this.physics.add.collider(this.base,this.car);
+        this.physics.add.collider(this.station,this.car).name = 'base_collider';
+        this.physics.add.collider(this.base,this.car).name = 'car_collider';
         this.car.setCollider(this.physics.add.collider(this.player, this.car));
     }
 
@@ -191,6 +193,8 @@ export default class Planet extends Phaser.Scene{
         
         this.physics.add.collider(this.player, this.craters);
         this.physics.add.collider(this.car, this.craters);
+
+        this.craters.setDepth(this.player.depth + 1);
     }
 
     createUI(){
@@ -253,45 +257,49 @@ export default class Planet extends Phaser.Scene{
     }
 
     nextLevel(){
-        //this.events.removeAllListeners();
-        //Esto ya cambia el color del planeta bien
-        let planetString = "Planet" + this.level;
-        let cliffString = "Cliff" + this.level;
+        this.physics.pause();
+
         this.level++;
-        this.textures.remove(planetString);
-        this.textures.remove(cliffString);
+        let planetString = '';
+        let cliffString = '';
+        this.planetColorIndex = this.level;
+        if(this.level >= 6){
+            let auxIndex = this.planetColorIndex;
+            while(this.planetColorIndex === auxIndex) this.planetColorIndex = Math.random()*6;
+            this.planetColorIndex = Math.trunc(this.planetColorIndex);
+        }
+
         this.map.destroy();
         this.createWorld();
+
         //Todo el trozo este de los craters y la base es para resetearlos
-        let craters = this.craters;
-        let base = this.base;
-        let station = this.station;
+        let oldPriceIndex = this.base.priceIndex;
         this.craters = undefined;
         this.base = undefined;
         this.station = undefined;
 
-        craters.destroy();
-        base.destroy()
-        station.destroy()
-
-        //Evitar que la musica esté dos veces
         this.sound.stopAll();
         
-        //this.createPlayerAndBases();
-        //Si se borra el jugador se rayan los eventos, pero si se borran todos los eventos se raya el resto dle juego xd
         this.resetPlayerAndCar();
+        this.player.inventory.valueIndex *= 2;
+        this.car.inventory.valueIndex = this.player.inventory.valueIndex;
 
-        //El problema está en que se rayan las fisicas
+        this.moneyText.depth++;
+        this.tinkyInventoryContainer.depth++;
+        
         this.station = new SellStation(this, this.map.widthInPixels/2+380, this.map.heightInPixels/2);
-        this.base = new PlayerBase(this, this.map.widthInPixels/2-250, this.map.heightInPixels/2, 1);
+        this.base = new PlayerBase(this, this.map.widthInPixels/2-250, this.map.heightInPixels/2, oldPriceIndex*3);
+        this.station.depth = this.player.depth + 1;
+        this.station.depth = this.player.depth + 1;
         //this.physics.add.collider(this.station,this.car);
         //this.physics.add.collider(this.base,this.car);
         this.createCraters(70);
 
-        
-        function destroyChild(child){
-            child.destroy();
-        }
+        this.physics.add.collider(this.station,this.car).name = 'base_collider';
+        this.physics.add.collider(this.base,this.car).name = 'car_collider';
+
+        this.physics.resume();
+        this.backgroundMusic.play();
     }
 
     resetPlayerAndCar(){
@@ -300,9 +308,11 @@ export default class Planet extends Phaser.Scene{
 
         this.player.x = mapWidth/2; 
         this.player.y = mapHeight/2
+        this.player.depth = this.map.depth + 1;
         this.car.tier = 0;
         this.car.x = mapWidth/2+100;
         this.car.y = mapHeight/2-this.player.displayHeight/2;
         this.car.speed = 500;
+        this.car.depth = this.map.depth+1;
     }
 }

@@ -6,13 +6,15 @@ export default class Inventory{
         this.numTinkies = 0;
 
         this.tinkies = [];
+
+        this.valueIndex = 1;
     }
 
     //Devuelve el valor total de los tinkies
     returnTotalValue(){
         let value = 0;
         for(let i=0; i<this.numTinkies; i++){
-            value += this.tinkies[i].returnTinkyValue();
+            value += this.tinkies[i].returnTinkyValue()*this.valueIndex;
         }
 
         return value;
