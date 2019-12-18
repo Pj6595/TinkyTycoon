@@ -194,7 +194,7 @@ export default class Planet extends Phaser.Scene{
         this.physics.add.collider(this.player, this.craters);
         this.physics.add.collider(this.car, this.craters);
 
-        this.craters.setDepth(this.player.depth + 1);
+        this.craters.setDepth(this.player.depth);
     }
 
     createUI(){
@@ -274,6 +274,9 @@ export default class Planet extends Phaser.Scene{
 
         //Todo el trozo este de los craters y la base es para resetearlos
         let oldPriceIndex = this.base.priceIndex;
+        this.craters.clear(true, true);
+        this.base.playerBaseGroup.clear(true, true);
+        this.station.sellStationGroup.clear(true, true);
         this.craters = undefined;
         this.base = undefined;
         this.station = undefined;
@@ -284,8 +287,8 @@ export default class Planet extends Phaser.Scene{
         this.player.inventory.valueIndex *= 2;
         this.car.inventory.valueIndex = this.player.inventory.valueIndex;
 
-        this.moneyText.depth++;
-        this.tinkyInventoryContainer.depth++;
+        this.moneyText.depth = this.player.depth + 2;
+        this.tinkyInventoryContainer.depth = this.player.depth + 2;
         
         this.station = new SellStation(this, this.map.widthInPixels/2+380, this.map.heightInPixels/2);
         this.base = new PlayerBase(this, this.map.widthInPixels/2-250, this.map.heightInPixels/2, oldPriceIndex*3);
