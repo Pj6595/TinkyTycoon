@@ -15,6 +15,8 @@ export default class SellStation extends Phaser.GameObjects.Sprite{
 
         this.createSellText();
         this.createSellButton();
+
+        this.sellStationGroup.setDepth(this.scene.player.depth + 3);
     }
     createSellText(){
         this.sellText = this.scene.add.text(175, 160, 'a').setAlign('center').setFontSize(30).setColor('black').setFontFamily('raleway').setFontStyle('bold');

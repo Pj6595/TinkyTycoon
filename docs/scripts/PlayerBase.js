@@ -1,5 +1,5 @@
 export default class PlayerBase extends Phaser.GameObjects.Sprite{
-    constructor(scene, x, y, valueIndex){
+    constructor(scene, x, y, priceI){
         super(scene, x, y, 'playerBase')
         this.scene.add.existing(this);
 
@@ -8,13 +8,14 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
 
         //Prices and tier constants
 
-        this.valueIndex = valueIndex;
+        this.priceIndex = priceI;
 
-        this.carPrice = 10 * valueIndex;
-        this.toolPrice = 15 * valueIndex;
-        this.cleanerPrice = 30 * valueIndex;
-        this.polisherPrice = 200 * valueIndex;
-        this.hormonatorPrice = 2000 * valueIndex;
+        this.carPrice = 10 * this.priceIndex;
+        this.toolPrice = 15 * this.priceIndex;
+        this.cleanerPrice = 30 * this.priceIndex;
+        this.polisherPrice = 200 * this.priceIndex;
+        this.hormonatorPrice = 2000 * this.priceIndex;
+        this.planetPrice = 10000 * this.priceIndex;
         this.maxtoolTier = 6;
         this.maxCarTier = 5;
 
@@ -45,6 +46,35 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
 
         //Create Hormonator
         this.createHormonator();
+
+        this.createNextPlanetText();
+        
+
+       this.playerBaseGroup.setDepth(this.scene.player.depth + 3);
+    }
+
+    createNextPlanetText(){
+        let nextPlanetText = this.scene.add.text(120, 460, ['Pase al siguiente planeta', this.planetPrice]).setAlign('center').setFontSize(20).setColor('black').setFontFamily('raleway').setFontStyle('bold');
+        nextPlanetText.setScrollFactor(0);
+        this.playerBaseGroup.add(nextPlanetText);
+
+        let DisabledPlanetButton = this.scene.add.image(420, 490, 'DisabledButton');
+        DisabledPlanetButton.setScrollFactor(0);
+        DisabledPlanetButton.setScale(0.3);
+        this.playerBaseGroup.add(DisabledPlanetButton);
+
+        this.PlanetButton = this.scene.add.image(420, 490, 'EnabledButton');
+        this.PlanetButton.setScale(0.3);
+        this.PlanetButton.setInteractive();
+        this.PlanetButton.on('pointerdown', ()=> {
+            if(this.scene.player.money >= this.planetPrice){
+                this.scene.player.money -= this.scene.player.money;
+                this.playerBaseGroup.setVisible(false); 
+                this.scene.nextLevel()
+            }
+        });
+        this.PlanetButton.setScrollFactor(0);
+        this.playerBaseGroup.add(this.PlanetButton);
     }
 
     createToolUpgrade(){
@@ -280,6 +310,7 @@ export default class PlayerBase extends Phaser.GameObjects.Sprite{
             if(this.scene.player.money < this.cleanerPrice) this.buyCleanerButton.setVisible(false);
             if(this.scene.player.money < this.polisherPrice) this.buyPolisherButton.setVisible(false);
             if(this.scene.player.money < this.hormonatorPrice) this.buyHormonatorButton.setVisible(false);
+            if(this.scene.player.money < this.planetPrice) this.PlanetButton.setVisible(false);
         } else this.playerBaseGroup.setVisible(false);
     }
 }

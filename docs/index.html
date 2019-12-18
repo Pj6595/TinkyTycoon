@@ -30,6 +30,7 @@
     	import Boot from './scripts/Boot.js'
         import MainMenu from './scripts/MainMenu.js'
         import Planet from './scripts/Planet.js'
+        import Loading from './scripts/Loading.js'
         import Minigame from './scripts/Minigame.js'
     var config = {
         width: 800,
@@ -42,7 +43,7 @@
             autoCenter: Phaser.Scale.CENTER_BOTH
         },
         physics: { default: 'arcade', arcade: { gravity: { y: 0 }, debug: false } },
-        scene: [Boot,MainMenu,Planet,Minigame]
+        scene: [Boot,MainMenu,Planet,Loading,Minigame]
     };
 
     let game = new Phaser.Game(config);

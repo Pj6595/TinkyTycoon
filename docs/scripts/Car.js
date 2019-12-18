@@ -2,7 +2,7 @@ import Inventory from './Inventory.js'
 import ControllableSprite from './ControllableSprite.js'
 
 export default class Car extends ControllableSprite{
-	constructor(scene, x, y, inventoryCapacity, speed, player){
+	constructor(scene, x, y, inventoryCapacity, speed, player, value){
 		super(scene,x,y,'car',speed, false);
 
 		this.tier = 0;
@@ -10,7 +10,9 @@ export default class Car extends ControllableSprite{
 
 		this.player = player;
 
-		this.inventory = new Inventory(inventoryCapacity);
+		let valueIndex = value;
+
+		this.inventory = new Inventory(inventoryCapacity, valueIndex);
 
 		this.acceptableDistanceToPlayer = 150;
 		this.setInteractive();

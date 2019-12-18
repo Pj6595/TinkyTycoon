@@ -9,16 +9,29 @@ export default class Planet extends Phaser.Scene{
     constructor(){
         super({key: 'Planet'})
     }
+    init(){
+        this.level = 0;
+        this.planetColorIndex = 0;
+        this.planetTilesets = ['resources/PlanetGrey.png', 'resources/PlanetBlue.png', 'resources/PlanetGreen.png', 
+        'resources/PlanetRed.png', 'resources/PlanetBrown.png', 'resources/PlanetPurple.png'];
+        this.cliffTilesets = ['resources/CliffGrey.png', 'resources/CliffBlue.png', 'resources/CliffGreen.png',
+        'resources/CliffRed.png', 'resources/CliffBrown.png', 'resources/CliffPurple.png'];
+    }
     preload(){
         this.load.tilemapTiledJSON('planetTilemap', 'resources/Planet.json');
-        this.load.image('Planet', 'resources/PlanetGrey.png');
-        this.load.image('CliffGrey', 'resources/CliffGrey.png');
+        for(let i = 0; i < this.planetTilesets.length;i++){
+            let planetString = "Planet" + i;
+            let cliffString = "Cliff" + i;
+            this.load.image(planetString, this.planetTilesets[i]);
+            this.load.image(cliffString, this.cliffTilesets[i]);
+        }
+
     }
     create(){
-        this.numerito = '0';
-        this.createWorld();
 
         this.createAudio();
+
+        this.createWorld();
 
         this.createPlayerAndBases();
         //Craters set-up
@@ -32,7 +45,6 @@ export default class Planet extends Phaser.Scene{
         this.inventoryKey = this.input.keyboard.addKey('I');
 
         this.debugKey.on('down', event =>{
-            console.log(this.player.inventory.returnTotalValue());
             this.player.money += 100000;
         })
 
@@ -91,17 +103,21 @@ export default class Planet extends Phaser.Scene{
 
         this.spaceBackground = this.add.sprite(1920/2, 1080/2, 'starsBackground');
         this.spaceBackground.setScale(5);
+        this.spaceBackground.depth = 0;
 
         this.map = this.make.tilemap({
             key:'planetTilemap',
             tileWidth: 32,
             tileHeight: 32
         });
+        this.map.depth = 1;
     
-        this.tileset1 = this.map.addTilesetImage('PlanetGrey', 'Planet');
-        this.tileset2 = this.map.addTilesetImage('CliffGrey', 'CliffGrey');
-        this.map.createStaticLayer('PlanetSurface', [this.tileset1, this.tileset2]);
-        console.log(this.map.heightInPixels);
+        let planetString = "Planet" + this.planetColorIndex;
+        let cliffString = "Cliff" + this.planetColorIndex;
+        let tileset1 = this.map.addTilesetImage('Planet', planetString);
+        let tileset2 = this.map.addTilesetImage('Cliff', cliffString);
+
+        this.map.createStaticLayer('PlanetSurface', [tileset1, tileset2]);
 
         //Physics initialization and world bounds
         this.physics.world.setBounds(this.worldPadding, this.worldPadding, 4930, 4965);
@@ -111,14 +127,15 @@ export default class Planet extends Phaser.Scene{
         let mapWidth = this.map.widthInPixels;
         let mapHeight = this.map.heightInPixels;
         this.player = new Player(this, mapWidth/2, mapHeight/2, 10, 200);
+        this.cameras.main.startFollow(this.player);
         this.car = new Car(this, mapWidth/2+100, mapHeight/2-this.player.displayHeight/2, 10, 500, this.player);
         //Loading station set-up
         this.station = new SellStation(this, this.map.widthInPixels/2+380, this.map.heightInPixels/2);
         //Player Base set-up
-        this.base = new PlayerBase(this, mapWidth/2-250, mapHeight/2, 1);
+        this.base = new PlayerBase(this, mapWidth/2-250, mapHeight/2, 1, 1);
 
-        this.physics.add.collider(this.station,this.car);
-        this.physics.add.collider(this.base,this.car);
+        this.physics.add.collider(this.station,this.car).name = 'base_collider';
+        this.physics.add.collider(this.base,this.car).name = 'car_collider';
         this.car.setCollider(this.physics.add.collider(this.player, this.car));
     }
 
@@ -176,15 +193,14 @@ export default class Planet extends Phaser.Scene{
         
         this.physics.add.collider(this.player, this.craters);
         this.physics.add.collider(this.car, this.craters);
+
+        this.craters.setDepth(this.player.depth);
     }
 
     createUI(){
         let elementPadding = 5; //pixels
         let gameWidth = this.game.config.width;
         let gameHeight = this.game.config.height;
-
-        this.cameras.main.startFollow(this.player);
-        //Selling Tinkies
       
         //Inventory
         this.moneyText = this.add.text(10, 0, this.player.money + " dineros").setFontFamily('raleway').setFontStyle('bold');
@@ -226,12 +242,6 @@ export default class Planet extends Phaser.Scene{
                 paused: true,
                 yoyo: false
             });
-
-
-        this.notificationSystem = new Notification(this,this.cameras.main.width/2,this.cameras.main.height*2/3);//this.player.y+this.cameras.main.width/2,this.cameras.main.height/4
-        //this.notificationsSystem = this.add.text(this.cameras.main.width/2,0,"AAAAAAAAAAAA\nBBB").setFontSize(50).setAlign('center');
-        //this.notificationsSystem.setFontSize(50);
-       // this.notificationsSystem.setScrollFactor(0);
     }
 
     displayNotification(text,color){
@@ -244,5 +254,71 @@ export default class Planet extends Phaser.Scene{
 
     closeMinigame(){
         this.scene.stop('Minigame');
+    }
+
+    nextLevel(){
+        this.physics.pause();
+
+        this.level++;
+        let planetString = '';
+        let cliffString = '';
+        this.planetColorIndex = this.level;
+        if(this.level >= 6){
+            let auxIndex = this.planetColorIndex;
+            while(this.planetColorIndex === auxIndex) this.planetColorIndex = Math.random()*6;
+            this.planetColorIndex = Math.trunc(this.planetColorIndex);
+        }
+
+        this.map.destroy();
+        this.createWorld();
+
+        //Todo el trozo este de los craters y la base es para resetearlos
+        let oldPriceIndex = this.base.priceIndex;
+        this.craters.clear(true, true);
+        this.base.playerBaseGroup.clear(true, true);
+        this.station.sellStationGroup.clear(true, true);
+        this.craters = undefined;
+        this.base = undefined;
+        this.station = undefined;
+
+        this.sound.stopAll();
+        
+        this.resetPlayerAndCar();
+        this.player.inventory.valueIndex *= 2;
+        this.car.inventory.valueIndex = this.player.inventory.valueIndex;
+
+        this.moneyText.depth = this.player.depth + 2;
+        this.tinkyInventoryContainer.depth = this.player.depth + 2;
+        
+        this.station = new SellStation(this, this.map.widthInPixels/2+380, this.map.heightInPixels/2);
+        this.base = new PlayerBase(this, this.map.widthInPixels/2-250, this.map.heightInPixels/2, oldPriceIndex*3);
+        this.station.depth = this.player.depth + 1;
+        this.station.depth = this.player.depth + 1;
+        //this.physics.add.collider(this.station,this.car);
+        //this.physics.add.collider(this.base,this.car);
+        this.createCraters(70);
+
+        this.physics.add.collider(this.station,this.car).name = 'base_collider';
+        this.physics.add.collider(this.base,this.car).name = 'car_collider';
+
+        this.physics.resume();
+        this.backgroundMusic.play();
+        this.player.inventory.empty();
+        this.car.inventory.empty();
+        this.updateInventoryText();
+    }
+
+    resetPlayerAndCar(){
+        let mapWidth = this.map.widthInPixels;
+        let mapHeight = this.map.heightInPixels;
+
+        this.player.x = mapWidth/2; 
+        this.player.y = mapHeight/2
+        this.player.depth = this.map.depth + 1;
+        this.car.tier = 0;
+        this.car.x = mapWidth/2+100;
+        this.car.y = mapHeight/2-this.player.displayHeight/2;
+        this.car.speed = 500;
+        this.car.depth = this.map.depth+1;
     }
 }
