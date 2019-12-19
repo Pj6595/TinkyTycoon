@@ -246,6 +246,7 @@ export default class Planet extends Phaser.Scene{
 
     displayNotification(text,color){
         let notif = new Notification(this, this.cameras.main.width/2, this.cameras.main.height*3/4,text,color);
+        notif.setDepth(this.player.depth+1);
         //notif.destroy();
         notif.notificationTween.on('complete',function(tween, targets){
             notif.destroy();
