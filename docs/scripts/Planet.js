@@ -278,7 +278,6 @@ export default class Planet extends Phaser.Scene{
         this.craters.clear(true, true);
         this.base.playerBaseGroup.clear(true, true);
         this.station.sellStationGroup.clear(true, true);
-        this.craters = undefined;
         this.base = undefined;
         this.station = undefined;
 
